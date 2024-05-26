@@ -6,6 +6,8 @@ import {LoginRequest} from "../../shared/models/user/login-request";
 import {LoginResponse} from "../../shared/models/user/login-response";
 import {User} from "../../shared/models/user/user";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {UserProfileRequest} from "../../shared/models/user/user-profile-update";
+import {RegistrationResponse} from "../../shared/models/user/registration-response";
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +32,13 @@ export class AuthService {
     return this.http.post<LoginResponse>(
       this.configService.getLoginUrl(),
       loginRequest
+    );
+  }
+
+  signup(registrationRequest: UserProfileRequest): Observable<RegistrationResponse> {
+    return this.http.post<RegistrationResponse>(
+      this.configService.SIGNUP_URL,
+      registrationRequest
     );
   }
 
