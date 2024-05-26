@@ -1,0 +1,55 @@
+::ng-deep .star-review .stars-line{
+  margin-top:0.1rem;
+  margin-bottom: 0.2rem
+}
+
+.cancel-btn, .save-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cancel-btn {
+  background-color: var(--light-gray);
+  color: var(--text-gray);
+}
+
+.save-btn {
+  background-color: var(--deep-gray);
+  color: var(--text-gray);
+}
+
+.save-button-enabled {
+  background-color: var(--green);
+  color: white;
+}
+
+.save-button-disabled {
+  background-color: var(--deep-gray);
+  color: var(--text-gray);
+}
+
+p {
+  font-size: 13px;
+  margin: 0 0 0 0.5rem;
+}
+span.date {
+  font-size: 12px;
+
+}
+
+mat-icon.icon {
+  color: var(--text-gray);
+}
+
+::ng-deep .mat-mdc-menu-panel.mat-mdc-menu-panel {
+  border-radius: 10px !important;
+}
+
+::ng-deep .mat-mdc-menu-content {
+  padding: 0 !important;
+  border-radius: 20px !important
+}
+

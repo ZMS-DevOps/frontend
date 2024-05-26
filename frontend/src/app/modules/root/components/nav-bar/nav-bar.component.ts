@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {LinkService} from "../../../shared/services/link.service";
 import {User} from "../../../shared/models/user/user";
 import {Subscription} from "rxjs";
+import {AuthService} from "../../../auth/services/auth.service";
 
 @Component({
   selector: 'nav-bar',
@@ -16,6 +17,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   userIsGuest: boolean;
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     public linkService: LinkService
   ) {
@@ -24,6 +26,13 @@ export class NavBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.authSubscription = this.authService.getSubjectCurrentUser().subscribe(
+      user => {
+        this.loggedUser = user;
+        this.userIsHost = this.authService.isUserHost(user);
+        this.userIsGuest = this.authService.isUserGuest(user);
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -38,6 +47,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   logOut() {
     this.router.navigate(['/booking/home-page']);
+    this.authService.logOut();
   }
 
   redirectToProfilePage() {

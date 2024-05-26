@@ -13,6 +13,10 @@ export class ConfigService {
 
   LOGIN_URL = `/auth/login`;
   SIGNUP_URL = `/auth/signup`;
+  VERIFY_URL = `/auth/verify`;
+  SEND_CODE_AGAIN_URL = `/auth/send-code-again`;
+
+  USERS_URL = `/user`;
 
   getLoginUrl(): string {
     return this.LOGIN_URL;

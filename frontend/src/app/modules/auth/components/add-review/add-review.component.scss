@@ -1,0 +1,23 @@
+
+::ng-deep .example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+::ng-deep .mat-expansion-panel-content, .mat-expansion-panel-body {
+  background-color: var(--light-gray) !important;
+}
+
+
+::ng-deep .mat-expansion-panel-header, .mat-content.mat-content-hide-toggle {
+  padding-right: 0 !important;
+  margin-right: 0;
+}
+
+::ng-deep .stars .stars-line{
+  margin-top: 0.6rem !important;
+}

@@ -1,0 +1,66 @@
+<div *ngIf="userForView">
+  <div class="upper-div whole-container row-direction-div">
+    <div class="text-container">
+      <h2>User details</h2>
+      <app-user-details [user]="userForView" [loggedUserId]="loggedUser?.sub" (deletingUserEvent)="onDeleteUser()"></app-user-details>
+    </div>
+    <div class="review-container">
+      <div class="form-container" style="width: 100%">
+        <div style="align-items: center">
+          <div class="row-direction-div">
+            <div class="total-reviews-container">
+                <h3>Total Reviews</h3>
+                <p>{{ review.totalReviews }}</p>
+                <h3 class="subtitle">Growth in reviews on this year</h3>
+            </div>
+            <mat-divider [vertical]="true" style="margin-left: 3rem; margin-right: 3rem; height:100px"></mat-divider>
+
+            <div class="total-reviews-container" style="color: var(--text-gray)">
+              <h3>Average Rating</h3>
+              <div class="row-direction-div">
+                <p style="color: var(--black)">{{ review.averageRating }}</p>
+                <ngx-stars class="average-stars" [readonly]="true" customSize="1.35rem"
+                           [initialStars]="review.averageRating" color="var(--stars-gold)"></ngx-stars>
+              </div>
+              Average rating on this year
+            </div>
+            <mat-divider [vertical]="true" style="margin-left: 3rem; margin-right: 3rem; height:100px"></mat-divider>
+
+            <div class="total-reviews-container" style="color: var(--text-gray)">
+              <div class="col-direction-div">
+                <div *ngFor="let rating of review.numberOfStars" class="rating-row">
+                  <span class="rating-label">{{ rating.label }}</span>
+                  <mat-progress-bar
+                    style="width: 10rem"
+                    mode="determinate"
+                    [value]="(rating.value / maxRating) * 100"
+                    [ngStyle]="getNgStyle(rating.label)"
+                  >
+                  </mat-progress-bar>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <mat-divider style="margin-top:1.2rem; margin-bottom:1.2rem; max-width:47.5rem"></mat-divider>
+
+
+          <p-carousel orientation="vertical" [style]="{'width': '100%'}" *ngIf="review.reviews?.length > 0; else noReviews" [value]="review.reviews" [circular]="true"  [numVisible]="review.reviews.length > 1?2:1" [numScroll]="1" >
+            <ng-template let-review pTemplate="item">
+              <app-review [review]="review" [loggedUserId]="loggedUser?.sub" (deletingReviewEvent)="onDeleteReview(review.id)" (updatingReviewEvent)="onUpdateReview($event)" class="comment-container"></app-review>
+            </ng-template>
+          </p-carousel>
+
+          <ng-template #noReviews>
+            <div id="no-reports" class="center-content">
+              <p>There are no reviews for this user.</p>
+            </div>
+          </ng-template>
+
+          <app-add-review *ngIf="userId !== loggedUser?.sub" style="width: 40rem; margin-top: 1rem" (submitReviewEvent)="addReview($event)"></app-add-review>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

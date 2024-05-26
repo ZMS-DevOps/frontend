@@ -1,0 +1,40 @@
+<div style="border: 0.1px solid var(--gray); border-radius: 10px; margin-top: 0.2rem; margin-bottom: 1.5rem; padding: 0.5rem; min-height: 6rem">
+  <div class="row-direction-div" style="position: relative">
+    <div>
+    <span>
+    <a style="margin-left: 5px; color: var(--text-gray);">
+      <span class="material-symbols-outlined " style="vertical-align: bottom; margin-right: 0.7rem">person_outline</span>{{ review.fullName }}
+    </a>
+  </span>
+    </div>
+
+    <div class="col-direction-div" style="padding-left:5rem; width: 50%">
+      <form [formGroup]="reviewFormGroup">
+        <ngx-stars (ratingOutput)="onRatingSet($event)" class="star-review" [readonly]="readOnly" customSize="1.35rem"
+                   [initialStars]="review.grade" color="var(--stars-gold)"></ngx-stars>
+        <textarea #commentTextarea formControlName="comment" cols="43" maxlength="250" rows="4" [readonly]="readOnly" style="resize:none; font-size: 13px; background-color: var(--light-gray); border: none"></textarea>
+      </form>
+
+      <div class="modal-footer" *ngIf="!readOnly">
+        <button class="cancel-btn margin-right" (click)="cancelEditing()">Cancel</button>
+        <button class="save-btn"
+                [ngClass]="{'save-button-enabled': !cannotSaveUpdatedReview(), 'save-button-disabled': cannotSaveUpdatedReview()}"
+                [disabled]="cannotSaveUpdatedReview()" (click)="saveChangedReview()">Save</button>
+      </div>
+    </div>
+    <span class="date">Reviewed: {{review?.dateOfCreation | dateFormat}}</span>
+    <button mat-icon-button *ngIf="review.subReviewer === loggedUserId" [matMenuTriggerFor]="menu" style="position: absolute; right: 0; top: 0">
+      <mat-icon class="icon">more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="editReview()">
+        <mat-icon class="icon material-symbols-outlined">edit</mat-icon>
+        <span class="icon">Edit</span>
+      </button>
+      <button mat-menu-item style="margin: 0" (click)="openDeleteDialog()">
+        <mat-icon class="icon material-symbols-outlined" >delete</mat-icon>
+        <span class="icon">Delete</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

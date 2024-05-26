@@ -1,0 +1,46 @@
+<div class="form-container">
+  <div class="row-direction-div">
+    <div class="col-direction-div">
+      <mat-icon style="color: var(--green); transform: scale(2.7); margin-top: 1rem; margin-left: 1rem;">
+        person_outline
+      </mat-icon>
+      <div *ngIf="user.sub === loggedUserId">
+        <mat-icon class="icon" (click)="redirectToEditProfile()" matTooltip="Edit profile">edit_note</mat-icon>
+        <mat-icon class="icon" (click)="redirectToEditPassword()" matTooltip="Edit password">password</mat-icon>
+        <mat-icon class="icon" (click)="redirectToDeleteProfile()" matTooltip="Delete profile">delete_outline</mat-icon>
+      </div>
+
+    </div>
+
+    <div class="col-direction-div user-info-container">
+      <div>
+        <h3>Name</h3>
+        <p>{{ user.given_name }} {{ user.family_name }}</p>
+        <mat-divider style="margin-top:0.5rem; width:19rem"></mat-divider>
+      </div>
+
+      <div style="margin-top: 2rem">
+        <h3>Email address</h3>
+        <p>{{ user.email }}</p>
+        <mat-divider style="margin-top:0.5rem; width:19rem"></mat-divider>
+      </div>
+
+      <div style="margin-top: 2rem">
+        <h3>Address</h3>
+        <p>{{ user.address }}</p>
+        <mat-divider style="margin-top:0.5rem; width:19rem"></mat-divider>
+      </div>
+
+      <div style="margin-top: 1.5rem" class="row-direction-div">
+              <span>
+                <a matTooltip="My accommodation" [routerLink]="['/booking/user/accommodation']"
+                   style="margin-left: 5px; color: var(--green);">
+                  <span class="material-symbols-outlined icon-large"
+                        style="vertical-align: bottom; margin-right: 0.7rem">maps_home_work</span>ACCOMMODATION
+                </a>
+              </span>
+      </div>
+    </div>
+  </div>
+  <p *ngIf="!user" class="subtitle margin-top">Cannot get user information.</p>
+</div>
