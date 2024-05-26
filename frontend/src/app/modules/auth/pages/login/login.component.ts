@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
   loginForm: FormGroup;
 
   hide = true;
@@ -23,9 +23,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {
     this.loginForm = this.getEmptyForm();
-  }
-
-  ngOnInit(): void {
   }
 
   getErrorMessage() {
