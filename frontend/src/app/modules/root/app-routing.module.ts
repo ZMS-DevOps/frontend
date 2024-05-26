@@ -11,6 +11,11 @@ export const routes: Routes = [
     component: RootLayoutComponent,
     children: [
       {
+        path: "auth",
+        loadChildren: () =>
+            import("./../auth/auth.module").then((m) => m.AuthModule),
+      },
+      {
         path: "",
         loadChildren: () =>
           import("./../shared/shared.module").then((m) => m.SharedModule),

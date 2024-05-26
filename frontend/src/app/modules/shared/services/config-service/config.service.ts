@@ -13,4 +13,8 @@ export class ConfigService {
 
 
   LOGIN_URL = `/auth/login`;
+
+  getLoginUrl(): string {
+    return this.LOGIN_URL;
+  }
 }
