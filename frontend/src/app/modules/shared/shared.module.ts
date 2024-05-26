@@ -8,13 +8,22 @@ import {DateFormatPipe} from './pipes/date-format.pipe';
 import {CustomMaterialModuleModule} from "../../custom-material-module/custom-material-module.module";
 import {NgxStarsModule} from "ngx-stars";
 import {CarouselModule} from 'primeng/carousel';
+import {AccommodationViewComponent} from "./components/accomodation-view/accommodation-view.component";
+import {HomePageComponent} from "./pages/home-page/home-page.component";
+import {SearchComponent} from "./components/search/search.component";
 
 @NgModule({
   declarations: [
+    HomePageComponent,
     DateFormatPipe,
+    SearchComponent,
+    AccommodationViewComponent,
+    AccommodationViewComponent,
+    AccommodationViewComponent
   ],
   exports: [
     DateFormatPipe,
+    AccommodationViewComponent
   ],
   providers: [
     DatePipe,

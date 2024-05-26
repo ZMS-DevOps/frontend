@@ -1,0 +1,38 @@
+<mat-card class="hotel-card" style="margin-left: 1rem;">
+  <!--        TODO: change getting image-->
+  <img mat-card-image src="assets/images/{{hotel.images[0]}}" alt="Villa Image">
+  <mat-card-content class="hotel-info-container">
+    <ngx-stars *ngIf="hotel.rating > 0; else noRatingBlock" [readonly]="true" customSize="1.5rem"
+               [initialStars]="hotel.rating" color="var(--stars-gold)"></ngx-stars>
+    <ng-template #noRatingBlock>
+      <span class="no-rating-block">No ratings yet</span>
+    </ng-template>
+      <div style="text-align: left;">
+
+        <h2 class="hotel-title">{{ hotel.name }}</h2>
+        <h2 class="location">{{ hotel.address }}</h2>
+        <p class="price">{{ hotel.price | currency:'EUR' }}/<span class="per-night">
+          {{ getPriceTypeText(hotel.priceType) }}</span></p>
+        <p class="taxes">includes taxes & fees</p>
+      </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+
+    <button mat-button color="primary" style="display: inline-flex; align-items: center; color: var(--green); font-weight: bold">
+      <mat-icon class="material-symbols-outlined">info_outlined</mat-icon>
+      <span>DETAILS</span>
+    </button>
+
+    <button mat-button color="primary" style="display: inline-flex; align-items: center; color: var(--green); font-weight: bold">
+      <mat-icon class="material-symbols-outlined">bookmark_border</mat-icon>
+      <span>RESERVE</span>
+    </button>
+
+    <button mat-button color="primary" style="display: inline-flex; align-items: center; color: var(--green); font-weight: bold">
+      <mat-icon class="material-symbols-outlined">delete</mat-icon>
+      <span>DELETE</span>
+    </button>
+
+  </mat-card-actions>
+</mat-card>

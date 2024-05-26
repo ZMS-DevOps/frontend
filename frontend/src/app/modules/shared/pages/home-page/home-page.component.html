@@ -1,0 +1,26 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="row-direction-div upper-div whole-container">
+    <div class="text-container">
+      <h2>Find and book your perfect stay</h2>
+      <div class="form-container">
+        <app-search [searchForm]="searchForm"></app-search>
+      </div>
+    </div>
+  </div>
+
+  <div class="whole-container">
+    <div class="row-direction-div hotels-container">
+      <p-carousel [style]="{'width': '23%'}" *ngIf="topHotels?.length > 0; else noHotels" [value]="topHotels" [circular]="true"  [numVisible]="3" [numScroll]="1" >
+        <ng-template let-hotel pTemplate="item">
+          <app-accommodation-view [hotel]="hotel" [getPriceTypeText]="getPriceTypeText"></app-accommodation-view>
+        </ng-template>
+      </p-carousel>
+
+      <ng-template #noHotels>
+        <div id="no-reports" class="center-content">
+          <p>There are no available hotels.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
