@@ -1,0 +1,89 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="row-direction-div upper-div whole-container">
+    <div class="text-container">
+      <h2>Log in</h2>
+      <p class="subtitle">For security, please log in to access your information. </p>
+      <div class="form-container">
+
+        <form color="primary" [formGroup]="loginForm" class="whole-container">
+          <div class="center-elements">
+            <div class="center-elements">
+              <mat-form-field
+                class="full-width"
+                appearance="fill"
+              >
+                <mat-label>Email</mat-label>
+                <input
+                  matInput
+                  placeholder="email@domain.com"
+                  formControlName="email"
+                  name="email"
+                  required />
+
+                <mat-error *ngIf="loginForm.invalid">
+                  {{ getErrorMessage() }}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="center margin-top full-width" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  formControlName="password"
+                  name="password"
+                  placeholder="Type password"/>
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+                  <mat-icon class="mat-icon-deep-blue">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="loginForm.get('password').hasError('pattern')">
+                  Password should contains at least 12 chars, digit and special char.
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('password').hasError('required')">
+                  Password is <strong>required</strong>.
+                </mat-error>
+              </mat-form-field>
+
+              <div style="align-self: flex-start; display: inline;">
+              <span class="center margin-top" style="color: var(--deep-blue);">
+                <a matTooltip="Forgot password" [routerLink]="['/booking/auth/update-password']" style="margin-left: 5px; color: var(--link-blue);" class="link">
+                  <span class="material-symbols-outlined" style="vertical-align: bottom;">lock_open</span>Forgot password?
+                </a>
+              </span>
+              </div>
+            </div>
+
+            <div class="center margin-top">
+              <button class="login-button full-width" mat-raised-button (click)="login()" [disabled]="loginForm.invalid">
+                Log in
+              </button>
+            </div>
+            <mat-divider style="margin-top:1.5rem; width:25.5rem"></mat-divider>
+
+            <span class="center margin-top" style="color: var(--deep-blue)">Don't have an account?
+              <a matTooltip="Sign up" [routerLink]="['/booking/auth/signup']" style="margin-left: 5px; color: var(--link-blue);" class="link">Sign up</a>
+            </span>
+
+            <br>
+            <br>
+            <p class="center margin-top" style="align-items: center; justify-content: center; display: inline; color: var(--deep-blue); margin: 0;">
+              By logging in or creating an account, you agree with our
+              <span style="color: var(--link-blue); display: inline;">Terms & </span>
+            </p>
+            <p class="center margin-top" style="align-items: center; justify-content: center; display: inline; color: var(--deep-blue); margin: 0;">
+              <span style="color: var(--link-blue); display: inline;">Conditions</span> and
+              <span style="color: var(--link-blue); display: inline;">Privacy Statement</span>
+            </p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
