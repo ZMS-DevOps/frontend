@@ -7,7 +7,6 @@
         <form color="primary" [formGroup]="registrationForm" class="whole-container">
           <div class="center-elements">
             <div class="row-direction-div" style="width: 27.5rem;">
-
               <mat-form-field
                 class="full-width margin-right"
                 appearance="fill"
@@ -156,8 +155,6 @@
 
               </mat-radio-group>
             </section>
-
-
             <div class="center margin-top">
               <button [disabled]="registrationForm.invalid || this.registrationForm.hasError('mismatch')" class="signup-button" mat-raised-button (click)="signup()" style="width: 27.5rem">
                 Sign up

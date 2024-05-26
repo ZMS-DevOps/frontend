@@ -1,19 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import { Subscription} from 'rxjs';
+import {Component, OnDestroy} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs';
 import {AuthService} from "../../services/auth.service";
-import { ErrorStateMatcher } from '@angular/material/core';
-import { matchPasswordsValidator } from './confirm-password.validator';
+import {matchPasswordsValidator} from './confirm-password.validator';
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import {MyErrorStateMatcher} from "./error-state-matcher";
 
 @Component({
   selector: 'app-login',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class SignupComponent implements OnDestroy {
   registrationForm: FormGroup;
   matcher = new MyErrorStateMatcher();
   hidePassword = true;
@@ -28,8 +27,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.registrationForm = this.getEmptyForm();
   }
 
-  ngOnInit(): void {}
-
   ngOnDestroy(): void {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
@@ -37,7 +34,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   signup() {
-    console.log(this.registrationForm.getRawValue());
     const email = this.registrationForm.get('email').value;
     this.authService.signup(this.registrationForm.getRawValue()).subscribe({
       next: res => {
@@ -51,7 +47,6 @@ export class SignupComponent implements OnInit, OnDestroy {
         );
       },
       error: err => {
-        console.error(err);
         this.toast.error(err.error.charAt(0).toUpperCase() + err.error.slice(1), 'Registration failed');
       }
     });
@@ -102,18 +97,3 @@ export class SignupComponent implements OnInit, OnDestroy {
       "container";
   }
 }
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
-
