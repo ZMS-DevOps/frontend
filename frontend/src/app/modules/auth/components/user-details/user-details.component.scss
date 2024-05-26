@@ -1,0 +1,33 @@
+h3{
+  margin: 0;
+  font-size: 17px;
+  color: var(--text-gray)
+}
+
+p {
+  font-size: 18px;
+}
+p.accommodation-p {
+  margin-left: 1rem;
+}
+
+mat-icon.icon {
+  margin-top: 3.8rem;
+  margin-left: 1rem;
+  color: var(--green);
+  transform: scale(1.5);
+}
+
+.user-info-container {
+  margin-left: 5rem;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.icon-large {
+  transform: scale(1.4);
+}

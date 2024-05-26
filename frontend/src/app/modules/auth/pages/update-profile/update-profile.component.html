@@ -1,0 +1,87 @@
+<div >
+  <div class="row-direction-div upper-div whole-container">
+    <div class="text-container">
+      <h2>Update profile</h2>
+      <p class="subtitle">Make sure your information is up to date.</p>
+      <div class="form-container">
+        <form *ngIf="loggedUser" [formGroup]="updateUserForm" class="whole-container">
+          <div class="center-elements">
+
+            <mat-form-field
+              class="full-width"
+              appearance="fill"
+              style="width: 27.5rem;">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                placeholder="max@domain.com"
+                formControlName="email"
+                name="email"
+                required readonly/>
+            </mat-form-field>
+
+            <div class="row-direction-div" style="width: 27.5rem;">
+              <mat-form-field
+                class="full-width margin-right"
+                appearance="fill"
+              >
+                <mat-label>First name</mat-label>
+                <input
+                  matInput
+                  placeholder="Max"
+                  formControlName="firstName"
+                  name="firstName"
+                  required />
+                <mat-error *ngIf="updateUserForm.hasError('required', 'firstName')">
+                  First name is <strong>required</strong>.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field
+                class="full-width margin-left"
+                appearance="fill"
+              >
+                <mat-label>Last name</mat-label>
+                <input
+                  matInput
+                  placeholder="Vestappen"
+                  formControlName="lastName"
+                  name="lastName"
+                  required />
+                <mat-error *ngIf="updateUserForm.hasError('required', 'lastName')">
+                  Last name is <strong>required</strong>.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+
+            <mat-form-field
+              class="full-width"
+              appearance="fill"
+              style="width: 27.5rem;"
+            >
+              <mat-label>Place</mat-label>
+              <input
+                matInput
+                placeholder="Netherlands"
+                formControlName="address"
+                name="address"
+                required />
+              <mat-error *ngIf="updateUserForm.hasError('required', 'address')">
+                Place is <strong>required</strong>.
+              </mat-error>
+            </mat-form-field>
+
+            <div class="center margin-top">
+              <button [disabled]="updateUserForm.invalid || this.updateUserForm.hasError('mismatch')" class="signup-button" mat-raised-button (click)="update()" style="width: 27.5rem">
+                Update
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <p *ngIf="!loggedUser" class="subtitle margin-top">Cannot get user information.</p>
+      </div>
+    </div>
+  </div>
+</div>

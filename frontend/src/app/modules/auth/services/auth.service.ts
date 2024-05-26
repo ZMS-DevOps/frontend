@@ -4,7 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {ConfigService} from "../../shared/services/config-service/config.service";
 import {LoginRequest} from "../../shared/models/user/login-request";
 import {LoginResponse} from "../../shared/models/user/login-response";
-import {User} from "../../shared/models/user/user";
+import {User, UserResponse} from "../../shared/models/user/user";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {UserProfileRequest} from "../../shared/models/user/user-profile-update";
 import {RegistrationResponse} from "../../shared/models/user/registration-response";
@@ -48,6 +48,12 @@ export class AuthService {
     this.currentUser$.next(this.getLoggedParsedUser());
   }
 
+  getSubjectCurrentUser(): BehaviorSubject<User> {
+    this.currentUser$.next(this.getLoggedParsedUser());
+
+    return this.currentUser$;
+  }
+
   tokenIsValid(): boolean {
     const accessToken = localStorage.getItem('access-token');
     const decodedToken = this.jwtHelper.decodeToken(accessToken);
@@ -61,6 +67,31 @@ export class AuthService {
     } else {
       return false;
     }
+  }
+
+  getUserFromToken(): Observable<UserResponse> {
+    const accessToken = localStorage.getItem('access-token');
+    const decodedToken = this.jwtHelper.decodeToken(accessToken);
+    return this.http.get<UserResponse>(`${this.configService.USERS_URL}/${decodedToken?.sub}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }
+    );
+  }
+
+  isUserHost(user: User): boolean {
+    return user?.roles?.some(role => role === this.ROLE_HOST);
+  }
+
+  isUserGuest(user: User): boolean {
+    return user?.roles?.some(role => role === this.ROLE_GUEST);
+  }
+
+  logOut() {
+    localStorage.clear();
+    this.currentUser$.next(null);
   }
 
   getLoggedParsedUser(): User {

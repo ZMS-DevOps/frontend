@@ -1,0 +1,31 @@
+<mat-accordion matTooltip="Write comment" class="example-headers-align">
+  <mat-expansion-panel [disabled]="disabled" hideToggle>
+    <mat-expansion-panel-header style="background-color: var(--light-gray); color: var(--light-gray); display: flex; justify-content: space-between; align-items: center;">
+      <mat-panel-title style="margin-right: auto;">
+    <span>
+      <a style="margin-left: 5px; color: var(--green);">
+        <span class="material-symbols-outlined" style="vertical-align: bottom; margin-right: 0.7rem;">edit</span>Write a review
+      </a>
+    </span>
+      </mat-panel-title>
+      <mat-panel-description>
+        <p></p>
+        <ngx-stars (ratingOutput)="onRatingSet($event)" class="stars" customSize="1.35rem" color="var(--stars-gold)"></ngx-stars>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field style="width: 100%; margin-top: 0.5rem; min-height: 5rem">
+      <mat-label>Write a review</mat-label>
+      <textarea required [(ngModel)]="comment" matInput ></textarea>
+
+      <mat-error *ngIf="comment?.length === 0">
+        Review comment is <strong>required</strong>.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-action-row>
+      <button mat-button style="color:var(--green); font-size: 19px" [disabled]="!comment || comment.length === 0" (click)="submitReview()">Submit</button>
+      <button mat-button style="color:var(--text-gray); font-size: 19px" (click)="cancelWritingReview()">Cancel</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

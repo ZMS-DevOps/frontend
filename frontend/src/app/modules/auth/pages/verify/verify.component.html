@@ -1,0 +1,52 @@
+<div>
+  <div class="row-direction-div upper-div whole-container">
+    <div *ngIf="showVerifyForm; else check_mail_page" class="text-container">
+      <div class="form-container">
+        <p class="subtitle" style="margin-bottom: 0;">Enter the 4-digit code sent to you at:</p>
+        <p class="subtitle">{{ userEmail }}</p>
+        <form color="primary" [formGroup]="verifyForm" class="whole-container">
+          <div class="center-elements">
+            <br>
+            <div id="form">
+                <span id="input-places">
+                    <input formControlName="firstDigit" autofocus type="text" maxLength="1" size="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');"/>
+                    <input formControlName="secondDigit" type="text" maxLength="1" size="1" min="0" max="9" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                    <input formControlName="thirdDigit" type="text" maxLength="1" size="1" min="0" max="9" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                    <input formControlName="fourthDigit" type="text" maxLength="1" size="1" min="0" max="9" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                </span>
+            </div>
+
+            <span class="center margin-top">
+              Tip: Make sure to  check your inbox and spam folders
+            </span>
+            <br>
+
+            <div class="center margin-top full-width">
+              <button [disabled]="verifyForm.invalid" [ngClass]="getVerifyButtonClass()" mat-raised-button (click)="verify()" style="width: 27.5rem">
+                Verify
+              </button>
+            </div>
+            <br>
+            <span class="center margin-top" style="color: var(--deep-blue)">Didn't receive the code?
+            </span>
+            <a (click)="sendCodeAgain()" style="color: var(--link-blue); text-decoration: underline; cursor: pointer;" class="link">Send code again</a>
+            <br>
+
+            <span class="center margin-top" style="color: var(--deep-blue)">
+              <a matTooltip="Log in" [routerLink]="['/booking/auth/login']" style="margin-left: 5px; color: var(--link-blue);" class="link">Go to Booking login page</a>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <ng-template #check_mail_page>
+      <div style="margin-top:5%" class="row-direction-div">
+        <mat-icon aria-hidden="false" style="transform: scale(1.5); margin-right: 1rem" class="mail-icon;" aria-label="Example home icon" fontIcon="email"></mat-icon>
+        <h3 style="font-size: 19px; font-weight: bold">Check your email, we sent you new link.</h3>
+      </div>
+
+    </ng-template>
+
+  </div>
+</div>
