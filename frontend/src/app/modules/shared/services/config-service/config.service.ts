@@ -11,8 +11,8 @@ export class ConfigService {
   GRADE_SERVICE_URL = environment.GRADE_SERVICE_URL;
   SEARCH_SERVICE_URL = environment.SEARCH_SERVICE_URL;
 
-
   LOGIN_URL = `/auth/login`;
+  SIGNUP_URL = `/auth/signup`;
 
   getLoginUrl(): string {
     return this.LOGIN_URL;

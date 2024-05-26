@@ -8,10 +8,12 @@ import {CustomMaterialModuleModule} from "../../custom-material-module/custom-ma
 import {NgxStarsModule} from "ngx-stars";
 import {SharedModule} from "../shared/shared.module";
 import {CarouselModule} from "primeng/carousel";
+import {SignupComponent} from "./pages/signup/signup.component";
 
 @NgModule({
   declarations: [
     LoginComponent,
+    SignupComponent,
   ],
   imports: [
     CommonModule,
