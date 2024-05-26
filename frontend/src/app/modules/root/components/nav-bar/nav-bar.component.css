@@ -1,0 +1,66 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.img-circle-small {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50% 50%;
+  margin-bottom: 2px;
+  margin-top: 0.7rem;
+}
+
+.temp {
+  position: relative;
+  display: inline-block;
+}
+
+.bottomRight {
+  bottom: 0;
+  right: 0;
+}
+
+
+.app-icon {
+  margin-top: 0.6rem;
+  height: 3.5rem;
+  width: 3.5rem;
+}
+
+.a-sign-up {
+  background-color: var(--deep-gray);
+  color: var(--black);
+  text-decoration: none
+}
+
+
+a {
+  font-weight: bold;
+  text-decoration: none
+}
+
+a.actions {
+  font-size: 15px;
+  color: var(--black);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.03);
+  margin-right: 0.2rem;
+  margin-left: 0.2rem;
+}
+
+.mat-toolbar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0;
+  z-index: 1000;
+  background-color: var(--deep-gray);
+}
+
+.toggle-activity-status {
+  color: white;
+  margin-left: 0.4rem;
+}
+
+.toggle {
+  margin-left: -0.2rem;
+  transform: scale(0.9);
+}

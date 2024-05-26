@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-app
+  namespace: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: angular-app
+  template:
+    metadata:
+      labels:
+        app: angular-app
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+        - name: angular-app
+          image: devopszms2024/zms-devops-angular-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: API_URL
+              value: "http://hotel.default.svc.cluster.local"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: angular-app
+  namespace: backend
+spec:
+  selector:
+    app: angular-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

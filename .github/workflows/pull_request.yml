@@ -1,0 +1,57 @@
+name: "Pull Request - Angular"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Check if cache hit
+        run: |
+          echo "Cache hit: ${{ steps.cache-npm.outputs.cache-hit }}"
+        
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Build
+        working-directory: frontend
+        run: npm run build
+      - name: List Directory Contents
+        run: ls -al frontend
