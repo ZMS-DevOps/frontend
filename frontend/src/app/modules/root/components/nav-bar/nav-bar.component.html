@@ -1,0 +1,70 @@
+<mat-toolbar class="nav-bar">
+  <img ngSrc="./assets/images/booking-icon.png" height="65" width="150"  alt="BOOKING" (click)="redirectToHomePage()"/>
+  <div class="row-direction-div spacer">
+    &nbsp;&nbsp;
+    <a
+      routerLink="/booking/user/accommodation"
+      *ngIf="loggedUser && userIsHost"
+      routerLinkActive="active"
+      mat-button
+      class="actions"
+    >My accommodation</a>
+    <mat-divider [vertical]="true" style="height:30px"></mat-divider>
+    <a
+      routerLink="/booking/user/add-accommodation"
+      *ngIf="loggedUser && userIsHost"
+      routerLinkActive="active"
+      mat-button
+      class="actions"
+    >Add new accommodation</a>
+
+
+    <a
+      routerLink="/booking/reserve/view"
+      *ngIf="!loggedUser && userIsGuest"
+      routerLinkActive="active"
+      mat-button
+      class="actions"
+    >Reservations</a>
+  </div>
+
+  <a
+    [routerLink]="linkService.signUpLink.url"
+    *ngIf="!loggedUser"
+    routerLinkActive="active"
+    mat-button
+    class="a-sign-up"
+  >{{linkService.signUpLink.text}}</a
+  >
+  <mat-divider *ngIf="!loggedUser" [vertical]="true" style="height:30px"></mat-divider>
+  <a
+    [routerLink]="linkService.logInLink.url"
+    *ngIf="!loggedUser"
+    routerLinkActive="active"
+    mat-button
+    id="login"
+  >{{linkService.logInLink.text}}</a>
+
+  <a
+    *ngIf="loggedUser"
+    [matMenuTriggerFor]="menu"
+    routerLinkActive="active"
+    mat-button
+  >Profile</a>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="redirectToProfilePage()">
+      <mat-icon style="color: var(--text-gray);">account_circle</mat-icon><span>My profile</span>
+    </button>
+    <button mat-menu-item (click)="redirectToEditPage()">
+      <mat-icon style="color: var(--text-gray);">edit_note</mat-icon><span>Edit profile</span>
+    </button>
+    <button mat-menu-item (click)="redirectToResetPassword()">
+      <mat-icon style="color: var(--text-gray);">password</mat-icon><span>Password</span>
+    </button>
+    <button mat-menu-item (click)="logOut()">
+      <mat-icon style="color: var(--text-gray);">logout</mat-icon><span>Log out</span>
+    </button>
+  </mat-menu>
+
+</mat-toolbar>
