@@ -76,12 +76,6 @@ jobs:
     name: Push Docker image to Docker Hub
     needs: [build, semantic-versioning]
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
