@@ -76,12 +76,6 @@ jobs:
     name: Push Docker image to Docker Hub
     needs: [build, semantic-versioning]
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -111,13 +105,18 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Create and use a new builder
+        run: |
+          docker buildx create --name mybuilder --use
+          docker buildx inspect mybuilder --bootstrap
+
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
-          platforms: ${{ matrix.platform }}
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{secrets.DOCKER_IMAGE_NAME}}:${{needs.semantic-versioning.outputs.image-tag}}
