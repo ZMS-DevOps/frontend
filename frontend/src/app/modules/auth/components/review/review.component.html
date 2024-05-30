@@ -22,7 +22,7 @@
                 [disabled]="cannotSaveUpdatedReview()" (click)="saveChangedReview()">Save</button>
       </div>
     </div>
-    <span class="date">Reviewed: {{review?.dateOfCreation | dateFormat}}</span>
+    <span class="date">Reviewed: {{review?.dateOfModification | dateFormat}}</span>
     <button mat-icon-button *ngIf="review.subReviewer === loggedUserId" [matMenuTriggerFor]="menu" style="position: absolute; right: 0; top: 0">
       <mat-icon class="icon">more_vert</mat-icon>
     </button>

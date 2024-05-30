@@ -233,22 +233,20 @@ button.toast-close-button {
   margin-left: auto;
   margin-right: auto;
 }
-.ngx-toastr {
-  background-color: #030303;
-  pointer-events: auto;
-}
+
 .toast-success {
-  background-color: #51A351;
+  background-color: var(--green);
 }
 .toast-error {
-  background-color: #BD362F;
+  background-color: #dc6361;
 }
 .toast-info {
-  background-color: #2F96B4;
+  background-color: #5597ce;
 }
 .toast-warning {
-  background-color: #F89406;
+  background-color: #f1b65f;
 }
+
 .toast-progress {
   position: absolute;
   left: 0;
