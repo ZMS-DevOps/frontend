@@ -38,7 +38,6 @@ export class LoginComponent implements OnDestroy {
   login() {
     this.authService.login(this.loginForm.getRawValue()).subscribe({
       next: loggedUser => {
-
         this.authService.setLocalStorage(loggedUser);
         this.router.navigate(['/booking/home-page']);
       },

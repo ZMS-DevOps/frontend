@@ -1,0 +1,135 @@
+.whole-container {
+  display: flex;
+  justify-content: left;
+}
+
+.row-direction-div {
+  display: flex;
+  flex-direction: row;
+}
+
+.text-container {
+  width: 30rem;
+  max-width: 30rem;
+  height: 40.5rem;
+  border-radius: 20px;
+  margin-top: 5rem;
+  margin-left: 4rem;
+}
+
+.total-reviews-container {
+  margin-left: 0.5rem;
+}
+
+.review-container {
+  width: 45%;
+  max-width: 45%;
+  border-radius: 20px;
+  margin-top: 6.55rem;
+  margin-left: 4rem;
+}
+
+
+.form-container {
+  margin-top: 0.5rem;
+  border-radius: 20px;
+  background-color: var(--light-gray);
+  padding: 2rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+}
+
+.upper-div{
+  height: 10.8rem;
+  background-color: var(--green);
+}
+
+h2{
+  margin:0;
+  font-weight: bold;
+  font-size: 27px;
+}
+
+h3{
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-gray)
+}
+
+h3.subtitle {
+  font-size: 13px;
+}
+
+p {
+  font-size: 27px;
+  margin-top: 1.3rem;
+  margin-bottom: 0.4rem;
+}
+
+
+::ng-deep .average-stars .stars-line{
+  margin-top:1.3rem;
+  margin-left: 0.4rem;
+  margin-bottom: 0.2rem
+}
+
+mat-icon.icon {
+  margin-top: 3.8rem;
+  margin-left: 1rem;
+  color: var(--green);
+  transform: scale(1.5);
+}
+
+.user-info-container {
+  margin-left: 5rem;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.icon-large {
+  transform: scale(1.4);
+}
+
+
+.rating-row {
+  display: flex;
+  align-items: center;
+}
+
+.rating-label {
+  width: 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.rating-bar {
+  flex-grow: 1;
+  width: 200px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+::ng-deep .rating-bar-1 .mat-progress-bar-fill {
+  background-color: #9E9E9E !important;
+}
+
+::ng-deep .mdc-linear-progress__bar-inner{
+  --mdc-linear-progress-active-indicator-color: none !important;
+}
+
+::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
+  background-color: rgba(63, 81, 181, 0) !important;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
