@@ -4,9 +4,10 @@ import {User} from "../../../shared/models/user/user";
 import {catchError, Subscription, tap} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {GradeService} from "../../services/grade.service";
-import {ReviewRequest} from "../../../shared/models/review-request";
+import {toReviewRequest} from "../../../shared/models/review-request";
 import {UpdateReviewRequest} from "../../../shared/models/update-review-request";
 import {NgxStarsComponent} from "ngx-stars";
+import {ADD, MINUS, UPDATE} from "./constants";
 
 @Component({
   selector: 'app-review-report',
@@ -24,8 +25,10 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   updateReviewSubscription: Subscription;
   addReviewSubscription: Subscription;
 
-  constructor(private toast: ToastrService, private gradeService: GradeService) {
-  }
+  constructor(
+    private toast: ToastrService,
+    private gradeService: GradeService,
+  ) {}
 
   ngOnInit(): void {
     this.maxRating = Math.max(...this.reviewReportResponse?.numberOfStars.map(r => r.value))
@@ -67,21 +70,9 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   }
 
   addReview(review: { grade: number; comment: string; }) {
-    const reviewRequest: ReviewRequest = {
-      comment: review.comment,
-      grade: review.grade,
-      subReviewer: this.loggedUser.sub,
-      subReviewed: this.userId,
-      reviewerFullName: `${this.loggedUser.given_name} ${this.loggedUser.family_name}`,
-      reviewType: 0,
-    }
-    this.addReviewSubscription = this.gradeService.addReview(reviewRequest).pipe(
+    this.addReviewSubscription = this.gradeService.addReview(toReviewRequest(this.userId, this.loggedUser, review.grade, review.comment)).pipe(
       tap(res => {
-        this.reviewReportResponse.reviews.push(res);
-        this.reviewReportResponse.averageRating = this.getNewAveragingRating(this.reviewReportResponse.averageRating, this.reviewReportResponse.totalReviews, review.grade, "ADD");
-        this.reviewReportResponse.totalReviews = this.reviewReportResponse.totalReviews + 1;
-        this.setAverageRatingStars(this.reviewReportResponse.averageRating);
-        this.toast.success("Review added")
+        this.changeFieldsAfterSuccessReviewAdd(res);
       }),
       catchError(error => {
         this.toast.error(error.error, 'Adding review failed');
@@ -104,13 +95,7 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   private deleteReview(reviewId: string, grade: number) {
     this.deleteReviewSubscription = this.gradeService.deleteReview(reviewId).pipe(
       tap(_ => {
-        this.setChangedFields(
-          this.reviewReportResponse.reviews.filter(review => review.id !== reviewId),
-          this.getNewAveragingRating(this.reviewReportResponse.averageRating, this.reviewReportResponse.totalReviews, grade, "MINUS"),
-          this.reviewReportResponse.totalReviews - 1,
-        );
-        this.setAverageRatingStars(this.reviewReportResponse.averageRating);
-        this.toast.success("Review deleted");
+        this.changeFieldsAfterSuccessReviewDelete(reviewId, grade);
       }),
       catchError(error => {
         this.toast.error(error.error, 'Deleting review failed');
@@ -129,16 +114,7 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
     }
     this.updateReviewSubscription = this.gradeService.updateReview(singleReview.id, updateReviewRequest).pipe(
       tap(_ => {
-        this.reviewReportResponse.reviews.forEach(review => {
-          if (review.id === singleReview.id) {
-            review.grade = singleReview.grade;
-            review.comment = singleReview.comment;
-            review.dateOfModification = new Date();
-          }
-        });
-        this.reviewReportResponse.averageRating = this.getNewAveragingRating(this.reviewReportResponse.averageRating, this.reviewReportResponse.totalReviews, singleReview.oldGrade, "UPDATE", singleReview.grade);
-        this.setAverageRatingStars(this.reviewReportResponse.averageRating);
-        this.toast.success("Review updated")
+        this.changeFieldsAfterSuccessReviewUpdate(singleReview);
       }),
       catchError(error => {
         this.toast.error(error.error, 'Updating review failed');
@@ -149,29 +125,82 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
     });
   }
 
+  private changeFieldsAfterSuccessReviewAdd(res: SingleReview) {
+    this.reviewReportResponse.reviews.push(res);
+    this.reviewReportResponse.averageRating = this.getNewAveragingRating(this.reviewReportResponse.averageRating, this.reviewReportResponse.totalReviews, res.grade, ADD);
+    this.reviewReportResponse.totalReviews = this.reviewReportResponse.totalReviews + 1;
+    this.setAverageRatingStars(this.reviewReportResponse.averageRating);
+    this.toast.success("Review added")
+  }
+
+  private changeFieldsAfterSuccessReviewDelete(reviewId: string, grade: number) {
+    this.reviewReportResponse.reviews = this.reviewReportResponse.reviews.filter(review => review.id !== reviewId);
+    this.reviewReportResponse.averageRating = this.getNewAveragingRating(this.reviewReportResponse.averageRating, this.reviewReportResponse.totalReviews, grade, MINUS);
+    this.reviewReportResponse.totalReviews = this.reviewReportResponse.totalReviews - 1;
+    this.setAverageRatingStars(this.reviewReportResponse.averageRating);
+    this.toast.success("Review deleted");
+  }
+
+  private changeFieldsAfterSuccessReviewUpdate(singleReview: UpdateSingleReview) {
+    this.reviewReportResponse.reviews.forEach(review => {
+      if (review.id === singleReview.id) {
+        review.grade = singleReview.grade;
+        review.comment = singleReview.comment;
+        review.dateOfModification = new Date();
+      }
+    });
+    this.reviewReportResponse.averageRating = this.getNewAveragingRating(this.reviewReportResponse.averageRating, this.reviewReportResponse.totalReviews, singleReview.oldGrade, "UPDATE", singleReview.grade);
+    this.setAverageRatingStars(this.reviewReportResponse.averageRating);
+    this.toast.success("Review updated")
+  }
+
   private getNewAveragingRating(averageRating: number, numberOfReviews: number, grade: number, op: string, updatedGrade?: number) {
-    if (numberOfReviews === 0){
-      if (op === "ADD") return grade;
-      if (op === "UPDATE") return grade;
-      if (op === "MINUS") return 0;
-    } else {
-      if (op === "MINUS"){
-        return (averageRating*numberOfReviews - grade) / (numberOfReviews - 1)
-      }
-      if (op === "ADD"){
-        return (averageRating*numberOfReviews + grade) / (numberOfReviews + 1)
-      }
-      if (op === "UPDATE"){
-        return (averageRating*numberOfReviews - grade + updatedGrade)/numberOfReviews
-      }
+    if (numberOfReviews === 0) {
+      return op === MINUS ? 0 : grade;
     }
+    return this.calculateNewAveragingRating(op, averageRating, numberOfReviews, grade, updatedGrade)
+  }
+
+  private calculateNewAveragingRating(op: string, averageRating: number, numberOfReviews: number, grade: number, updatedGrade?: number): number {
+    switch (op) {
+      case ADD:
+        return this.calculateNewRatingForAdd(averageRating, numberOfReviews, grade);
+      case MINUS:
+        return this.calculateNewRatingForMinus(averageRating, numberOfReviews, grade);
+      case UPDATE:
+        if (updatedGrade !== undefined) {
+          return this.calculateNewRatingForUpdate(averageRating, numberOfReviews, grade, updatedGrade);
+        }
+        break;
+    }
+
     return 0;
   }
 
-  private setChangedFields(singleReviews: SingleReview[], newAveragingRating: number, totalReviews: number) {
-    this.reviewReportResponse.reviews = singleReviews;
-    this.reviewReportResponse.averageRating = newAveragingRating;
-    this.reviewReportResponse.totalReviews = totalReviews;
+  private calculateNewRatingForAdd(
+    averageRating: number,
+    numberOfReviews: number,
+    grade: number
+  ): number {
+    return (averageRating * numberOfReviews + grade) / (numberOfReviews + 1);
+  }
+
+  private calculateNewRatingForMinus(
+    averageRating: number,
+    numberOfReviews: number,
+    grade: number
+  ): number {
+    if (numberOfReviews === 1) return 0;
+    return (averageRating * numberOfReviews - grade) / (numberOfReviews - 1);
+  }
+
+  private calculateNewRatingForUpdate(
+    averageRating: number,
+    numberOfReviews: number,
+    grade: number,
+    updatedGrade: number
+  ): number {
+    return (averageRating * numberOfReviews - grade + updatedGrade) / numberOfReviews;
   }
 
   private setAverageRatingStars(rating: number) {
