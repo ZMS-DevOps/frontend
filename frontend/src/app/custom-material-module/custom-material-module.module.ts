@@ -27,7 +27,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-
+import {MatSliderModule} from "@angular/material/slider";
 
 @NgModule({
   imports: [
@@ -68,6 +68,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     MatToolbarModule,
     MatRadioModule,
     MatProgressBarModule,
+    MatSliderModule
   ]
 })
 export class CustomMaterialModuleModule { }

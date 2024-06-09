@@ -17,6 +17,7 @@ export class ConfigService {
   SEND_CODE_AGAIN_URL = `/auth/send-code-again`;
 
   USERS_URL = `/user`;
+  SEARCH_URL = `/search/all`;
 
   getLoginUrl(): string {
     return this.LOGIN_URL;
