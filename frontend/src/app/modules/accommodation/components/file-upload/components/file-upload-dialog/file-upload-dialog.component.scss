@@ -1,0 +1,12 @@
+.file-upload-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.file-upload-dialog__empty-container {
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  padding: 16px;
+}

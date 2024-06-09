@@ -1,0 +1,37 @@
+<div class="file-upload-status-bar__container">
+  <!-- Uploaded -->
+  <div *ngIf="uploaded" class="file-upload-status-bar__status-item mat-body-2">
+    <mat-icon>description</mat-icon>
+    <span>{{ uploaded }} uploaded</span>
+  </div>
+
+  <!-- Failed -->
+  <div
+    *ngIf="failed"
+    class="file-upload-status-bar__status-item mat-error mat-body-2"
+  >
+    <mat-icon>block</mat-icon>
+    <span>{{ failed }} failed</span>
+  </div>
+
+  <!-- In Progress -->
+  <div
+    *ngIf="inProgress"
+    class="
+      mat-body-2
+      file-upload-status-bar__status-item
+      file-upload-status-bar__status-item--in-progress
+    "
+  >
+    <mat-progress-spinner
+      diameter="20"
+      mode="indeterminate"
+      [value]="totalProgress * 100"
+    ></mat-progress-spinner>
+    <span>{{ inProgress }} uploading</span>
+  </div>
+</div>
+<!-- Action Slot -->
+<div style="flex: 0;">
+  <ng-content></ng-content>
+</div>

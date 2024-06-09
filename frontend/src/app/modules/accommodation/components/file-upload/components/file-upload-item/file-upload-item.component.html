@@ -1,0 +1,22 @@
+<div class="file-upload-item__status-bar">
+  <mat-icon *ngIf="error" color="warn">block</mat-icon>
+  <!-- Replace with file type icon using the fileType input -->
+  <mat-icon *ngIf="progress === 1">description</mat-icon>
+  <b *ngIf="progress < 1 && !error">{{ progress | percent }}</b>
+  <div
+    class="file-upload-item__status-bar__label mat-body-2"
+    [class.mat-error]="error"
+  >
+    <span>{{ label }}</span>
+    <ng-container *ngIf="error">
+      <span *ngIf="label">-</span>
+      <span>{{ error }}</span>
+    </ng-container>
+  </div>
+  <ng-content></ng-content>
+</div>
+<mat-progress-bar
+  *ngIf="progress !== 1 && !error"
+  mode="determinate"
+  [value]="progress * 100"
+></mat-progress-bar>

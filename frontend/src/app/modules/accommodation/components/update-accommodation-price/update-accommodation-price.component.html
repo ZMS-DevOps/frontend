@@ -1,0 +1,38 @@
+<div *ngIf="updatePriceFormGroup" [formGroup]="updatePriceFormGroup" style="display:flex; justify-content: space-between;">
+
+  <div class="row-direction-div">
+    <div class="custom-mat-input-container">
+      <mat-icon style="padding-left: 0.3rem; padding-right: 0.3rem; color: var(--text-gray)">date_range</mat-icon>
+      <app-calendar [selected]="selected" [defaultPrice]="defaultPrice" [specialPrice]="specialPrice" [disableDates]="disableDates" (onStartDateChanged)="onStartDateChanged($event)" (onEndDateChanged)="onEndDateChanged($event)"></app-calendar>
+    </div>
+    <mat-divider [vertical]="true" style="height:57px; margin-left: 1rem; margin-right: 1rem;"></mat-divider>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Price</mat-label>
+      <input
+        matInput
+        placeholder="100 €"
+        formControlName="price"
+        type="number"
+        min="0"
+      />
+      <mat-icon matPrefix style="color: var(--text-gray);">euro</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div style="color:var(--text-gray); font-size: 17px">
+    Price type
+    <section>
+      <mat-radio-group formControlName="type">
+        <div class="row-direction-div">
+          <div class="container margin-between-div" [ngClass]="getClass('PerGuest')">
+            <mat-radio-button value="PerGuest">Per guest</mat-radio-button>
+          </div>
+
+          <div class="container" [ngClass]="getClass('PerApartmentUnit')">
+            <mat-radio-button value="PerApartmentUnit">Per apartment unit</mat-radio-button>
+          </div>
+        </div>
+      </mat-radio-group>
+    </section>
+  </div>
+</div>

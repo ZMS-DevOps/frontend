@@ -1,0 +1,175 @@
+.whole-accommodation-container {
+  margin: 1rem 10rem;
+}
+
+a.host-profile {
+  text-decoration: underline;
+  text-decoration-color: var(--green);
+  color: var(--green);
+  font-size: 16px;
+}
+
+.rounded-text-container {
+  color: var(--text-gray);
+  border-radius: 10px;
+  border: 1px solid var(--green);
+  width: 142px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 0.5rem;
+  font-size: 16px;
+}
+
+.review-container {
+  width: 55%;
+  max-width: 55%;
+  border-radius: 20px;
+  margin-left: 2rem;
+  float: right;
+  position: absolute;
+  right: 6em;
+}
+
+h1 {
+  color: var(--text-gray);
+  font-weight: bold;
+  margin: 0.3rem 0 0;
+}
+
+.card-span {
+  color: var(--green);
+  font-size: 16px;
+}
+
+::ng-deep .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  color: var(--green) !important;
+}
+
+::ng-deep .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+  border-color: var(--green) !important;
+}
+
+::ng-deep .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+  flex-grow: 0 !important;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+::ng-deep .mat-mdc-tab-header-pagination-controls-enabled .mat-mdc-tab-header-pagination {
+  display: none !important;
+}
+
+.form-container {
+  height: 25rem;
+  width: auto;
+  padding-bottom: 2rem;
+  padding-top: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background: none;
+}
+
+
+::ng-deep .md-drppicker td.active, .md-drppicker td.active:hover {
+  background-color: var(--green) !important;
+  border-radius: 0 !important;
+}
+
+::ng-deep .md-drppicker:hover {
+  border-radius: 0 !important;
+}
+
+::ng-deep .md-drppicker td {
+  border-radius: 0 !important;
+}
+
+::ng-deep .md-drppicker td.in-range {
+  background-color: var(--green) !important;
+}
+
+.custom-mat-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.3rem;
+  border-bottom: 1.1px solid rgba(0, 0, 0, 0.55);
+  border-radius: 4px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.custom-mat-input-container:hover {
+  border-color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 10px 10px 0 0;
+}
+
+.custom-mat-input-container:focus-within {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.55);
+  border-color: #3f51b5;
+}
+
+.custom-mat-input {
+  width: 20rem;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.custom-mat-input::placeholder {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+
+.booking-view-container {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  color: var(--text-gray);
+  font-size: 17px;
+  border-radius: 10px;
+  height: 22rem;
+}
+
+.cancel-btn, .book-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: medium;
+  width: 47%;
+  margin-top: 3rem;
+}
+
+.cancel-btn {
+  background-color: var(--deep-gray);
+  color: var(--text-gray);
+}
+
+.book-btn {
+  background-color: var(--deep-gray);
+  color: var(--text-gray);
+}
+
+.book-button-enabled {
+  background-color: var(--green);
+  color: white;
+}
+
+.book-button-disabled {
+  background-color: rgba(113, 175, 145, 0.3);
+  color: var(--text-gray);
+}
+
+::ng-deep .update-accommodation .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background: #f0f0f0;
+}

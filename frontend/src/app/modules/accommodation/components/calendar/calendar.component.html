@@ -1,0 +1,17 @@
+<input type="text"
+       ngxDaterangepickerMd
+       #datePickerInput
+       [locale]="{format: 'ddd, MMM DD, YYYY'}"
+       startKey="start"
+       endKey="end"
+       [linkedCalendars]="true"
+       [(ngModel)]="selected"
+       (startDateChanged)="startDateChanged($event)"
+       (endDateChanged)="endDateChanged($event)"
+       class="custom-mat-input datepicker-calendar-icon"
+       placeholder="Check in Date - Check out Date"
+       drops="down"
+       opens="center"
+       [autoApply]="true"
+       [closeOnAutoApply]="false"
+/>

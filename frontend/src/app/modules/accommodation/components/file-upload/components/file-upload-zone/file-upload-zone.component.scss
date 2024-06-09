@@ -1,0 +1,30 @@
+.file-upload__zone {
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  box-sizing: border-box;
+  border: 1px dashed #757575;
+  border-radius: 4px;
+  padding: 16px;
+  transition: border-color ease-in-out 100ms;
+}
+
+.file-upload__zone:hover {
+  cursor: pointer;
+  border-color: var(--green);
+}
+
+.file-upload__zone--drag-detected {
+  border: 1px solid var(--green);
+  background-color: #b7d5f3;
+}
+
+.file-upload__zone-label {
+  text-align: center;
+
+  b {
+    color: var(--green);
+  }
+}

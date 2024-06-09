@@ -1,0 +1,119 @@
+<div *ngIf="updateAccommodationForm" [formGroup]="updateAccommodationForm" style="display:flex; justify-content: space-between">
+  <div class="col-direction-div" style="max-width: 25rem; color:var(--text-gray); font-size: 17px">
+    <mat-form-field class="update-accommodation">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Name" formControlName="name" required>
+      <mat-error *ngIf="updateAccommodationForm.get('name').hasError('required')">
+        Name is <strong>required</strong>.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="update-accommodation">
+      <mat-label>Address</mat-label>
+      <input matInput placeholder="Address" formControlName="location" required>
+      <mat-error *ngIf="updateAccommodationForm.get('location').hasError('required')">
+        Location is <strong>required</strong>.
+      </mat-error>
+    </mat-form-field>
+
+    Number of guests
+
+    <div class="row-direction-div" style="margin-top:0.4rem">
+      <mat-form-field appearance="fill" class="margin-right full-width update-accommodation">
+        <mat-label>Min</mat-label>
+        <input
+          matInput
+          placeholder="Min"
+          formControlName="minGuests"
+          type="number"
+        />
+        <mat-icon matPrefix style="color: var(--text-gray);">person</mat-icon>
+        <mat-error *ngIf="updateAccommodationForm.get('minGuests').hasError('min')">
+          Min number of quests is <strong>1</strong>.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="margin-left full-width update-accommodation">
+        <mat-label>Max</mat-label>
+        <input
+          matInput
+          placeholder="Max"
+          formControlName="maxGuests"
+          type="number"
+        />
+        <mat-icon matPrefix style="color: var(--text-gray);">group</mat-icon>
+        <mat-hint *ngIf="getError()" style="color: red">
+          Max guests must be greater than or equal to min.
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Accommodation features</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Enter accommodation feature">
+        <mat-chip-row *ngFor="let benefit of getBenefits()"
+                      (removed)="remove(benefit)">
+          {{ benefit }}
+          <button matChipRemove [attr.aria-label]="'remove ' + benefit">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input placeholder="New accommodation feature..." #benefitInput [formControl]="benefitCtrl"
+               [matChipInputFor]="chipGrid"
+               [matAutocomplete]="auto"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               (matChipInputTokenEnd)="add($event)"/>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <ng-container *ngFor="let benefit of filteredAccommodationBenefits | async">
+            <mat-option *ngIf="!getBenefits().includes(benefit)" [value]="benefit">
+              {{ benefit }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </mat-chip-grid>
+    </mat-form-field>
+
+    Confirmation of booking request
+
+    <section>
+      <mat-radio-group formControlName="reviewReservationRequestAutomatically">
+        <div class="row-direction-div">
+          <div class="container margin-between-div" [ngClass]="getClass(true)">
+            <mat-radio-button [value]=true>Automatically</mat-radio-button>
+          </div>
+
+          <div class="container" [ngClass]="getClass(false)">
+            <mat-radio-button [value]=false>Manually</mat-radio-button>
+          </div>
+        </div>
+
+      </mat-radio-group>
+    </section>
+
+  </div>
+
+  <div style="width: 50rem; margin-left: 1rem">
+    <app-file-upload
+      #fileUpload
+      [uploadSource]="_uploadSource"
+      [statusBar]="_showStatusBar"
+      style="color: var(--text-gray); width: 100%"
+    >
+      <input appFileUploadInput [multiple]="_allowMultiple" type="file" accept=".png, .jpg, .jpeg"/>
+      <app-file-upload-caption>
+        Supported file type: PNG, JPG, JPEG
+      </app-file-upload-caption>
+    </app-file-upload>
+
+    <div *ngFor="let file of groupedImages;" class="col-direction-div">
+      <div class="row-direction-div">
+        <img [src]="file.at(0)" alt="Image preview" style="margin:0.5rem;" width="240px" height="155px"/>
+        <img *ngIf="file.length > 1 && file.at(1)" [src]="file.at(1)" alt="Image preview" style="margin:0.5rem;"
+             width="240px" height="155px"/>
+        <img *ngIf="file.length > 2 && file.at(2)" [src]="file.at(2)" alt="Image preview" style="margin:0.5rem;"
+             width="240px" height="155px"/>
+      </div>
+    </div>
+  </div>
+
+</div>

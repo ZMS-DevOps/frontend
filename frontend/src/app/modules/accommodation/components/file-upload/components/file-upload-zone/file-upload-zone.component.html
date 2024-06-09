@@ -1,0 +1,13 @@
+<div
+  tabindex="0" accept=".png, .jpg, .jpeg"
+  [attr.aria-label]="'Browse files for upload'"
+  class="file-upload__zone"
+  [class.file-upload__zone--drag-detected]="_fileDragDetected"
+  (keyup.enter)="_onBrowse()"
+  (click)="_onBrowse()"
+>
+  <mat-icon>upload</mat-icon>
+  <span class="file-upload__zone-label mat-body-2"
+    >Drag & drop files to import or <b>browse</b></span
+  >
+</div>

@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .file-upload__input {
+  display: none;
+}
+
+.file-upload__upload-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
