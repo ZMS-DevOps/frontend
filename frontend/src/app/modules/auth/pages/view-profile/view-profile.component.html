@@ -2,10 +2,10 @@
   <div class="upper-div whole-container row-direction-div">
     <div class="text-container">
       <h2>User details</h2>
-      <app-user-details [user]="userForView" [loggedUserId]="loggedUser?.sub" (deletingUserEvent)="onDeleteUser()"></app-user-details>
+      <app-user-details [userIsGuest]="userIsGuest" [user]="userForView" [loggedUserId]="loggedUser?.sub" (deletingUserEvent)="onDeleteUser()"></app-user-details>
     </div>
     <div class="review-container" *ngIf="reviewReportResponse">
-      <app-review-report [reviewReportResponse]="reviewReportResponse" [loggedUser]="loggedUser" [userId]="userId"></app-review-report>
+      <app-review-report [reviewReportResponse]="reviewReportResponse" [loggedUser]="loggedUser" [userIsGuest]="userIsGuest" [userId]="userId" [reviewType]="0"></app-review-report>
     </div>
 
     <div *ngIf="!reviewReportResponse" class="center-content">

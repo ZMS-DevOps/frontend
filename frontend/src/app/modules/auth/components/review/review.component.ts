@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {DeleteDialogComponent} from "../delete-user-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../../shared/components/delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SingleReview, UpdateSingleReview} from "../../../shared/models/review-report-response";
@@ -15,6 +15,7 @@ export class ReviewComponent implements OnInit{
   @ViewChild(NgxStarsComponent) ratingComponent: NgxStarsComponent;
   @Input() review: SingleReview;
   @Input() loggedUserId: string;
+  @Input() userIsGuest!: boolean;
   @Output() deletingReviewEvent = new EventEmitter<null>();
   @Output() updatingReviewEvent = new EventEmitter<UpdateSingleReview>();
   reviewFormGroup: FormGroup;

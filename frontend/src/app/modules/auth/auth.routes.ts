@@ -38,20 +38,20 @@ export const AuthRoutes: Routes = [
     pathMatch: "full",
     component: ViewProfileComponent,
     canActivate: [RoleGuard],
-    data: {expectedRoles: 'host|quest'},
+    data: {expectedRoles: 'host|guest'},
   },
   {
     path: "update-password",
     pathMatch: "full",
     component: UpdatePasswordComponent,
     canActivate: [RoleGuard],
-    data: {expectedRoles: 'host|quest'},
+    data: {expectedRoles: 'host|guest'},
   },
   {
     path: "update-profile",
     pathMatch: "full",
     component: UpdateProfileComponent,
     canActivate: [RoleGuard],
-    data: {expectedRoles: 'host|quest'},
+    data: {expectedRoles: 'host|guest'},
   }
 ];

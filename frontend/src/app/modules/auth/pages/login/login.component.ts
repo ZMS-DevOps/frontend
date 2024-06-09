@@ -1,13 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription} from 'rxjs';
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from "../../../shared/services/auth.service";
 import { ToastrService } from 'ngx-toastr';
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-view-reservations',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })

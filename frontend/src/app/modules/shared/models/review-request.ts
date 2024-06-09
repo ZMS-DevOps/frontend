@@ -9,13 +9,13 @@ export interface ReviewRequest {
   reviewType: number;
 }
 
-export function toReviewRequest(userId: string, loggedUser: User, grade: number, comment: string): ReviewRequest {
+export function toReviewRequest(userId: string, loggedUser: User, grade: number, comment: string, reviewType: number): ReviewRequest {
   return {
     comment: comment,
     grade: grade,
     subReviewer: loggedUser.sub,
     subReviewed: userId,
     reviewerFullName: `${loggedUser.given_name} ${loggedUser.family_name}`,
-    reviewType: 0,
+    reviewType: reviewType,
   }
 }

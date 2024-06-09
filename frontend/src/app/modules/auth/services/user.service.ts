@@ -53,10 +53,10 @@ export class UserService {
     );
   }
 
-  deleteUser(id: string): Observable<null> {
+  deleteUser(id: string, group: string): Observable<null> {
     const accessToken = localStorage.getItem('access-token');
     return this.http.delete<null>(
-      `${this.configService.USERS_URL}/${id}`,
+      `${this.configService.USERS_URL}/${id}/${group}`,
       {
         headers: {
           'Authorization': `Bearer ${accessToken}`

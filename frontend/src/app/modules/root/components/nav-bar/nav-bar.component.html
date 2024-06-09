@@ -3,7 +3,7 @@
   <div class="row-direction-div spacer">
     &nbsp;&nbsp;
     <a
-      routerLink="/booking/user/accommodation"
+      routerLink="/booking/accommodation/view"
       *ngIf="loggedUser && userIsHost"
       routerLinkActive="active"
       mat-button
@@ -11,23 +11,45 @@
     >My accommodation</a>
     <mat-divider [vertical]="true" style="height:30px"></mat-divider>
     <a
-      routerLink="/booking/user/add-accommodation"
+      routerLink="/booking/accommodation/add"
       *ngIf="loggedUser && userIsHost"
       routerLinkActive="active"
       mat-button
       class="actions"
     >Add new accommodation</a>
 
-
+    <mat-divider [vertical]="true" style="height:30px"></mat-divider>
     <a
-      routerLink="/booking/reserve/view"
-      *ngIf="!loggedUser && userIsGuest"
+      routerLink="/booking/reservation/view"
+      *ngIf="loggedUser"
       routerLinkActive="active"
       mat-button
       class="actions"
     >Reservations</a>
+
+    <mat-divider [vertical]="true" style="height:30px"></mat-divider>
+
+    <a
+      routerLink="/booking/reservation/calendar"
+      *ngIf="loggedUser"
+      routerLinkActive="active"
+      mat-button
+      class="actions"
+    >Calendar</a>
   </div>
 
+  <div
+    *ngIf="loggedUser"
+    class="bell-icon"
+    mat-button
+    [matMenuTriggerFor]="bellNotificationsMenu"
+    (click)="setAllAsSeen()"
+  >
+    <mat-icon>notifications</mat-icon>
+    <div *ngIf="numOfNotifications > 0" class="badge">
+      <span>{{numOfNotifications}}</span>
+    </div>
+  </div>
   <a
     [routerLink]="linkService.signUpLink.url"
     *ngIf="!loggedUser"
@@ -44,13 +66,13 @@
     mat-button
     id="login"
   >{{linkService.logInLink.text}}</a>
-
   <a
     *ngIf="loggedUser"
     [matMenuTriggerFor]="menu"
     routerLinkActive="active"
     mat-button
-  >Profile</a>
+  >
+    Profile</a>
 
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="redirectToProfilePage()">
@@ -62,9 +84,66 @@
     <button mat-menu-item (click)="redirectToResetPassword()">
       <mat-icon style="color: var(--text-gray);">password</mat-icon><span>Password</span>
     </button>
+    <button mat-menu-item [matMenuTriggerFor]="menuNotification" #menuTrigger="matMenuTrigger">
+      <mat-icon style="color: var(--text-gray);">notifications</mat-icon><span>Notification settings</span>
+    </button>
     <button mat-menu-item (click)="logOut()">
       <mat-icon style="color: var(--text-gray);">logout</mat-icon><span>Log out</span>
     </button>
+  </mat-menu>
+
+  <mat-menu #menuNotification="matMenu" style="display: flex; align-items: center; justify-content: center">
+    <span style="margin: 1rem; display: flex; justify-content: center; color: var(--green); font-size: 17px;">Enable/disable notifications</span>
+    <form *ngIf="updateNotificationSettingsForm" [formGroup]="updateNotificationSettingsForm">
+      <mat-divider style="border: 0.5px solid var(--green); margin: 1rem; display: flex; justify-content: center; color: var(--green); width:15rem;"></mat-divider>
+
+      <mat-slide-toggle *ngIf="loggedUser && userIsHost" formControlName="newReservationRequest" (click)="$event.stopPropagation()" style="margin: 1rem; display: flex; justify-content: left;"> New reservation request</mat-slide-toggle>
+
+      <mat-divider *ngIf="loggedUser && userIsHost" style="margin: 1rem; display: flex; justify-content: center; color: var(--text-gray); width:15rem;"></mat-divider>
+
+      <mat-slide-toggle *ngIf="loggedUser && userIsHost" formControlName="cancelReservation" (click)="$event.stopPropagation()" style="margin: 1rem; display: flex; justify-content: left;" > Cancellation of reservation</mat-slide-toggle>
+
+      <mat-divider *ngIf="loggedUser && userIsHost" style="margin: 1rem; display: flex; justify-content: center; color: var(--text-gray); width:15rem;"></mat-divider>
+
+      <mat-slide-toggle *ngIf="loggedUser && userIsHost" formControlName="newHostReview" (click)="$event.stopPropagation()" style="margin: 1rem; display: flex; justify-content: left;" > New profile review</mat-slide-toggle>
+
+      <mat-divider *ngIf="loggedUser && userIsHost" style="margin: 1rem; display: flex; justify-content: center; color: var(--text-gray); width:15rem;"></mat-divider>
+
+      <mat-slide-toggle *ngIf="loggedUser && userIsHost" formControlName="newAccommodationReview" (click)="$event.stopPropagation()" style="margin: 1rem; display: flex; justify-content: left;"> New accommodation review</mat-slide-toggle>
+
+      <mat-divider *ngIf="loggedUser && userIsHost" style="margin: 1rem; display: flex; justify-content: center; color: var(--text-gray); width:15rem;"></mat-divider>
+
+      <mat-slide-toggle *ngIf="loggedUser && userIsGuest" formControlName="reservationReview" (click)="$event.stopPropagation()" style="margin: 1rem; display: flex; justify-content: left;"> Reviewed reservation request</mat-slide-toggle>
+    </form>
+
+    <div class="row-direction-div margin-left margin-right">
+      <button mat-menu-item (click)="onNotificationSettingsMenuCancel()">
+        <span>Cancel</span>
+      </button>
+      <button mat-menu-item (click)="updateNotificationSettings()">
+        <span>Save</span>
+      </button>
+    </div>
+  </mat-menu>
+
+  <mat-menu class="bell-notifications-menu" #bellNotificationsMenu="matMenu">
+    <div
+      *ngFor="let notification of bellNotifications; index as i"
+      class="notification-content"
+    >
+      <div class="notification-row" (click)="notificationRedirect(notification)">
+        <div style="color: var(--text-gray); font-size: 15px;">
+          {{notification.timeStamp | dateFormat}}
+        </div>
+        <div>
+          {{notification.message}}
+        </div>
+      </div>
+      <mat-divider style="display: flex; justify-content: center; color: var(--text-gray); width: 100%"></mat-divider>
+    </div>
+    <div *ngIf="bellNotifications.length < 1" class="notification-content">
+      Your inbox is empty.
+    </div>
   </mat-menu>
 
 </mat-toolbar>

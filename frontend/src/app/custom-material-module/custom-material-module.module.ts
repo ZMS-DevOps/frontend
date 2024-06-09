@@ -27,6 +27,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -68,6 +69,10 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     MatToolbarModule,
     MatRadioModule,
     MatProgressBarModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatTabsModule
   ]
 })
 export class CustomMaterialModuleModule { }

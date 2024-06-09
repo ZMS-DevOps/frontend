@@ -17,7 +17,6 @@ import {VerifyComponent} from "./pages/verify/verify.component";
 import {AddReviewComponent} from "./components/add-review/add-review.component";
 import {UserDetailsComponent} from "./components/user-details/user-details.component";
 import {ReviewComponent} from "./components/review/review.component";
-import {DeleteDialogComponent} from "./components/delete-user-dialog/delete-dialog.component";
 import {ReviewReportComponent} from "./components/review-report/review-report.component";
 
 @NgModule({
@@ -32,7 +31,6 @@ import {ReviewReportComponent} from "./components/review-report/review-report.co
     UserDetailsComponent,
     ReviewComponent,
     AddReviewComponent,
-    DeleteDialogComponent,
     ReviewReportComponent,
   ],
   imports: [
@@ -46,5 +44,8 @@ import {ReviewReportComponent} from "./components/review-report/review-report.co
     CarouselModule,
   ],
   providers: [],
+  exports: [
+    ReviewReportComponent
+  ]
 })
 export class AuthModule { }
