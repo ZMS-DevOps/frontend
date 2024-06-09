@@ -11,6 +11,7 @@ import {CarouselModule} from 'primeng/carousel';
 import {HomePageComponent} from "./pages/home-page/home-page.component";
 import {SearchComponent} from "./components/search/search.component";
 import {DeleteDialogComponent} from "./components/delete-dialog/delete-dialog.component";
+import {AccommodationCardComponent} from "./components/accomodation-view/accommodation-card.component";
 
 @NgModule({
   declarations: [
@@ -18,9 +19,11 @@ import {DeleteDialogComponent} from "./components/delete-dialog/delete-dialog.co
     DateFormatPipe,
     SearchComponent,
     DeleteDialogComponent,
+    AccommodationCardComponent,
   ],
   exports: [
     DateFormatPipe,
+    AccommodationCardComponent,
   ],
   providers: [
     DatePipe,

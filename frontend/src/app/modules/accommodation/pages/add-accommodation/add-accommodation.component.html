@@ -1,0 +1,163 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="row-direction-div upper-div whole-container">
+    <div class="text-container">
+      <h2>Add accommodation</h2>
+      <p class="subtitle">The quickest way of creating a new version of comfort.</p>
+      <div class="form-container">
+      <form [formGroup]="addAccommodationForm" style="display:flex; justify-content: space-between">
+        <div class="col-direction-div" style="max-width: 26.5rem; color:var(--text-gray); font-size: 17px">
+          <mat-form-field class="update-accommodation">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Name" formControlName="name" required>
+            <mat-error *ngIf="addAccommodationForm.get('name')?.hasError('required')">
+              Name is <strong>required</strong>.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="update-accommodation">
+            <mat-label>Address</mat-label>
+            <input matInput placeholder="Address" formControlName="location" required>
+            <mat-error *ngIf="addAccommodationForm.get('location')?.hasError('required')">
+              Location is <strong>required</strong>.
+            </mat-error>
+          </mat-form-field>
+
+          Number of guests
+
+          <div class="row-direction-div" style="margin-top:0.4rem">
+            <mat-form-field appearance="fill" class="margin-right full-width update-accommodation">
+              <mat-label>Min</mat-label>
+              <input
+                matInput
+                placeholder="Min"
+                formControlName="minGuests"
+                type="number"
+              />
+              <mat-icon matPrefix style="color: var(--text-gray);">person</mat-icon>
+              <mat-error *ngIf="addAccommodationForm.get('minGuests').hasError('min')">
+                Min number of quests is <strong>1</strong>.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="margin-left full-width update-accommodation">
+              <mat-label>Max</mat-label>
+              <input
+                matInput
+                placeholder="Max"
+                formControlName="maxGuests"
+                type="number"
+              />
+              <mat-icon matPrefix style="color: var(--text-gray);">group</mat-icon>
+              <mat-hint *ngIf="getError()" style="color: red">
+                Max guests must be greater than or equal to min.
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field *ngIf="getBenefits()">
+            <mat-label>Accommodation features</mat-label>
+            <mat-chip-grid #chipGrid aria-label="Enter accommodation feature">
+              <mat-chip-row *ngFor="let benefit of getBenefits()"
+                            (removed)="remove(benefit)">
+                {{ benefit }}
+                <button matChipRemove [attr.aria-label]="'remove ' + benefit">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+              <input placeholder="New accommodation feature..." #benefitInput [formControl]="benefitCtrl"
+                     [matChipInputFor]="chipGrid"
+                     [matAutocomplete]="auto"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     (matChipInputTokenEnd)="add($event)"/>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <ng-container *ngFor="let benefit of filteredAccommodationBenefits | async">
+                  <mat-option *ngIf="!getBenefits().includes(benefit)" [value]="benefit">
+                    {{ benefit }}
+                  </mat-option>
+                </ng-container>
+              </mat-autocomplete>
+            </mat-chip-grid>
+          </mat-form-field>
+
+          Confirmation of booking request
+
+          <section>
+            <mat-radio-group formControlName="reviewReservationRequestAutomatically">
+              <div class="row-direction-div">
+                <div class="container margin-between-div" [ngClass]="getReviewReservationRequestClass(true)">
+                  <mat-radio-button [value]=true>Automatically</mat-radio-button>
+                </div>
+
+                <div class="container" style="margin-left:1rem" [ngClass]="getReviewReservationRequestClass(false)">
+                  <mat-radio-button [value]=false>Manually</mat-radio-button>
+                </div>
+              </div>
+            </mat-radio-group>
+          </section>
+
+
+          <div class="margin-top" style="color:var(--text-gray); font-size: 17px; background-color: #ecf2ef; border-radius: 10px; border: 2px solid var(--green); padding: 0.5rem;">
+            Price type
+            <section>
+              <mat-radio-group formControlName="priceType">
+                <div class="row-direction-div">
+                  <div class="container margin-between-div" style="margin-left: 0" [ngClass]="getPriceTypeClass('PerGuest')">
+                    <mat-radio-button value="PerGuest">Per guest</mat-radio-button>
+                  </div>
+
+                  <div class="container" [ngClass]="getPriceTypeClass('PerApartmentUnit')">
+                    <mat-radio-button value="PerApartmentUnit">Per apartment unit</mat-radio-button>
+                  </div>
+                </div>
+              </mat-radio-group>
+            </section>
+
+            <mat-form-field appearance="fill" class="default-price">
+              <mat-label>Default price</mat-label>
+              <input
+                matInput
+                placeholder="100 €"
+                formControlName="price"
+                type="number"
+              />
+              <mat-icon matPrefix style="color: var(--text-gray);">euro</mat-icon>
+              <mat-error *ngIf="addAccommodationForm.get('price').hasError('min')">
+                Price should be greater than <strong>zero</strong>.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div style="width: 50rem; margin-left: 3rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <app-file-upload
+            [uploadSource]="_uploadSource"
+            [statusBar]="_showStatusBar"
+            style="color: var(--text-gray); width: 100%"
+          >
+            <input appFileUploadInput [multiple]="_allowMultiple" type="file" accept=".png, .jpg, .jpeg"/>
+            <app-file-upload-caption>
+              Supported file type: PNG, JPG, JPEG
+            </app-file-upload-caption>
+          </app-file-upload>
+
+          <p-carousel *ngIf="images?.length > 0;" [value]="images" [circular]="true" [numVisible]="getNumberOfVisibleImages()" [numScroll]="1" >
+            <ng-template let-file pTemplate="item">
+              <img [src]="file" alt="Image preview" style="margin:0.5rem;" width="240px" height="155px"/>
+            </ng-template>
+          </p-carousel>
+
+          <div style="text-align: right; margin-top: auto;">
+            <button (click)="resetForm()" mat-raised-button style="background-color: var(--deep-gray); color: var(--text-gray)">
+              Cancel
+            </button>
+            <button class="margin-left" [ngStyle]="getSaveButtonStyle()" (click)="save()" [disabled]="addAccommodationForm.invalid" mat-raised-button>
+              Update
+            </button>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>

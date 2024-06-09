@@ -1,0 +1,140 @@
+<div *ngIf="accommodation else noAccommodation" class="col-direction-div whole-accommodation-container">
+
+  <p-carousel *ngIf="groupedPhotos.length > 0;" [value]="groupedPhotos" [circular]="true" [numVisible]="1" [numScroll]="1">
+    <ng-template let-photoGroup pTemplate="item">
+      <mat-grid-list cols="4" rowHeight="200px">
+        <mat-grid-tile [colspan]="3" [rowspan]="2">
+          <img [src]="photoGroup.at(0)" alt="Hotel image" style="width: 100%; height: 100%; object-fit: fill"/>
+        </mat-grid-tile>
+
+        <mat-grid-tile *ngIf="photoGroup.at(1)" [colspan]="1" [rowspan]="1">
+          <img [src]="photoGroup.at(1)" alt="Hotel image" style="width: 100%; height: 100%; object-fit: contain"/>
+        </mat-grid-tile>
+
+        <mat-grid-tile *ngIf="photoGroup.at(2)" [colspan]="1" [rowspan]="1">
+          <img [src]="photoGroup.at(2)" alt="Hotel image" style="width: 100%; height: 100%; object-fit: contain"/>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </ng-template>
+  </p-carousel>
+
+  <div class="margin-left" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <a style="color: var(--text-gray); font-size: 18px">
+        <mat-icon style="vertical-align: bottom; color: var(--text-gray)">location_on</mat-icon>
+        {{ accommodation.location }}
+      </a>
+      <h1>{{accommodation.name}}</h1>
+    </div>
+
+    <div style="margin-right: 2rem;">
+      <ngx-stars class="average-stars" [readonly]="true" customSize="1.35rem"
+                 [initialStars]="reviewReportResponse?.averageRating" color="var(--stars-gold)"></ngx-stars>
+      <a class="host-profile" matTooltip="View host" [routerLink]="getRouteOfHostProfile()">
+        View host's profile
+      </a>
+    </div>
+
+  </div>
+
+  <mat-tab-group animationDuration="0ms" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+    <mat-tab label="DETAILS">
+      <app-accommodation-details [accommodation]="accommodation" [reviewReportResponse]="reviewReportResponse" [loggedUser]="loggedUser"
+                                 [userIsGuest]="userIsGuest">
+      </app-accommodation-details>
+    </mat-tab>
+    <mat-tab *ngIf="userIsGuest" label="BOOK NOW">
+      <div style="padding-top:1rem; display:flex; justify-content: space-between;">
+        <div class="form-container">
+          <form [formGroup]="bookAccommodationForm" style="margin-left:1rem; margin-right: 1rem;">
+            <div class="row-direction-div">
+              <div class="custom-mat-input-container">
+                <mat-icon style="padding-left: 0.3rem; padding-right: 0.3rem; color: var(--text-gray)">date_range</mat-icon>
+                <app-calendar *ngIf="bookingViewOpened" [defaultPrice]="accommodation.default_price" [specialPrice]="accommodation.special_price" [disableDates]="disableDates" [selected]="selected" (onStartDateChanged)="onStartDateChanged($event)" (onEndDateChanged)="onEndDateChanged($event)"></app-calendar>
+              </div>
+              <mat-divider [vertical]="true" style="height:57px; margin-left: 1rem; margin-right: 1rem;"></mat-divider>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Number of guests</mat-label>
+                <input
+                  matInput
+                  placeholder="2 adults - 0 children"
+                  formControlName="numberOfGuests"
+                  (input)="onGuestNumberChanged()"
+                  type="number"
+                  min="1"
+                />
+                <mat-icon matPrefix style="color: var(--text-gray);">group</mat-icon>
+              </mat-form-field>
+            </div>
+            <p>* Total price for this accommodation is calculating per {{getTextPriceType()}}</p>
+          </form>
+        </div>
+
+        <div class="margin booking-view-container">
+          <h2 style="display: flex; justify-content: center;">Your booking</h2>
+            <div style="margin-top: 2rem; display: flex;justify-content: space-between;">
+              <div style="font-size: 18px">
+                Check In
+              </div>
+              <div *ngIf="selected?.start" style="font-size: 18px">
+                {{selected.start | dateFormat}}
+              </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; display: flex;justify-content: space-between;">
+              <div style="font-size: 18px">
+                Check Out
+              </div>
+              <div *ngIf="selected?.end" style="font-size: 18px">
+                {{selected.end | dateFormat}}
+              </div>
+            </div>
+          <div style="margin-top: 1.5rem; display: flex;justify-content: space-between;">
+            <div style="font-size: 18px">
+              Guests
+            </div>
+            <div *ngIf="getGuestsValue() > 0" style="font-size: 18px">
+              {{bookAccommodationForm.get("numberOfGuests")?.value}} people
+            </div>
+          </div>
+
+          <mat-divider style="margin-top: 1.5rem; width:27rem"></mat-divider>
+
+            <div style="margin-top: 1.5rem; display: flex;justify-content: space-between;">
+              <div style="font-size: 18px">
+                Total payment
+              </div>
+              <div style="font-size: 18px; font-weight: bold">
+                {{ totalPrice | currency:'EUR' }}
+              </div>
+            </div>
+
+            <div style="display: flex;justify-content: space-between;">
+
+              <button class="cancel-btn margin-right" (click)="cancelBooking()">CANCEL</button>
+              <button class="book-btn"
+                      [ngClass]="{'book-button-enabled': canBookAccommodation(), 'book-button-disabled': !canBookAccommodation()}"
+                      [disabled]="!canBookAccommodation()" (click)="book()">BOOK NOW</button>
+            </div>
+        </div>
+      </div>
+
+    </mat-tab>
+    <mat-tab *ngIf="userIsHost" label="UPDATE">
+      <app-update-accommodation [accommodation]="accommodation" [userId]="loggedUser.sub" [disableDates]="disableDates" (onStartDateChanged)="onStartDateChanged($event)" (onEndDateChanged)="onEndDateChanged($event)" (onUpdateAccommodation)="onUpdateAccommodation($event)"></app-update-accommodation>
+    </mat-tab>
+    <mat-tab *ngIf="userIsHost" label="CALENDAR" matTooltip="Show accommodation calendar">
+
+    </mat-tab>
+    <mat-tab *ngIf="userIsHost" label="DELETE" matTooltip="Delete accommodation">
+
+    </mat-tab>
+  </mat-tab-group>
+
+</div>
+
+<ng-template #noAccommodation>
+  <div id="no-reports" class="center-content">
+    <p style="font-size: 18px; margin: 2rem">Selected hotel is not available.</p>
+  </div>
+</ng-template>

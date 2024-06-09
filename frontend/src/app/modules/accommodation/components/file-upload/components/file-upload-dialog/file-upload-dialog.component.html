@@ -1,0 +1,28 @@
+<h1 style="color: var(--text-gray)" mat-dialog-title>File upload</h1>
+<ng-container *ngIf="_uploadItems$ | async as _uploadItems; else emptyTemplate">
+  <mat-list *ngIf="_uploadItems.length; else emptyTemplate" mat-dialog-content>
+    <mat-list-item *ngFor="let uploadItem of _uploadItems; trackBy: _trackBy">
+      <app-file-upload-item
+        [label]="uploadItem.fileName"
+        [progress]="uploadItem.progress"
+        [error]="uploadItem.error"
+      >
+        <ng-container
+          *ngTemplateOutlet="
+            _uploadItemActionTemplate;
+            context: { $implicit: uploadItem }
+          "
+        ></ng-container>
+      </app-file-upload-item>
+    </mat-list-item>
+  </mat-list>
+</ng-container>
+<div mat-dialog-actions class="file-upload-dialog__actions">
+  <button mat-flat-button style="color: var(--green)" mat-dialog-close>Close</button>
+</div>
+
+<ng-template #emptyTemplate>
+  <div class="file-upload-dialog__empty-container">
+    <span class="mat-body-2">No file uploads</span>
+  </div>
+</ng-template>
