@@ -1,0 +1,80 @@
+.reservation-card {
+  border-radius: 10px;
+  border: 2px solid var(--deep-gray);
+  margin: 0.5rem;
+  padding: 0.8rem;
+}
+
+.selected-reservation {
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+}
+
+.green-border {
+  border-left: 5px solid var(--green);
+}
+
+.red-border {
+  border-left: 5px solid var(--red);
+}
+
+.orange-border {
+  border-left: 5px solid #f0ad4e;
+}
+
+
+.pending-icon {
+  transform: scale(1.1);
+  color: #f0ad4e;
+  margin-right: 0.5rem;
+}
+
+.pending-header {
+  display: flex;
+  margin-bottom: 0.7rem;
+  color: #f0ad4e;
+}
+
+.accepted-header {
+  display: flex;
+  margin-bottom: 0.7rem;
+  color: var(--green)
+}
+
+::ng-deep .p-carousel-items-content {
+  height: 510px !important;
+}
+
+.accepted-icon {
+  transform: scale(1.1);
+  color: var(--green);
+  margin-right: 0.5rem;
+}
+
+.close-header {
+  display: flex;
+  margin-bottom: 0.7rem;
+  color: var(--red);
+}
+
+.close-icon {
+  transform: scale(1.1);
+  color: var(--red);
+  margin-right: 0.5rem;
+}
+
+h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.reservation-label {
+  font-size: 15px;
+  margin-bottom: 0;
+  color: #7c7c7c;
+}
+
+.cursor {
+  cursor: pointer !important;
+  margin-left: 1.5rem;
+}

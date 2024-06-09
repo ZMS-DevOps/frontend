@@ -21,6 +21,11 @@ export const routes: Routes = [
           import("./../accommodation/accommodation.module").then((m) => m.AccommodationModule),
       },
       {
+        path: "reservation",
+        loadChildren: () =>
+          import("./../reservation/reservation.module").then((m) => m.ReservationModule),
+      },
+      {
         path: "",
         loadChildren: () =>
           import("./../shared/shared.module").then((m) => m.SharedModule),

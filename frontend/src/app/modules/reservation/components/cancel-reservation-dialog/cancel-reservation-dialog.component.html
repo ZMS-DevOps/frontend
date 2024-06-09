@@ -1,0 +1,15 @@
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn"></span>
+    <div class="icon">
+      <img src="assets/images/delete.png" alt="Trash Icon">
+    </div>
+    <p class="modal-header">You are about to {{reservationDeclineType}} a reservation</p>
+    <p class="modal-body">Are you sure you want to {{reservationDeclineType}} reservation?</p>
+    <p class="modal-body">This action cannot be undone.</p>
+    <div class="modal-footer">
+      <button class="cancel-btn margin-right" (click)="cancel()">Cancel</button>
+      <button class="delete-btn" (click)="confirm()">Delete</button>
+    </div>
+  </div>
+</div>

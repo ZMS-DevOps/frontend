@@ -1,0 +1,46 @@
+<div [ngClass]="getReservationCardClass(reservation.status, reservation.id)">
+  <div *ngIf="reservation.status === 0" class="pending-header">
+    <mat-icon class="material-symbols-outlined pending-icon">update</mat-icon>
+    PENDING
+  </div>
+  <div *ngIf="reservation.status === 1" class="accepted-header">
+    <mat-icon class="material-symbols-outlined accepted-icon">task_alt</mat-icon>
+    ACCEPTED
+  </div>
+
+  <div *ngIf="reservation.status >= 2" class="close-header">
+    <mat-icon class="material-symbols-outlined close-icon">close</mat-icon>
+    DECLINED
+  </div>
+  <div style="display: flex; justify-content: space-between">
+    <div style="color: var(--text-gray)">
+      <h3>{{reservation.accommodation_name}}</h3>
+      <p class="reservation-label"><b>Start:</b> {{reservation.start | dateFormat}} <b>- End:</b> {{reservation.end | dateFormat}}</p>
+      <p class="reservation-label"><b>Number of guests:</b> {{reservation.number_of_guests}} people</p>
+      <p class="reservation-label"><b>Total payments:</b> {{reservation.price_total | currency:'EUR'}}</p>
+    </div>
+
+    <div class="col-direction-div" style="display: flex; justify-content: space-between;">
+      <p *ngIf="userIsGuest"></p>
+      <p *ngIf="userIsHost" class="reservation-label"><b>Number of <a style="color: var(--text-gray)" [routerLink]="getRedirectUserProfileUrl(reservation.user_id)"
+                                                                      routerLinkActive="active">guest's</a> canceled reservations:</b> {{reservation.number_of_canceled_reservations}}</p>
+      <div *ngIf="reservation.status === 0" class="row-direction-div" style="justify-content: right">
+        <div class="close-header cursor" (click)="declineReservation('decline')">
+          <mat-icon class="material-symbols-outlined close-icon">close</mat-icon>
+          DECLINE
+        </div>
+        <div *ngIf="userIsHost" class="accepted-header cursor" (click)="acceptReservation(reservation.id)">
+          <mat-icon class="material-symbols-outlined accepted-icon">done</mat-icon>
+          ACCEPT
+        </div>
+      </div>
+
+      <div *ngIf="reservation.status === 1 && userIsGuest" class="row-direction-div" style="justify-content: right">
+        <div class="close-header cursor" (click)="declineReservation('cancel')">
+          <mat-icon class="material-symbols-outlined close-icon">close</mat-icon>
+          CANCEL
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

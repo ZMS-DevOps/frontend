@@ -1,0 +1,158 @@
+.text-container {
+  width: 85rem;
+  max-width: 85rem;
+}
+.checkbox-alignment {
+  padding-left: 30px;
+  padding-top: 20px;
+}
+
+.mat-mdc-checkbox.mat-accent {
+  --mdc-checkbox-selected-focus-icon-color: var(--green);
+  --mdc-checkbox-selected-hover-icon-color: var(--green);
+  --mdc-checkbox-selected-icon-color: var(--green);
+  --mdc-checkbox-selected-pressed-icon-color: var(--green);
+}
+
+.e-disable-dates {
+  pointer-events: none;
+}
+
+.e-disable-dates .e-appointment-wrapper {
+  pointer-events: all;
+}
+
+.custom-event-height .e-appointment {
+  height: 1.6rem !important;
+}
+
+.custom-hide-start-time .e-appointment .e-time {
+  display: none !important;
+}
+
+.unavailability-cell {
+  background-color: var(--deep-gray) !important;
+  color: #000000;
+}
+
+.custom-dialog {
+  display: none;
+  position: absolute;
+  background-color: var(--light-gray);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 17rem;
+}
+
+.custom-dialog-content {
+  padding: 20px;
+}
+
+.custom-dialog button {
+  margin-top: 10px;
+}
+
+.sub-dialog-container {
+  background-color: #f0f0f0;
+  padding: 0.7rem;
+  border-radius: 10px;
+}
+
+.dialog-container-button {
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--text-gray) !important;
+  color: var(--text-gray) !important;
+}
+
+.confirm-button {
+  border: 1px solid var(--green) !important;
+  color: var(--green) !important;
+}
+
+.pending-header {
+  display: inline-flex;
+  align-items: center;
+  color: #f0ad4e;
+}
+
+.pending-icon {
+  transform: scale(1.5);
+  color: #f0ad4e;
+  margin-right: 0.5rem;
+}
+
+.pending-info-icon {
+  color: #f0ad4e;
+  margin-left: 8px;
+}
+.accepted-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+
+.accepted-icon {
+  transform: scale(1.5);
+  color: var(--green);
+  margin-right: 0.5rem;
+}
+
+
+.event-type-1 {
+  background-color: red !important;
+  border-color: red !important;
+}
+
+.event-type-2 {
+  background-color: green !important;
+  border-color: green !important;
+}
+
+.e-schedule .e-month-view .e-current-date .e-date-header, .e-schedule .e-month-agenda-view .e-current-date .e-date-header {
+  background-color: var(--green);
+}
+
+.e-schedule .e-month-view .e-date-header-wrap table td.e-current-day, .e-schedule .e-month-agenda-view .e-date-header-wrap table td.e-current-day {
+  color: var(--green);
+}
+
+.e-calendar .e-content.e-year td.e-selected:hover span.e-day, .e-calendar .e-content.e-decade td.e-selected:hover span.e-day, .e-bigger.e-small .e-calendar .e-content.e-year td.e-selected:hover span.e-day, .e-bigger.e-small .e-calendar .e-content.e-decade td.e-selected:hover span.e-day {
+  background-color: var(--green);
+}
+
+.e-calendar .e-content td.e-selected span.e-day, .e-bigger.e-small .e-calendar .e-content td.e-selected span.e-day {
+  background-color: var(--green);
+}
+
+.e-btn.e-flat.e-primary:active, .e-btn.e-flat.e-primary.e-active, .e-css.e-btn.e-flat.e-primary:active, .e-css.e-btn.e-flat.e-primary.e-active {
+  background-color: var(--green);
+  color: white
+}
+
+.e-btn.e-flat.e-primary, .e-css.e-btn.e-flat.e-primary {
+  background-color: rgba(0,0,0,0);
+  border-color: rgba(0,0,0,0);
+  color: var(--green);
+}
+
+.e-btn.e-flat.e-primary:focus, .e-css.e-btn.e-flat.e-primary:hover {
+  background-color: rgba(113, 175, 145, 0.11);
+  border-color: rgba(0,0,0,0);
+  color: var(--green);
+}
+
+.e-btn.e-flat.e-primary:focus, .e-css.e-btn.e-flat.e-primary:focus {
+  background-color: rgba(113, 175, 145, 0.11);
+  border-color: rgba(0,0,0,0);
+  color: var(--green);
+}
+
+.save-changes-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15rem;
+  font-size: 16px;
+}
