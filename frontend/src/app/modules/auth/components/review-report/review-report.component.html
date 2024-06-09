@@ -42,7 +42,7 @@
                 *ngIf="reviewReportResponse.reviews?.length > 0; else noReviews" [value]="reviewReportResponse.reviews"
                 [circular]="true" [numVisible]="reviewReportResponse.reviews.length > 1?2:1" [numScroll]="1">
       <ng-template let-review pTemplate="item">
-        <app-review [review]="review" [loggedUserId]="loggedUser?.sub"
+        <app-review [review]="review" [loggedUserId]="loggedUser?.sub" [userIsGuest]="userIsGuest"
                     (deletingReviewEvent)="onDeleteReview(review.id, review.grade)"
                     (updatingReviewEvent)="onUpdateReview($event)" class="comment-container"></app-review>
       </ng-template>
@@ -54,7 +54,7 @@
       </div>
     </ng-template>
 
-    <app-add-review *ngIf="userId !== loggedUser?.sub" style="width: 40rem; margin-top: 1rem"
+    <app-add-review *ngIf="userIsGuest && userId !== loggedUser?.sub" style="width: 40rem; margin-top: 1rem"
                     (submitReviewEvent)="addReview($event)"></app-add-review>
   </div>
 </div>

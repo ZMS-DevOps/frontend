@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {FormControl, FormGroup} from "@angular/forms";
-import {HotelResponse} from "../../models/hotel-response";
+import {HotelCardResponse} from "../../models/hotel-card-response";
 
 @Component({
   selector: 'app-home-page',
@@ -12,7 +12,7 @@ import {HotelResponse} from "../../models/hotel-response";
 export class HomePageComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   authSubscription: Subscription;
-  topHotels: HotelResponse[];
+  topHotels: HotelCardResponse[];
   //TODO: FROM home page call searchService (not from search component)
 
   constructor(
@@ -24,6 +24,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.topHotels = [
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone",
         address: "Beograd",
@@ -32,6 +33,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         images: ["menuet.jpg"]
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 2",
         address: "Beograd",
@@ -40,6 +42,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         images: ["menuet.jpg"]
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 3",
         address: "Beograd",
@@ -48,6 +51,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         images: ["menuet.jpg"]
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 4",
         address: "Beograd",
@@ -56,6 +60,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         images: ["menuet.jpg"]
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 5",
         address: "Beograd",
@@ -64,6 +69,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         images: ["menuet.jpg"]
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 6",
         address: "Beograd",
@@ -72,6 +78,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         images: ["menuet.jpg"]
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 7",
         address: "Beograd",
@@ -80,6 +87,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         images: ["menuet.jpg"]
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 8",
         address: "Beograd",
@@ -88,6 +96,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         images: ["menuet.jpg"]
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 9",
         address: "Beograd",
@@ -114,6 +123,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   getPriceTypeText(priceType: string) {
-    return priceType === "perNight" ? "per night" : "per person";
+    return priceType === "PerGuest" ? "per person" : "per apartment unit";
   }
 }

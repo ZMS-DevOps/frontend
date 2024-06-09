@@ -46,7 +46,7 @@ p.subtitle{
 
 div[role="radio"] > div {
   display: flex;
-  flex-direction: row-reverse; /* Reverse the order of the items */
+  flex-direction: row-reverse;
   align-items: center;
 }
 

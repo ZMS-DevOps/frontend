@@ -31,9 +31,9 @@
         <mat-divider style="margin-top:0.5rem; width:19rem"></mat-divider>
       </div>
 
-      <div style="margin-top: 1.5rem" class="row-direction-div">
+      <div *ngIf="!userIsGuest" style="margin-top: 1.5rem" class="row-direction-div">
               <span>
-                <a matTooltip="My accommodation" [routerLink]="['/booking/user/accommodation']"
+                <a matTooltip="Accommodation" [routerLink]="getAccommodationViewUrl()"
                    style="margin-left: 5px; color: var(--green);">
                   <span class="material-symbols-outlined icon-large"
                         style="vertical-align: bottom; margin-right: 0.7rem">maps_home_work</span>ACCOMMODATION

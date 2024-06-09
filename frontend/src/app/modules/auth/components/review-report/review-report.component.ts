@@ -18,7 +18,9 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   @ViewChild(NgxStarsComponent) ratingComponent: NgxStarsComponent;
   @Input() reviewReportResponse: ReviewReportResponse;
   @Input() loggedUser: User;
+  @Input() userIsGuest!: boolean;
   @Input() userId: string;
+  @Input() reviewType: number;
 
   maxRating: number;
   deleteReviewSubscription: Subscription;
@@ -70,7 +72,7 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   }
 
   addReview(review: { grade: number; comment: string; }) {
-    this.addReviewSubscription = this.gradeService.addReview(toReviewRequest(this.userId, this.loggedUser, review.grade, review.comment)).pipe(
+    this.addReviewSubscription = this.gradeService.addReview(toReviewRequest(this.userId, this.loggedUser, review.grade, review.comment, this.reviewType)).pipe(
       tap(res => {
         this.changeFieldsAfterSuccessReviewAdd(res);
       }),
@@ -93,7 +95,7 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   }
 
   private deleteReview(reviewId: string, grade: number) {
-    this.deleteReviewSubscription = this.gradeService.deleteReview(reviewId).pipe(
+    this.deleteReviewSubscription = this.gradeService.deleteReview(reviewId, this.reviewType).pipe(
       tap(_ => {
         this.changeFieldsAfterSuccessReviewDelete(reviewId, grade);
       }),
@@ -110,7 +112,7 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
     const updateReviewRequest: UpdateReviewRequest = {
       comment: singleReview.comment,
       grade: singleReview.grade,
-      reviewType: 0,
+      reviewType: this.reviewType,
     }
     this.updateReviewSubscription = this.gradeService.updateReview(singleReview.id, updateReviewRequest).pipe(
       tap(_ => {

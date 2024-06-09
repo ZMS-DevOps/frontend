@@ -23,7 +23,7 @@ export const routes: Routes = [
   },
   {
     path: "",
-    redirectTo: "/booking/auth/login",
+    redirectTo: "/booking/home-page",
     pathMatch: "full",
   },
   { path: "**", component: NotFoundPageComponent }

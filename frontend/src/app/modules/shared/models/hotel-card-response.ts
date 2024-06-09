@@ -1,4 +1,5 @@
-export interface HotelResponse {
+export interface HotelCardResponse {
+  id: string;
   rating: number;
   name: string;
   address: string;

@@ -1,14 +1,14 @@
 import {Component, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from "../../../shared/services/auth.service";
 import {matchPasswordsValidator} from './confirm-password.validator';
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {MyErrorStateMatcher} from "./error-state-matcher";
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-view-reservations',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })

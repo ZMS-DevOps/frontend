@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {catchError, Subscription, tap} from 'rxjs';
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from "../../../shared/services/auth.service";
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../../shared/models/user/user";
@@ -18,6 +18,7 @@ import {GradeService} from "../../services/grade.service";
 export class ViewProfileComponent implements OnInit, OnDestroy {
   userId: string;
   loggedUser: User;
+  userIsGuest: boolean;
   userForView: User;
   reviewReportResponse: ReviewReportResponse;
 
@@ -41,13 +42,14 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
       this.authSubscription = this.authService.getSubjectCurrentUser().subscribe(
         loggedUser => {
           this.loggedUser = loggedUser;
+          this.userIsGuest = this.authService.isUserGuest(loggedUser);
         });
       this.getReviews(this.userId);
     });
   }
 
   onDeleteUser() {
-    this.deleteUserSubscription = this.userService.deleteUser(this.loggedUser?.sub).pipe(
+    this.deleteUserSubscription = this.userService.deleteUser(this.loggedUser?.sub, this.userIsGuest ? "guest": "host").pipe(
       tap(_ => {
         this.toast.success('User is successfully deleted.', 'Success!');
         this.router.navigate([`/booking/home-page`]);
