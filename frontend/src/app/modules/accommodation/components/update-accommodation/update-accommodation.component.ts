@@ -28,7 +28,8 @@ export class UpdateAccommodationComponent implements OnInit, OnDestroy {
 
   @Output() onStartDateChanged = new EventEmitter<StartDate>();
   @Output() onEndDateChanged = new EventEmitter<EndDate>();
-  @Output() onUpdateAccommodation = new EventEmitter<AccommodationRequest>();
+  @Output() onUpdateAccommodation = new EventEmitter<FormData>();
+  // @Output() onUpdateAccommodation = new EventEmitter<AccommodationRequest>();
 
   updateAccommodationForm: FormGroup;
   updatePriceFormGroup: FormGroup;

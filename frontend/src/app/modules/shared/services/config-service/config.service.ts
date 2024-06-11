@@ -10,6 +10,7 @@ export class ConfigService {
   SEND_CODE_AGAIN_URL = `/auth/send-code-again`;
 
   USERS_URL = `/user`;
+  SEARCH_URL = `/search/all`;
   GRADE_URL = `/grade`;
   ACCOMMODATION_URL = `/accommodation`;
   BOOKING_URL = `/booking`;

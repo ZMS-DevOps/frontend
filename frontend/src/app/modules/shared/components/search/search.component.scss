@@ -1,0 +1,32 @@
+::ng-deep .mat-datepicker-toggle-active {
+    color: var(--green) !important;
+}
+
+::ng-deep mat-calendar {
+    background-color: white !important;
+}
+
+::ng-deep .mat-calendar-body-selected {
+    background-color: var(--deep-gray) !important;
+}
+
+mat-slider {
+    width: 300px;
+}
+
+:ng-deep .mat-mdc-slider.mat-primary {
+    color: var(--green) !important;
+}
+
+::ng-deep .mat-mdc-slider.mat-primary {
+    --mdc-slider-handle-color: var(--green) !important;
+    --mdc-slider-focus-handle-color: var(--green) !important;
+    --mdc-slider-hover-handle-color: var(--green) !important;
+    --mdc-slider-active-track-color: var(--green) !important;
+    --mdc-slider-inactive-track-color: var(--green-darker) !important; /* 20% darker */
+    --mdc-slider-with-tick-marks-active-container-color: #fff !important;
+    --mdc-slider-with-tick-marks-inactive-container-color: var(--green) !important;
+    --mat-mdc-slider-ripple-color: var(--green) !important;
+    --mat-mdc-slider-hover-ripple-color: var(--green-hover-ripple) !important; /* rgba(113, 175, 145, 0.05) */
+    --mat-mdc-slider-focus-ripple-color: var(--green-focus-ripple) !important; /* rgba(113, 175, 145, 0.2) */
+}

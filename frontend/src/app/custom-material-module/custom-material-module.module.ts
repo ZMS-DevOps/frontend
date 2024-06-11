@@ -27,8 +27,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatSliderModule} from "@angular/material/slider";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
 
 @NgModule({
   imports: [
@@ -69,6 +69,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatToolbarModule,
     MatRadioModule,
     MatProgressBarModule,
+    MatSliderModule,
     MatDatepickerModule,
     MatInputModule,
     MatFormFieldModule,

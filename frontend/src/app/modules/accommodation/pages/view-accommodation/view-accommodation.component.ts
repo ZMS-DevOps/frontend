@@ -205,7 +205,8 @@ export class ViewAccommodationComponent implements OnDestroy {
     });
   }
 
-  onUpdateAccommodation(updatedAccommodation: AccommodationRequest) {
+  onUpdateAccommodation(updatedAccommodation: FormData) {
+    // onUpdateAccommodation(updatedAccommodation: AccommodationRequest) {
     this.updateAccommodationSubscription = this.accommodationService.updateAccommodation(this.accommodation.id, updatedAccommodation).pipe(
       tap(res => {
         this.toast.success('Your accommodation is updated successfully.', 'Success!');

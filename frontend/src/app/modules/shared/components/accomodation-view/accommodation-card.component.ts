@@ -9,12 +9,23 @@ import {HotelCardResponse} from "../../models/hotel-card-response";
 })
 export class AccommodationCardComponent {
 
-  @Input() hotel: HotelCardResponse;
-
-  constructor(private router: Router) {}
+  @Input() hotel: any;
+  // @Input() hotel: HotelCardResponse;
+  
+  constructor(private router: Router) {
+    console.log(this.hotel);
+  }
 
   redirectToAccommodationDetails() {
     this.router.navigate([`/booking/accommodation/${this.hotel.id}`])
+  }
+  
+  getPhotoUrl(hotel: any): string {
+    if (hotel.photos && hotel.photos.size > 0){
+      return `data:image/jpeg;base64,${hotel.photos[0]}`;
+    } else {
+      return "assets/images/" + hotel.main_photo;
+    }
   }
 
   getPriceTypeText(priceType: string) {

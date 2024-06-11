@@ -2,47 +2,40 @@
   <div class="row-direction-div">
     <mat-form-field appearance="fill" class="margin-left-from-container margin-right">
       <mat-label>Where are you going?</mat-label>
-      <input
-        matInput
-        placeholder="eg. Monaco"
-        formControlName="address"
-      />
+      <input matInput placeholder="eg. Monaco" formControlName="address" />
       <mat-icon matPrefix style="color: var(--text-gray);">location_on</mat-icon>
     </mat-form-field>
     <mat-divider [vertical]="true" style="height:57px"></mat-divider>
-    <mat-form-field appearance="fill" class="margin-left-from-divider margin-right">
-      <mat-label>Dates</mat-label>
-      <input
-        matInput
-        placeholder="Check in Date - Check out Date"
-        formControlName="dates"
-      />
-      <mat-icon matPrefix style="color: var(--text-gray);">event</mat-icon>
+
+    <mat-form-field appearance="fill" class="margin-left-from-container margin-right">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker" formGroupName="dates">
+        <input matStartDate placeholder="Start date" formControlName="start">
+        <input matEndDate placeholder="End date" formControlName="end">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
+
     <mat-divider [vertical]="true" style="height:57px"></mat-divider>
     <mat-form-field appearance="fill" class="margin-left-from-divider margin-right">
       <mat-label>Number of guests</mat-label>
-      <input
-        matInput
-        placeholder="2 adults - 0 children"
-        formControlName="numberOfGuests"
-        type="number"
-      />
+      <input matInput placeholder="2 adults - 0 children" formControlName="numberOfGuests" type="number" />
       <mat-icon matPrefix style="color: var(--text-gray);">group</mat-icon>
     </mat-form-field>
-    <mat-divider [vertical]="true" style="height:57px"></mat-divider>
-    <mat-form-field appearance="fill" class="margin-left-from-divider margin-right">
-      <mat-label>Price</mat-label>
-      <input
-        matInput
-        placeholder="eg. 100"
-        formControlName="numberOfGuests"
-        type="number"
-      />
-      <mat-icon matPrefix style="color: var(--text-gray);">attach_money</mat-icon>
-    </mat-form-field>
-
-    <button mat-fab style="background-color:var(--green); color: var(--text-gray);">
+    <!-- <mat-divider [vertical]="true" style="height:57px"></mat-divider> -->
+    <div style="display: flex; flex-direction: column;" class="margin-left-from-container margin-right">
+      <mat-label style="text-align: center; margin-bottom: -10px;">Total price</mat-label>
+      <mat-slider class="custom-slider padding-right-slider" style="max-width: 200px;" [max]="50000" [min]="0"
+        [step]="10" [discrete]="true" formGroupName="price">
+        <input matSliderStartThumb formControlName="min">
+        <input matSliderEndThumb formControlName="max">
+      </mat-slider>
+      <mat-label style="text-align: center; margin-top: -10px;">{{searchForm.get('price.min')?.value}} -
+        {{searchForm.get('price.max')?.value}}</mat-label>
+    </div>
+    <div style="width: 25px"></div>
+    <button mat-fab style="background-color:var(--green); color: var(--text-gray);" (click)="onSearch()">
       <mat-icon style="transform: scale(1.5);">search</mat-icon>
     </button>
   </div>

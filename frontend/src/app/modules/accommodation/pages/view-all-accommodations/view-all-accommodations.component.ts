@@ -5,6 +5,7 @@ import {User} from "../../../shared/models/user/user";
 import {AccommodationService} from "../../services/accommodation.service";
 import {HotelCardResponse} from "../../../shared/models/hotel-card-response";
 import {ActivatedRoute} from "@angular/router";
+import { SearchService } from 'src/app/modules/auth/services/search.service';
 
 @Component({
   selector: 'app-all-accommodations-view',
@@ -21,7 +22,7 @@ export class ViewAllAccommodationsComponent implements OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private accommodationService: AccommodationService,
+    private searchService: SearchService,
     private route: ActivatedRoute
   ) {
     this.route.params.subscribe(params => {
@@ -42,8 +43,9 @@ export class ViewAllAccommodationsComponent implements OnDestroy {
   private getAccommodations(userId: string) {
     console.log("ca");
     console.log(userId);
-    this.accommodationService.getAccommodationsByUserId(userId).subscribe(
+    this.searchService.getAccommodationsByUserId(userId).subscribe(
       accommodations => {
+        console.log(accommodations);
         this.accommodations = accommodations;
       }
     )

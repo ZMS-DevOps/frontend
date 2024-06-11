@@ -71,7 +71,8 @@ export class AddAccommodationComponent implements OnInit, OnDestroy {
 
   save(){
     for (let file of this.files){
-      this.addAccommodationForm.get("photos").value.push(URL.createObjectURL(file))
+      this.addAccommodationForm.get("photos").value.push(file)
+      // this.addAccommodationForm.get("photos").value.push(URL.createObjectURL(file))
     }
     this.addAccommodationSubscription = this.accommodationService.addAccommodation(toAccommodationRequest(this.addAccommodationForm, this.loggedUser.sub, true)).pipe(
       tap(_ => {

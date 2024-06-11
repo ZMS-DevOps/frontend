@@ -16,7 +16,8 @@ export class AccommodationService {
     private configService: ConfigService,
   ) {}
 
-  addAccommodation(accommodationRequest: AccommodationRequest): Observable<null> {
+  addAccommodation(accommodationRequest: FormData): Observable<null> {
+    // addAccommodation(accommodationRequest: AccommodationRequest): Observable<null> {
     const accessToken = localStorage.getItem('access-token');
     return this.http.post<null>(
       this.configService.ACCOMMODATION_URL,
@@ -28,6 +29,7 @@ export class AccommodationService {
       }
     );
   }
+  
 
   getAccommodationById(id: string): Observable<AccommodationResponse> {
     const accessToken = localStorage.getItem('access-token');
@@ -65,7 +67,8 @@ export class AccommodationService {
     );
   }
 
-  updateAccommodation(accommodationId: string, accommodationUpdateRequest: AccommodationRequest): Observable<null> {
+  updateAccommodation(accommodationId: string, accommodationUpdateRequest: FormData): Observable<null> {
+    // updateAccommodation(accommodationId: string, accommodationUpdateRequest: AccommodationRequest): Observable<null> {
     const accessToken = localStorage.getItem('access-token');
     return this.http.put<null>(
       `${this.configService.ACCOMMODATION_URL}/${accommodationId}`,
