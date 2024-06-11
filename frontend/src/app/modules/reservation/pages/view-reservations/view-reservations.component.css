@@ -1,0 +1,81 @@
+.whole-container {
+  display: flex;
+  justify-content: center;
+}
+
+.text-container {
+  width: 70rem;
+  max-width: 70rem;
+  height: 42rem;
+  border-radius: 20px;
+  margin-top: 4.5rem;
+}
+
+.form-container {
+  border-radius: 20px;
+  background-color: var(--light-gray);
+  padding: 2rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  height: 100%;
+}
+
+.upper-div{
+  height: 10.8rem;
+  background-color: var(--green);
+}
+
+.down-div{
+  background-color: var(--light-gray);
+}
+
+h2{
+  margin:0;
+  font-weight: bold;
+  font-size: 27px;
+}
+
+::ng-deep .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  color: var(--green) !important;
+}
+
+::ng-deep .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+  border-color: var(--green) !important;
+}
+
+::ng-deep .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+  flex-grow: 0 !important;
+  padding-left: 10rem;
+  padding-right: 10rem;
+}
+
+::ng-deep .mat-mdc-tab-header-pagination-controls-enabled .mat-mdc-tab-header-pagination {
+  display: none !important;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  color: var(--green);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-icon {
+  transform: scale(1.2);
+  color: var(--green);
+  margin-right: 0.1rem;
+  margin-left: 1rem;
+}
+
+.reservation-card {
+  border-radius: 10px;
+  border: 2px solid var(--deep-gray);
+  margin: 0.5rem;
+  padding: 0.8rem;
+}

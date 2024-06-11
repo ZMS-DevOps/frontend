@@ -1,0 +1,149 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="row-direction-div upper-div whole-container">
+    <div class="text-container">
+      <h2 *ngIf="userIsGuest" style="margin: 0 0 0.3rem;font-weight: bold; font-size: 27px;">Reservation Calendar</h2>
+      <h2 *ngIf="userIsHost" style="margin: 0 0 0.3rem;font-weight: bold; font-size: 27px;">Reservation and Unavailability Calendar</h2>
+      <div class="form-container">
+        <form class="whole-container" style="display:flex; justify-content: space-between">
+        <div class="margin-left col-direction-div" style="margin-right: 2rem">
+          <mat-expansion-panel *ngIf="userIsHost && !accommodationId" [expanded]="openedExpansionPanel" (closed)="setVisibilityOfExpansionPanel()" style="background-color: var(--light-gray)">
+            <mat-expansion-panel-header >
+              <mat-panel-title style="font-size: 20px; font-weight: bold; color: black">
+                Accommodation
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div *ngFor="let name of accommodationNamesArray; let i=index">
+              <mat-checkbox [checked]="showAllPeriods[i]" (change)="setCheckedForViewPeriod(name, i, $event.checked)">
+                {{name}}
+              </mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+        </div>
+
+        <div class="control-section">
+          <div class="content-wrapper">
+
+            <ejs-schedule cssClass='schedule-resource custom-event-height custom-hide-start-time' #schedule width='100%' height='650px'
+                          [(selectedDate)]="selectedDate"
+                          [eventSettings]="eventSettings"
+                          (cellClick)="onCellClick($event)"
+                          (renderCell)="onRenderCell($event)"
+                          (actionBegin)="onActionBegin($event)"
+                          (actionComplete)="onActionComplete($event)"
+                          (created)="onCreated($event)"
+                          (eventClick)="onEventClick($event)"
+
+            >
+              <e-resources>
+                <e-resource field='Id' [dataSource]='resourceDataSource' idField='Id' colorField='Color'></e-resource>
+              </e-resources>
+              <e-views>
+                <e-view option="Month"></e-view>
+              </e-views>
+            </ejs-schedule>
+
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="custom-dialog" class="custom-dialog" #customDialog>
+  <div class="custom-dialog-content">
+    <div *ngIf="dialogData.EventType === 0">
+      <div class="row-direction-div" style="display: flex; justify-content: space-between; margin-bottom: 0.7rem;">
+        <div class="pending-header">
+          <mat-icon class="material-symbols-outlined pending-icon">update</mat-icon>
+          PENDING
+        </div>
+        <mat-icon (click)="onCloseEventDetailDialog()" style="display: flex; float:right" matTooltip="Close">close</mat-icon>
+      </div>
+
+      <div style="display: inline-flex; align-items: center;">
+        <h1 style="margin: 0;">{{ dialogData.Subject }}</h1>
+        <mat-icon (click)="goToAccommodationView(dialogData.AccommodationId)" matTooltip="See accommodation details" class="material-symbols-outlined pending-info-icon">info</mat-icon>
+      </div>
+    </div>
+
+    <div *ngIf="dialogData.EventType === 1">
+      <div class="row-direction-div" style="display: flex; justify-content: space-between; margin-bottom: 0.7rem;">
+        <div class="accepted-header">
+          <mat-icon class="material-symbols-outlined accepted-icon">task_alt</mat-icon>
+          ACCEPTED
+        </div>
+        <mat-icon (click)="onCloseEventDetailDialog()" style="display: flex; float:right" matTooltip="Close">close</mat-icon>
+      </div>
+
+      <div style="display: inline-flex; align-items: center;">
+        <h1 style="margin: 0;">{{ dialogData.Subject }}</h1>
+        <mat-icon (click)="goToAccommodationView(dialogData.AccommodationId)" matTooltip="See accommodation details" class="material-symbols-outlined" style="color: var(--green); margin-left: 8px;">info</mat-icon>
+      </div>
+    </div>
+
+    <div *ngIf="dialogData.EventType >= 2">
+      <mat-icon (click)="onCloseEventDetailDialog()" style="display: flex; float:right" matTooltip="Close">close</mat-icon>
+      <div style="display: inline-flex; align-items: center;">
+        <h1 style="margin: 0;">{{ dialogData.Subject }}</h1>
+        <mat-icon (click)="goToAccommodationView(dialogData.AccommodationId)" matTooltip="See accommodation details" class="material-symbols-outlined" style="color: var(--green); margin-left: 8px;">info</mat-icon>
+      </div>
+    </div>
+
+    <div class="sub-dialog-container" *ngIf="dialogData.EventType === 0 || dialogData.EventType === 1">
+      <div class="row-direction-div" style="display: flex; justify-content: space-between">
+        <p>Check In</p>
+        <p>{{ dialogData.StartTime | dateFormat}}</p>
+      </div>
+
+      <div class="row-direction-div" style="display: flex; justify-content: space-between">
+        <p>Check Out</p>
+        <p>{{ dialogData.EndTime | dateFormat}}</p>
+      </div>
+
+      <div class="row-direction-div" style="display: flex; justify-content: space-between">
+        <p>Guests</p>
+        <p>{{ dialogData.NumOfGuests}} people</p>
+      </div>
+    </div>
+    <div class="sub-dialog-container" *ngIf="dialogData.EventType >= 2">
+      <div class="row-direction-div" style="display: flex; justify-content: space-between">
+        <p>Start Time</p>
+        <p>{{ dialogData.StartTime | dateFormat}}</p>
+      </div>
+      <div class="row-direction-div" style="display: flex; justify-content: space-between">
+        <p>End Time</p>
+        <p>{{ dialogData.EndTime | dateFormat}}</p>
+      </div>
+    </div>
+
+    <div *ngIf="dialogData.EventType === 0" class="row-direction-div" style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+      <p *ngIf="userIsGuest"></p>
+      <button (click)="declineReservationRequest(dialogData.PeriodId)" mat-button class="dialog-container-button">
+        Decline
+      </button>
+      <button (click)="confirmReservation(dialogData.PeriodId)" *ngIf="userIsHost" mat-button class="dialog-container-button confirm-button">
+        Confirm
+      </button>
+    </div>
+
+    <div *ngIf="dialogData.EventType === 1" class="row-direction-div" style="display: flex; justify-content: space-between">
+      <p></p>
+      <button (click)="declineAcceptedReservationByGuest(dialogData.PeriodId)" mat-button *ngIf="userIsGuest" class="dialog-container-button">
+        Cancel
+      </button>
+    </div>
+
+    <div *ngIf="dialogData.EventType >= 2" style="display: flex; float:right; margin-bottom: 0.9rem;">
+      <button (click)="deletePeriod(dialogData.PeriodId)" mat-button class="dialog-container-button confirm-button">
+        Delete
+      </button>
+    </div>
+
+    <div *ngIf="userIsHost && dialogData.EventType < 2">
+      <p style="color: var(--text-gray)"><b>* <a style="color: var(--text-gray)" [routerLink]="getRedirectUserProfileUrl(dialogData.UserId)"
+                                         routerLinkActive="active">Guest</a></b> has <b>{{dialogData.NumOfCanceledReservations}}</b> canceled reservations.</p>
+    </div>
+  </div>
+</div>
