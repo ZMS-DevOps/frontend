@@ -16,6 +16,11 @@ export const routes: Routes = [
             import("./../auth/auth.module").then((m) => m.AuthModule),
       },
       {
+        path: "accommodation",
+        loadChildren: () =>
+          import("./../accommodation/accommodation.module").then((m) => m.AccommodationModule),
+      },
+      {
         path: "",
         loadChildren: () =>
           import("./../shared/shared.module").then((m) => m.SharedModule),
@@ -23,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: "",
-    redirectTo: "/booking/auth/login",
+    redirectTo: "/booking/home-page",
     pathMatch: "full",
   },
   { path: "**", component: NotFoundPageComponent }

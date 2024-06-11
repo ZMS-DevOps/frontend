@@ -1,4 +1,4 @@
-export interface ReviewResponse {
+export interface ReviewReportResponse {
   totalReviews: number;
   averageRating: number;
   numberOfStars:
@@ -15,5 +15,12 @@ export interface SingleReview {
   grade: number;
   subReviewer: string;
   fullName: string;
-  dateOfCreation: Date
+  dateOfModification: Date
+}
+
+export interface UpdateSingleReview {
+  id: string;
+  comment: string;
+  grade: number;
+  oldGrade: number;
 }

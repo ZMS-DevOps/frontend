@@ -64,3 +64,100 @@ a.actions {
   margin-left: -0.2rem;
   transform: scale(0.9);
 }
+
+::ng-deep .mdc-switch:disabled .mdc-switch__shadow {
+  background-color: var(--deep-gray) !important;
+}
+
+::ng-deep .mat-mdc-slide-toggle.mat-accent {
+   --mdc-switch-selected-focus-state-layer-color: var(--green);
+   --mdc-switch-selected-handle-color: var(--green);
+   --mdc-switch-selected-hover-state-layer-color: var(--green);
+   --mdc-switch-selected-pressed-state-layer-color: var(--green);
+   --mdc-switch-selected-focus-handle-color: var(--green);
+   --mdc-switch-selected-hover-handle-color: var(--green);
+   --mdc-switch-selected-pressed-handle-color: var(--green);
+   --mdc-switch-selected-focus-track-color: rgba(113, 175, 145, 0.37);
+   --mdc-switch-selected-hover-track-color: rgba(113, 175, 145, 0.37);
+   --mdc-switch-selected-pressed-track-color: rgba(113, 175, 145, 0.37);
+   --mdc-switch-selected-track-color: rgba(113, 175, 145, 0.37);
+}
+
+::ng-deep .mat-mdc-slide-toggle {
+  --mdc-switch-disabled-selected-handle-color: #424242;
+  --mdc-switch-disabled-unselected-handle-color: #424242;
+  --mdc-switch-disabled-selected-track-color: #424242;
+  --mdc-switch-disabled-unselected-track-color: #424242;
+  --mdc-switch-unselected-focus-state-layer-color: #424242;
+  --mdc-switch-unselected-pressed-state-layer-color: #424242;
+  --mdc-switch-unselected-hover-state-layer-color: #424242;
+  --mdc-switch-unselected-focus-track-color: #e0e0e0;
+  --mdc-switch-unselected-hover-track-color: #e0e0e0;
+  --mdc-switch-unselected-pressed-track-color: #e0e0e0;
+  --mdc-switch-unselected-track-color: #e0e0e0;
+  --mdc-switch-unselected-focus-handle-color: var(--text-gray);
+  --mdc-switch-unselected-hover-handle-color: var(--text-gray);
+  --mdc-switch-unselected-pressed-handle-color: var(--text-gray);
+  --mdc-switch-handle-surface-color: var(--white);
+  --mdc-switch-unselected-handle-color: #616161;
+  --mdc-switch-selected-icon-color: #fff;
+  --mdc-switch-disabled-selected-icon-color: #fff;
+  --mdc-switch-disabled-unselected-icon-color: #fff;
+  --mdc-switch-unselected-icon-color: #fff;
+}
+
+.bell-icon {
+  margin-right: 1rem;
+  position: relative;
+}
+
+.bell-icon mat-icon {
+  margin-top: 0.5rem;
+  transform: scale(1.2);
+}
+
+
+.badge {
+  box-sizing: border-box;
+  position: absolute;
+  min-width: 1.1rem;
+  min-height: 1.1rem;
+  max-width: 1.2rem;
+  max-height: 1.2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 0.125rem;
+  border-radius: 1rem;
+
+  top: 0.1rem;
+  left: 0.8rem;
+  background: var(--green);
+  color: black;
+}
+
+.badge span {
+  position: relative;
+  top: -0.47rem;
+}
+
+.notification-content {
+  padding: 0.2rem;
+  min-height: 2rem;
+  color: black;
+}
+
+::ng-deep .bell-notifications-menu {
+  max-height: 18rem !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.notification-row {
+  border-radius: 0.4rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.notification-row:hover {
+  background-color: #f5f5f5;
+}

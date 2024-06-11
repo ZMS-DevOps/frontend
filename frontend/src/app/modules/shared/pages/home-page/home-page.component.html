@@ -12,7 +12,7 @@
     <div class="row-direction-div hotels-container">
       <p-carousel [style]="{'width': '23%'}" *ngIf="topHotels?.length > 0; else noHotels" [value]="topHotels" [circular]="true"  [numVisible]="3" [numScroll]="1" >
         <ng-template let-hotel pTemplate="item">
-          <app-accommodation-view [hotel]="hotel" [getPriceTypeText]="getPriceTypeText"></app-accommodation-view>
+          <app-accommodation-card [hotel]="hotel" [getPriceTypeText]="getPriceTypeText"></app-accommodation-card>
         </ng-template>
       </p-carousel>
 

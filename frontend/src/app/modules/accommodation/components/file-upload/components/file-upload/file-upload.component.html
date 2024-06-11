@@ -1,0 +1,166 @@
+<app-file-upload-zone
+  [fileInputRef]="_fileInputRef"
+  (fileChange)="_onFileChange($event)"
+></app-file-upload-zone>
+<ng-content select="app-file-upload-caption"></ng-content>
+<ng-container *ngIf="statusBar">
+  <ng-container *ngIf="_uploadState$ | async as _uploadState">
+    <app-file-upload-item
+      *ngIf="_uploadState?.uploadItems.length === 1"
+      [label]="_uploadState?.uploadItems[0].fileName"
+      [progress]="_uploadState?.uploadItems[0].progress"
+      [error]="_uploadState?.uploadItems[0].error"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          _customUploadItemActionTemplate || defaultUploadItemActionTemplate;
+          context: { $implicit: _uploadState?.uploadItems[0] }
+        "
+      >
+      </ng-container>
+    </app-file-upload-item>
+
+    <app-file-upload-status-bar
+      *ngIf="_uploadState?.uploadItems.length > 1"
+      [uploaded]="_uploadState?.completeUploads.length"
+      [inProgress]="_uploadState?.activeUploads.length"
+      [totalProgress]="_uploadState?.totalProgress"
+      [failed]="_uploadState?.failedUploads.length"
+    >
+      <button mat-button style="color:var(--green)" (click)="_onView()">Details</button>
+    </app-file-upload-status-bar>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="!statusBar">
+  <ng-container *ngIf="_uploadState$ | async as _uploadState">
+    <!-- Single file uploaded -->
+    <app-file-upload-item
+      *ngIf="_uploadState?.completeUploads.length === 1"
+      [label]="_uploadState.completeUploads[0].fileName"
+      [progress]="_uploadState.completeUploads[0].progress"
+      @fadeInOutTrigger
+    >
+      <ng-container *ngIf="_uploadState.uploadItems.length === 1">
+        <ng-container
+          *ngTemplateOutlet="
+            _customUploadItemActionTemplate || defaultUploadItemActionTemplate;
+            context: { $implicit: _uploadState?.completeUploads[0] }
+          "
+        >
+        </ng-container>
+      </ng-container>
+      <button
+        *ngIf="_uploadState?.uploadItems.length > 1"
+        mat-button
+        style="color: var(--green)"
+        (click)="_onView()"
+      >
+        View
+      </button>
+    </app-file-upload-item>
+
+    <!-- Multiple files uploaded -->
+    <app-file-upload-item
+      *ngIf="_uploadState?.completeUploads.length > 1"
+      [label]="_uploadState?.completeUploads.length + ' files uploaded'"
+      [progress]="1"
+      @fadeInOutTrigger
+    >
+      <button mat-button style="color: var(--green)" (click)="_onView()">View</button>
+    </app-file-upload-item>
+
+    <!-- Single file uploading -->
+    <app-file-upload-item
+      *ngIf="_uploadState?.activeUploads.length === 1"
+      [label]="_uploadState.activeUploads[0].fileName"
+      [progress]="_uploadState.activeUploads[0].progress"
+      @fadeInOutTrigger
+    >
+      <ng-container *ngIf="_uploadState.uploadItems.length === 1">
+        <ng-container
+          *ngTemplateOutlet="
+            _customUploadItemActionTemplate || defaultUploadItemActionTemplate;
+            context: { $implicit: _uploadState?.activeUploads[0] }
+          "
+        >
+        </ng-container>
+      </ng-container>
+    </app-file-upload-item>
+
+    <!-- Multiple files uploading -->
+    <app-file-upload-item
+      *ngIf="_uploadState?.activeUploads.length > 1"
+      [label]="_uploadState?.activeUploads.length + ' files uploading'"
+      [progress]="_uploadState?.totalProgress"
+      @fadeInOutTrigger
+    >
+      <button
+        *ngIf="!_uploadState?.completeUploads.length"
+        mat-button
+        style="color: var(--green)"
+        (click)="_onView()"
+      >
+        View
+      </button>
+    </app-file-upload-item>
+
+    <!-- Single file failed to upload -->
+    <app-file-upload-item
+      *ngIf="_uploadState?.failedUploads.length === 1"
+      [label]="_uploadState.failedUploads[0].fileName"
+      [error]="_uploadState.failedUploads[0].error"
+      @fadeInOutTrigger
+    >
+      <ng-container *ngIf="_uploadState.uploadItems.length === 1">
+        <ng-container
+          *ngTemplateOutlet="
+            _customUploadItemActionTemplate || defaultUploadItemActionTemplate;
+            context: { $implicit: _uploadState?.failedUploads[0] }
+          "
+        >
+        </ng-container>
+      </ng-container>
+    </app-file-upload-item>
+
+    <!-- Multiple files failed to upload -->
+    <app-file-upload-item
+      *ngIf="_uploadState?.failedUploads?.length > 1"
+      [error]="_uploadState?.failedUploads.length + ' files failed to upload'"
+      @fadeInOutTrigger
+    >
+      <button
+        *ngIf="
+          _uploadState?.uploadItems.length ===
+          _uploadState?.failedUploads.length
+        "
+        mat-button
+        style="color: var(--green)"
+        (click)="_onView()"
+      >
+        View
+      </button>
+    </app-file-upload-item>
+  </ng-container>
+</ng-container>
+
+<ng-template #defaultUploadItemActionTemplate let-uploadItem>
+  <button
+    *ngIf="uploadItem?.progress !== 1 && !uploadItem?.error"
+    mat-button
+    style="color: var(--green)"
+    (click)="uploadItem?.cancel()"
+  >
+    Cancel
+  </button>
+  <button
+    *ngIf="uploadItem.progress === 1"
+    mat-button
+    style="color: var(--green)"
+    (click)="uploadItem?.delete()"
+  >
+    Delete
+  </button>
+  <button *ngIf="uploadItem?.error" mat-button (click)="uploadItem?.retry()">
+    Retry
+  </button>
+</ng-template>

@@ -1,0 +1,59 @@
+.whole-accommodation-container {
+  margin: 1rem 10rem;
+}
+
+a.host-profile {
+  text-decoration: underline;
+  text-decoration-color: var(--green);
+  color: var(--green);
+  font-size: 16px;
+}
+
+.rounded-text-container {
+  color: var(--text-gray);
+  border-radius: 10px;
+  border: 1px solid var(--green);
+  width: 142px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 0.5rem;
+  font-size: 16px;
+}
+
+.review-container {
+  width: 55%;
+  max-width: 55%;
+  border-radius: 20px;
+  margin-left: 2rem;
+  float: right;
+  position: absolute;
+  right: 6em;
+}
+
+h1 {
+  color: var(--text-gray);
+  font-weight: bold;
+  margin: 0.3rem 0 0;
+}
+
+.card-span {
+  color: var(--green);
+  font-size: 16px;
+}
+
+::ng-deep .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  color: var(--green) !important;
+}
+
+::ng-deep
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+  border-color: var(--green) !important;
+}
+
+::ng-deep .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+  flex-grow: 0 !important;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}

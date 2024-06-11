@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup } from "@angular/forms";
-import { HotelResponse } from "../../models/hotel-response";
 import { SearchService } from '../../../auth/services/search.service';
 import { SearchRequest } from '../../models/search/search-request';
 import { SearchResponse } from '../../models/search/search-response';
+import { HotelCardResponse } from "../../models/hotel-card-response";
 
 @Component({
   selector: 'app-home-page',
@@ -15,7 +15,7 @@ import { SearchResponse } from '../../models/search/search-response';
 export class HomePageComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   authSubscription: Subscription;
-  topHotels: HotelResponse[];
+  topHotels: HotelCardResponse[];
   //TODO: FROM home page call searchService (not from search component)
 
   constructor(
@@ -38,7 +38,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.searchService.search(searchRequest).subscribe({
       next: searchResponse => {
         console.log(searchResponse);
-        // this.topHotels = searchResponse
+        // this.topHotels = searchResponse // todo add
       },
       error: err => {
         console.error(err);
@@ -47,76 +47,94 @@ export class HomePageComponent implements OnInit, OnDestroy {
     })
     this.topHotels = [
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 2",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 3",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 4",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 5",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 6",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 7",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 8",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
       {
+        id: "23",
         rating: 2,
         name: "Villa Stone 9",
-        address: "Beograd",
-        price: 299,
-        priceType: "perPerson",
-        images: ["menuet.jpg"]
+        location: "Beograd",
+        unit_price: 299,
+        total_price: 300,
+        price_type: "perPerson",
+        main_photo: "menuet.jpg"
       },
     ]
   }
@@ -154,7 +172,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     let newDate = new Date(date);
     newDate.setDate(newDate.getDate() + 1);
     return newDate;
-  } 
+  }
 
   ngOnDestroy(): void {
     if (this.authSubscription) {
@@ -178,6 +196,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   getPriceTypeText(priceType: string) {
-    return priceType === "perNight" ? "per night" : "per person";
+    return priceType === "PerGuest" ? "per person" : "per apartment unit";
   }
 }

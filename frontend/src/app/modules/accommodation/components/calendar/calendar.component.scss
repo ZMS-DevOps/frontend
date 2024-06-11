@@ -1,0 +1,133 @@
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background: none;
+}
+
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+td.disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+::ng-deep td.disabled {
+  pointer-events: none;
+}
+
+
+::ng-deep .md-drppicker td.active, .md-drppicker td.active:hover {
+  background-color: var(--green) !important;
+  border-radius: 0 !important;
+}
+
+::ng-deep .md-drppicker:hover {
+  border-radius: 0 !important;
+}
+
+::ng-deep .md-drppicker td {
+  border-radius: 0 !important;
+}
+
+::ng-deep .md-drppicker td.in-range {
+  background-color: var(--green) !important;
+}
+
+.search-bar-mobile-container_container {
+  background: #55504b;
+}
+
+
+.datepicker-calendar-icon {
+  padding-right: 2rem; /* Adjust padding to make space for the icon */
+  background-size: 1.5rem; /* Adjust size of the icon */
+}
+
+::ng-deep .md-drppicker th {
+  color: var(--text-gray) !important;
+}
+
+::ng-deep .md-drppicker {
+  z-index: 9999999 !important;
+  overflow: auto !important;
+  overflow-y: visible !important;
+}
+
+::ng-deep ngx-daterangepicker-material {
+  z-index: 999999 !important;
+  overflow: auto !important;
+  overflow-y: visible !important;
+}
+
+::ng-deep .md-drppicker td.off, .md-drppicker td.off.in-range, .md-drppicker td.off.start-date, .md-drppicker td.off.end-date {
+  color: transparent !important;
+}
+
+::ng-deep .md-drppicker.drops-down-right.ltr.shown.double.show-ranges {
+  position: fixed !important;
+}
+
+::ng-deep .md-drppicker.shown.drops-down-center.ltr.double.shown {
+  margin-top: 1rem !important;
+  margin-left: 11.5rem !important;
+  width: 48.5rem !important;
+}
+
+::ng-deep .md-drppicker th.month {
+  font-size: 18px !important;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@media (min-width: 700px) {
+  ::ng-deep .md-drppicker.ltr .calendar.right {
+    margin-left: 6.5rem !important;
+  }
+}
+
+::ng-deep .md-drppicker .calendar th, .md-drppicker .calendar td {
+  min-width: 48px !important;
+}
+
+
+.custom-mat-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.3rem;
+  border-bottom: 1.1px solid rgba(0, 0, 0, 0.55);
+  border-radius: 4px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.custom-mat-input-container:hover {
+  border-color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 10px 10px 0 0;
+}
+
+.custom-mat-input-container:focus-within {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.55);
+  border-color: #3f51b5;
+}
+
+.custom-mat-input {
+  width: 20rem;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.custom-mat-input::placeholder {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1rem;
+  font-weight: 400;
+}

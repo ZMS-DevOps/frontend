@@ -1,0 +1,23 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="row-direction-div upper-div whole-container">
+    <div class="text-container">
+      <div class="form-container">
+        <div class="whole-container">
+          <p-carousel *ngIf="accommodations.length > 0 else noAccommodations" [value]="accommodations" [circular]="true"  [numVisible]="2" [numScroll]="1" >
+            <ng-template let-hotel pTemplate="item">
+              <app-accommodation-card [hotel]="hotel"></app-accommodation-card>
+            </ng-template>
+          </p-carousel>
+
+          <ng-template #noAccommodations>
+            <div style="text-align: center; justify-content: center;align-items: center; display: flex">
+              <img src="assets/images/not-found.png"/>
+              <p style="font-size: 21px; margin: 0.5rem; color: var(--text-gray)" *ngIf="loggedUser.sub !== userId">User doesn't have any accommodation yet.</p>
+              <p style="font-size: 21px; margin: 0.5rem; color: var(--text-gray)" *ngIf="loggedUser.sub === userId">You still don't have any accommodation.</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

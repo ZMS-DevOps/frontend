@@ -1,0 +1,52 @@
+<div style="padding-top:1rem; display:flex">
+  <div class="col-direction-div">
+    <span class="card-span">Number of guests</span>
+    <div class="row-direction-div">
+      <div class="rounded-text-container margin-right">
+        <span class="material-symbols-outlined"
+              style="vertical-align: bottom; transform: scale(0.9); margin-right: 0.1rem">person</span>
+        Min: {{ accommodation.guest_number.min }}
+      </div>
+      <div class="rounded-text-container margin-left">
+        <span class="material-symbols-outlined"
+              style="vertical-align: bottom; transform: scale(0.9); margin-right: 0.1rem">group</span>
+        Max: {{ accommodation.guest_number.max }}
+      </div>
+    </div>
+
+    <span class="card-span margin-top">Accommodation features</span>
+    <div *ngFor="let benefit of groupedBenefits;" class="col-direction-div">
+      <div class="row-direction-div">
+        <div class="rounded-text-container margin-right">
+                <span class="material-symbols-outlined"
+                      style="vertical-align: bottom; transform: scale(0.9); margin-right: 0.1rem">
+                  {{ getIcon(benefit.at(0)) }}
+                </span>
+          {{ benefit.at(0) }}
+        </div>
+        <div class="rounded-text-container margin-left margin-right" *ngIf="benefit.length > 1 && benefit.at(1)">
+                <span class="material-symbols-outlined"
+                      style="vertical-align: bottom; transform: scale(0.9); margin-right: 0.1rem">
+                   {{ getIcon(benefit.at(1)) }}
+                </span>
+          {{ benefit.at(1) }}
+        </div>
+        <div class="rounded-text-container margin-left" *ngIf="benefit.length > 2 && benefit.at(2)">
+                <span class="material-symbols-outlined"
+                      style="vertical-align: bottom; transform: scale(0.9); margin-right: 0.1rem">
+                   {{ getIcon(benefit.at(2)) }}
+                </span>
+          {{ benefit.at(2) }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="groupedBenefits.length === 0" style="margin-left: 1rem; margin-top: 1rem; color: var(--text-gray)">
+      No accommodation features
+    </div>
+  </div>
+
+  <div class="review-container" *ngIf="reviewReportResponse">
+    <app-review-report [reviewReportResponse]="reviewReportResponse" [loggedUser]="loggedUser"
+                       [userIsGuest]="userIsGuest" [userId]="loggedUser.sub" [reviewType]="1"></app-review-report>
+  </div>
+</div>

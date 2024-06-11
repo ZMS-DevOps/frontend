@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {User} from "../../../shared/models/user/user";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {DeleteDialogComponent} from "../delete-user-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../../shared/components/delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'app-user-details',
@@ -13,6 +13,7 @@ export class UserDetailsComponent{
   @Input() user: User;
   @Input() loggedUserId: string;
   @Output() deletingUserEvent = new EventEmitter<null>();
+  @Input() userIsGuest: boolean;
 
   constructor(private router: Router, private dialog: MatDialog) {}
 
@@ -37,5 +38,9 @@ export class UserDetailsComponent{
 
   deleteUser() {
     this.deletingUserEvent.emit();
+  }
+
+  getAccommodationViewUrl() {
+    return `/booking/accommodation/view/${this.user.sub}`;
   }
 }

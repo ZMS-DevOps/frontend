@@ -1,13 +1,13 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {ConfigService} from "../../shared/services/config-service/config.service";
-import {LoginRequest} from "../../shared/models/user/login-request";
-import {LoginResponse} from "../../shared/models/user/login-response";
-import {User, UserResponse} from "../../shared/models/user/user";
+import {ConfigService} from "./config-service/config.service";
+import {LoginRequest} from "../models/user/login-request";
+import {LoginResponse} from "../models/user/login-response";
+import {User, UserResponse} from "../models/user/user";
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {UserProfileRequest} from "../../shared/models/user/user-profile-update";
-import {RegistrationResponse} from "../../shared/models/user/registration-response";
+import {UserProfileRequest} from "../models/user/user-profile-update";
+import {RegistrationResponse} from "../models/user/registration-response";
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class AuthService {
   ) {
     this.currentUser$ = new BehaviorSubject<User>(null);
     this.ROLE_HOST= 'host';
-    this.ROLE_GUEST = 'quest';
+    this.ROLE_GUEST = 'guest';
   }
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
@@ -82,16 +82,17 @@ export class AuthService {
   }
 
   isUserHost(user: User): boolean {
-    return user?.roles?.some(role => role === this.ROLE_HOST);
+    return user?.roles?.some(role => role.toLowerCase() === this.ROLE_HOST);
   }
 
   isUserGuest(user: User): boolean {
-    return user?.roles?.some(role => role === this.ROLE_GUEST);
+    return user?.roles?.some(role => role.toLowerCase() === this.ROLE_GUEST);
   }
 
   logOut() {
     localStorage.clear();
     this.currentUser$.next(null);
+    window.location.reload();
   }
 
   getLoggedParsedUser(): User {

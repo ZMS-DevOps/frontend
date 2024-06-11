@@ -1,8 +1,8 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {DeleteDialogComponent} from "../delete-user-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../../shared/components/delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {SingleReview} from "../../../shared/models/review-response";
+import {SingleReview, UpdateSingleReview} from "../../../shared/models/review-report-response";
 import {NgxStarsComponent} from "ngx-stars";
 
 @Component({
@@ -15,8 +15,9 @@ export class ReviewComponent implements OnInit{
   @ViewChild(NgxStarsComponent) ratingComponent: NgxStarsComponent;
   @Input() review: SingleReview;
   @Input() loggedUserId: string;
+  @Input() userIsGuest!: boolean;
   @Output() deletingReviewEvent = new EventEmitter<null>();
-  @Output() updatingReviewEvent = new EventEmitter<SingleReview>();
+  @Output() updatingReviewEvent = new EventEmitter<UpdateSingleReview>();
   reviewFormGroup: FormGroup;
   readOnly = true;
   updatingGrade: number;
@@ -52,7 +53,7 @@ export class ReviewComponent implements OnInit{
     grade: number;
     subReviewer: string;
     fullName: string;
-    dateOfCreation: Date
+    dateOfModification: Date
   }) {
     return new FormGroup({
       comment: new FormControl(review.comment, [
@@ -70,10 +71,14 @@ export class ReviewComponent implements OnInit{
   }
 
   saveChangedReview() {
-    this.review.grade = this.updatingGrade;
-    this.review.comment = this.reviewFormGroup.get('comment').value;
-    this.review.dateOfCreation = new Date();
-    this.updatingReviewEvent.emit(this.review);
+    const updateReview: UpdateSingleReview = {
+      id: this.review.id,
+      comment: this.reviewFormGroup.get('comment').value,
+      grade: this.updatingGrade,
+      oldGrade: this.review.grade,
+    }
+    this.updatingReviewEvent.emit(updateReview);
+    this.readOnly = true;
   }
 
   onRatingSet(rate: number) {

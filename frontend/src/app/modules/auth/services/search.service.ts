@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ConfigService } from "../../shared/services/config-service/config.service";
 import { SearchRequest } from '../../shared/models/search/search-request';
 import { SearchResponse } from '../../shared/models/search/search-response';
+import { HotelCardResponse } from '../../shared/models/hotel-card-response';
 
 @Injectable({
     providedIn: 'root',
@@ -16,19 +17,24 @@ export class SearchService {
     ) {
     }
 
-    search(searchRequest: SearchRequest): Observable<SearchResponse[]> {
+    search(searchRequest: SearchRequest): Observable<HotelCardResponse[]> {
         const accessToken = localStorage.getItem('access-token');
-        return this.http.post<SearchResponse[]>(
+        return this.http.post<HotelCardResponse[]>(
             this.configService.SEARCH_URL,
             searchRequest
         );
     }
 
-    // searchAll() {
-    //     return this.http.get<SearchResponse>(
-    //         this.configService.SEARCH_URL,
-    //         searchRequest
-    //     );
-    // }
+    getAccommodationsByUserId(userId: string) {
+        const accessToken = localStorage.getItem('access-token');
+        return this.http.get<HotelCardResponse[]>(
+          `${this.configService.ACCOMMODATION_URL}/host/${userId}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
+          }
+        );
+      }
 
 }

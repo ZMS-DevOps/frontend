@@ -1,0 +1,16 @@
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <h1 mat-dialog-title>Event Details</h1>
+    <div mat-dialog-content>
+      <p>Start Date: {{ data.startDate | date }}</p>
+      <p>End Date: {{ data.endDate | date }}</p>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>Close</button>
+    </div>
+    <div class="modal-footer">
+      <button class="cancel-btn margin-right" (click)="cancel()">Cancel</button>
+      <button class="delete-btn" (click)="confirm()">Delete</button>
+    </div>
+  </div>
+</div>

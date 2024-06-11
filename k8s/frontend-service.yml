@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: angular-app
-          image: devopszms2024/zms-devops-angular-app:latest
+          image: devopszms2024/zms-devops-angular-app:3.20.5
           imagePullPolicy: Always
           ports:
             - containerPort: 80

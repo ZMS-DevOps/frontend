@@ -14,6 +14,10 @@ import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {CustomMaterialModuleModule} from "../../custom-material-module/custom-material-module.module";
 import {ToastrModule} from "ngx-toastr";
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+import {NgxDaterangepickerMd} from "ngx-daterangepicker-material";
+import {CalendarDateFormatter, CalendarModule, CalendarMomentDateFormatter, DateAdapter} from "angular-calendar";
+import {SharedModule} from "../shared/shared.module";
+
 
 @NgModule({
   declarations: [
@@ -22,24 +26,26 @@ import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
     NotFoundPageComponent,
     NavBarComponent
   ],
-  imports: [
-    BrowserAnimationsModule,
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    RouterModule.forRoot(routes),
-    HttpClientModule,
-    NgOptimizedImage,
-    CustomMaterialModuleModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-bottom-left',
-      preventDuplicates: true,
-      closeButton: true,
-    }),
-  ],
+    imports: [
+        BrowserAnimationsModule,
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        RouterModule.forRoot(routes),
+        HttpClientModule,
+        NgOptimizedImage,
+        CustomMaterialModuleModule,
+        ToastrModule.forRoot({
+            positionClass: 'toast-bottom-left',
+            preventDuplicates: true,
+            closeButton: true,
+        }),
+        NgxDaterangepickerMd.forRoot(),
+        SharedModule,
+    ],
   bootstrap: [AppComponent],
   exports: [RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {catchError, Subscription, tap} from 'rxjs';
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from "../../../shared/services/auth.service";
 import { ErrorStateMatcher } from '@angular/material/core';
 import { matchPasswordsValidator } from './confirm-password.validator';
 import {ToastrService} from "ngx-toastr";
