@@ -5,5 +5,5 @@ export interface BellNotification {
   seen: boolean;
   shouldRedirect: boolean;
   redirectId?: string;
-  userId: number;
+  userId: string;
 }

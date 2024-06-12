@@ -7,9 +7,10 @@ export interface ReviewRequest {
   subReviewed: string;
   reviewerFullName: string;
   reviewType: number;
+  hostId: string;
 }
 
-export function toReviewRequest(userId: string, loggedUser: User, grade: number, comment: string, reviewType: number): ReviewRequest {
+export function toReviewRequest(userId: string, loggedUser: User, grade: number, comment: string, reviewType: number, hostId: string): ReviewRequest {
   return {
     comment: comment,
     grade: grade,
@@ -17,5 +18,6 @@ export function toReviewRequest(userId: string, loggedUser: User, grade: number,
     subReviewed: userId,
     reviewerFullName: `${loggedUser.given_name} ${loggedUser.family_name}`,
     reviewType: reviewType,
+    hostId: hostId,
   }
 }

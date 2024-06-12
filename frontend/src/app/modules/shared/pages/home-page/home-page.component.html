@@ -8,11 +8,10 @@
     </div>
   </div>
 
-  <div class="whole-container">
-    <div class="row-direction-div hotels-container">
-      <p-carousel [style]="{'width': '23%'}" *ngIf="topHotels?.length > 0; else noHotels" [value]="topHotels" [circular]="true"  [numVisible]="3" [numScroll]="1" >
+  <div style="margin-top: 2rem; margin-right: 1rem; margin-left: 1rem">
+      <p-carousel *ngIf="topHotels?.length > 0; else noHotels" [value]="topHotels" [circular]="true"  [numVisible]="3" [numScroll]="1" >
         <ng-template let-hotel pTemplate="item">
-          <app-accommodation-card [hotel]="hotel" [getPriceTypeText]="getPriceTypeText"></app-accommodation-card>
+          <app-accommodation-card [hotel]="hotel" [loggedUser]="loggedUser"></app-accommodation-card>
         </ng-template>
       </p-carousel>
 
@@ -21,6 +20,5 @@
           <p>There are no available hotels.</p>
         </div>
       </ng-template>
-    </div>
   </div>
 </div>

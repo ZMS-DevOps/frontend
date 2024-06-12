@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import {NotificationService} from "../../root/services/notification.service";
 import {BellNotification} from "../models/notification/bell-notification";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import {BellNotification} from "../models/notification/bell-notification";
 export class WebSocketService {
   socket$: WebSocketSubject<any>;
 
-  constructor(private notificationService: NotificationService) {
+  constructor(private notificationService: NotificationService, private authService: AuthService) {
     this.socket$ = new WebSocketSubject('ws://localhost/ws');
     this.socket$.subscribe({
       next: (message) => this.onMessage(message),
@@ -22,7 +23,9 @@ export class WebSocketService {
   private onMessage(message: any): void {
     if (typeof message === 'object') {
       const notification: BellNotification = message;
-      this.notificationService.addNotification(notification);
+      if (notification.userId === this.authService.getSubjectCurrentUser().value.sub){
+        this.notificationService.addNotification(notification);
+      }
     } else if (typeof message === 'string') {
       try {
         const notification: BellNotification = JSON.parse(message);

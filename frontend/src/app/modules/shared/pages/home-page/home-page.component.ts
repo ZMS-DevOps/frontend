@@ -4,8 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup } from "@angular/forms";
 import { SearchService } from '../../../auth/services/search.service';
 import { SearchRequest } from '../../models/search/search-request';
-import { SearchResponse } from '../../models/search/search-response';
 import { HotelCardResponse } from "../../models/hotel-card-response";
+import {User} from "../../models/user/user";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-home-page',
@@ -17,11 +18,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
   authSubscription: Subscription;
   topHotels: HotelCardResponse[];
   //TODO: FROM home page call searchService (not from search component)
+  loggedUser: User;
 
   constructor(
     private searchService: SearchService,
     private toast: ToastrService,
+    private authService: AuthService,
   ) {
+    this.authSubscription = this.authService.getSubjectCurrentUser().subscribe(loggedUser => {
+      this.loggedUser = loggedUser;
+    });
     this.searchForm = this.getEmptyForm();
   }
 
@@ -35,16 +41,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
       min_price: this.searchForm.value.price.min,
       max_price: this.searchForm.value.price.max,
     };
-    this.searchService.search(searchRequest).subscribe({
-      next: searchResponse => {
-        console.log(searchResponse);
-        // this.topHotels = searchResponse // todo add
-      },
-      error: err => {
-        console.error(err);
-        this.toast.error('Error occured while trying to search accommodation!', 'Search failed');
-      }
-    })
+    // this.searchService.search(searchRequest).subscribe({
+    //   next: searchResponse => {
+    //     console.log(searchResponse);
+    //     this.topHotels = searchResponse // todo add
+    //   },
+    //   error: err => {
+    //     console.error(err);
+    //     this.toast.error('Error occured while trying to search accommodation!', 'Search failed');
+    //   }
+    // })
     this.topHotels = [
       {
         id: "23",

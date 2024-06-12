@@ -21,7 +21,7 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   @Input() userIsGuest!: boolean;
   @Input() userId: string;
   @Input() reviewType: number;
-
+  @Input() hostId: string;
   maxRating: number;
   deleteReviewSubscription: Subscription;
   updateReviewSubscription: Subscription;
@@ -72,7 +72,7 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   }
 
   addReview(review: { grade: number; comment: string; }) {
-    this.addReviewSubscription = this.gradeService.addReview(toReviewRequest(this.userId, this.loggedUser, review.grade, review.comment, this.reviewType)).pipe(
+    this.addReviewSubscription = this.gradeService.addReview(toReviewRequest(this.userId, this.loggedUser, review.grade, review.comment, this.reviewType, this.hostId)).pipe(
       tap(res => {
         this.changeFieldsAfterSuccessReviewAdd(res);
       }),

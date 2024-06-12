@@ -17,7 +17,6 @@ export class ViewAllAccommodationsComponent implements OnDestroy {
   userId: string;
   userIsGuest: boolean;
   accommodations: HotelCardResponse[];
-
   authSubscription: Subscription;
 
   constructor(

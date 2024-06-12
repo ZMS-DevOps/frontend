@@ -37,6 +37,7 @@ export class ViewAccommodationComponent implements OnDestroy {
   authSubscription: Subscription;
   getReviewsSubscription: Subscription;
   updateAccommodationSubscription: Subscription;
+  deleteAccommodationSubscription: Subscription;
   bookAccommodationForm: FormGroup;
   totalPrice: number = 0;
   bookingViewOpened= false;
@@ -79,6 +80,9 @@ export class ViewAccommodationComponent implements OnDestroy {
     }
     if (this.updateAccommodationSubscription){
       this.updateAccommodationSubscription.unsubscribe();
+    }
+    if (this.deleteAccommodationSubscription){
+      this.deleteAccommodationSubscription.unsubscribe();
     }
   }
 
@@ -221,7 +225,7 @@ export class ViewAccommodationComponent implements OnDestroy {
   }
 
   private deleteAccommodation() {
-    this.getReviewsSubscription = this.accommodationService.delete(this.accommodationId).pipe(
+    this.deleteAccommodationSubscription = this.accommodationService.delete(this.accommodationId).pipe(
       tap(_ => {
         this.toast.success('Your accommodation is deleted successfully.', 'Success!');
       }),
