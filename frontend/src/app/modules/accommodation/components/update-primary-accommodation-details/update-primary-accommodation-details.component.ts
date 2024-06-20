@@ -41,7 +41,16 @@ export class UpdatePrimaryAccommodationDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateAccommodationForm = <FormGroup>this.controlContainer.control;
-    this.groupImagesInPairs();
+    if (this.updateAccommodationForm){
+      for (let photo of this.updateAccommodationForm.get("photos").value){
+        this.files.push(this.dataURLtoFile(photo, this.makeRandomFileName()))
+      }
+      for (let i=0; i < this.updateAccommodationForm.get("photos").value; i++){
+        this.filesIndexes.push(i);
+      }
+      this.images = this.updateAccommodationForm.get("photos").value
+      this.groupImagesInPairs();
+    }
   }
 
   getError(){
@@ -93,6 +102,7 @@ export class UpdatePrimaryAccommodationDetailsComponent implements OnInit {
             this.filesIndexes = []
           }
           this.files.push(file);
+          this.updateAccommodationForm.get("photos").setValue(this.files)
           this.filesIndexes.push(uploadItemId);
           const reader = new FileReader();
           reader.onload = (e: any) => {
@@ -115,20 +125,46 @@ export class UpdatePrimaryAccommodationDetailsComponent implements OnInit {
       this.images.splice(index, 1);
       this.groupImagesInPairs();
       this.filesIndexes.splice(index, 1);
+      this.updateAccommodationForm.get("photos").setValue(this.files)
       return of(uploadItemId);
     },
   };
 
   private groupImagesInPairs() {
     this.groupedImages = [];
+    console.log(this.images)
     for (let i = 0; i < this.images.length; i += 3) {
+      console.log(i)
+      console.log(this.images[i])
       this.groupedImages.push([this.images.at(i), this.images.at(i+1), this.images.at(i+2)]);
     }
+    console.log(this.groupedImages)
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.allAccommodationBenefits.filter(benefit => benefit.toLowerCase().includes(filterValue));
+  }
+
+  private dataURLtoFile(dataUrl: string, filename: string) {
+    let arr = dataUrl.split(',');
+    let mime = "image/jpeg";
+    let bstr = atob(arr[arr.length - 1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+  }
+
+  private makeRandomFileName() {
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    let text = "";
+    for (let i = 0; i < 20; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
   }
 }

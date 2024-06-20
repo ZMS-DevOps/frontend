@@ -72,7 +72,6 @@ export class AddAccommodationComponent implements OnInit, OnDestroy {
   save(){
     for (let file of this.files){
       this.addAccommodationForm.get("photos").value.push(file)
-      // this.addAccommodationForm.get("photos").value.push(URL.createObjectURL(file))
     }
     this.addAccommodationSubscription = this.accommodationService.addAccommodation(toAccommodationRequest(this.addAccommodationForm, this.loggedUser.sub, true)).pipe(
       tap(_ => {
@@ -189,7 +188,6 @@ export class AddAccommodationComponent implements OnInit, OnDestroy {
       );
     },
     delete: (uploadItemId: number) => {
-      console.log("nla")
       const index = this.filesIndexes.indexOf(uploadItemId);
       console.log(index)
       this.files.splice(index, 1);

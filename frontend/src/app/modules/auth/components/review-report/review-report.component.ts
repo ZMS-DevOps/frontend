@@ -19,7 +19,8 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   @Input() reviewReportResponse: ReviewReportResponse;
   @Input() loggedUser: User;
   @Input() userIsGuest!: boolean;
-  @Input() userId: string;
+  @Input() userId!: string;
+  @Input() accommodationId!: string;
   @Input() reviewType: number;
   @Input() hostId: string;
   maxRating: number;
@@ -72,12 +73,12 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   }
 
   addReview(review: { grade: number; comment: string; }) {
-    this.addReviewSubscription = this.gradeService.addReview(toReviewRequest(this.userId, this.loggedUser, review.grade, review.comment, this.reviewType, this.hostId)).pipe(
+    this.addReviewSubscription = this.gradeService.addReview(toReviewRequest(this.userId ? this.userId : this.accommodationId, this.loggedUser, review.grade, review.comment, this.reviewType, this.hostId)).pipe(
       tap(res => {
         this.changeFieldsAfterSuccessReviewAdd(res);
       }),
       catchError(error => {
-        this.toast.error(error.error, 'Adding review failed');
+        this.toast.error("You don't have finished reservations yet.", 'Adding review failed');
         throw error;
       })
     ).subscribe({

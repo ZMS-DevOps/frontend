@@ -62,13 +62,30 @@ h1 {
 }
 
 .form-container {
-  height: 25rem;
   width: auto;
-  padding-bottom: 2rem;
-  padding-top: 1rem;
+  padding: 1rem 0.5rem 2rem;
   background-color: #f0f0f0;
   border-radius: 0;
   box-shadow: none;
+}
+
+.sticky-booking-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  z-index: 1000;
+}
+@media (max-width: 768px) {
+  .sticky-booking-container {
+    width: 90%;
+    right: 5%;
+    bottom: 10px;
+  }
 }
 
 
@@ -137,7 +154,7 @@ h1 {
   color: var(--text-gray);
   font-size: 17px;
   border-radius: 10px;
-  height: 22rem;
+  height: 19rem;
 }
 
 .cancel-btn, .book-btn {
@@ -172,4 +189,8 @@ h1 {
 
 ::ng-deep .update-accommodation .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background: #f0f0f0;
+}
+
+::ng-deep .mat-mdc-tab-body.mat-mdc-tab-body-active {
+  height: 40rem !important;
 }

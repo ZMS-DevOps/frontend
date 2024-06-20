@@ -1,5 +1,6 @@
 export interface HotelCardResponse {
   id: string;
+  host_id: string;
   rating: number;
   name: string;
   location: string;

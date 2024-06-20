@@ -16,6 +16,11 @@
         min="0"
       />
       <mat-icon matPrefix style="color: var(--text-gray);">euro</mat-icon>
+      <mat-error *ngIf="updatePriceFormGroup.get('price').errors">
+        <ng-container *ngIf="updatePriceFormGroup.get('price').hasError('min')">
+          Minimum selected price is 1.
+        </ng-container>
+      </mat-error>
     </mat-form-field>
   </div>
 

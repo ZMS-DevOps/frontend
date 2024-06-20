@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ControlContainer, FormGroup} from "@angular/forms";
 import {EndDate, StartDate} from "ngx-daterangepicker-material/daterangepicker.component";
 import dayjs from "dayjs";
 import {SpecialPrice} from "../../../shared/models/accommodation/accommodation-response";
-import {DisableDatesResponse} from "../../../shared/models/disable-dates-response";
+import {UnavailabilityPeriodResponse} from "../../../shared/models/unavailability-response";
 
 @Component({
   selector: 'app-update-accommodation-price',
@@ -16,7 +16,7 @@ export class UpdateAccommodationPriceComponent implements OnInit {
 
   updatePriceFormGroup: FormGroup;
   selected: {start: Date, end: Date};
-  @Input() disableDates: DisableDatesResponse[];
+  @Input() disableDates: UnavailabilityPeriodResponse[];
 
   constructor(private controlContainer: ControlContainer) {
     this.updatePriceFormGroup = <FormGroup>this.controlContainer.control;

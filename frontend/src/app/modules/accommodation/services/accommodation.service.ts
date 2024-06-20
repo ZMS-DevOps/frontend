@@ -3,9 +3,10 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ConfigService} from "../../shared/services/config-service/config.service";
 import {AccommodationResponse} from "../../shared/models/accommodation/accommodation-response";
-import {AccommodationRequest} from "../../shared/models/accommodation/accommodation-request";
 import {HotelCardResponse} from "../../shared/models/hotel-card-response";
 import {UpdateAccommodationPriceRequest} from "../../shared/models/accommodation/update-accommodation-price-request";
+import {GetImagesRequest} from "../../shared/models/accommodation/get-images-request";
+import {ImageResponse} from "../../shared/models/accommodation/image-response";
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,6 @@ export class AccommodationService {
   ) {}
 
   addAccommodation(accommodationRequest: FormData): Observable<null> {
-    // addAccommodation(accommodationRequest: AccommodationRequest): Observable<null> {
     const accessToken = localStorage.getItem('access-token');
     return this.http.post<null>(
       this.configService.ACCOMMODATION_URL,
@@ -29,7 +29,7 @@ export class AccommodationService {
       }
     );
   }
-  
+
 
   getAccommodationById(id: string): Observable<AccommodationResponse> {
     const accessToken = localStorage.getItem('access-token');
@@ -68,7 +68,6 @@ export class AccommodationService {
   }
 
   updateAccommodation(accommodationId: string, accommodationUpdateRequest: FormData): Observable<null> {
-    // updateAccommodation(accommodationId: string, accommodationUpdateRequest: AccommodationRequest): Observable<null> {
     const accessToken = localStorage.getItem('access-token');
     return this.http.put<null>(
       `${this.configService.ACCOMMODATION_URL}/${accommodationId}`,
@@ -91,6 +90,13 @@ export class AccommodationService {
           'Authorization': `Bearer ${accessToken}`
         }
       }
+    );
+  }
+
+  getAccommodationImages(getImagesRequests: GetImagesRequest[]) {
+    return this.http.post<ImageResponse[]>(
+      `${this.configService.ACCOMMODATION_URL}/images`,
+      getImagesRequests
     );
   }
 }

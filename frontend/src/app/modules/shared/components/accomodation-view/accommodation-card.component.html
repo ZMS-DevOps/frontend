@@ -1,9 +1,7 @@
-<mat-card class="hotel-card" style="margin-left: 3.5rem;">
-  <!--        TODO: change getting image-->
-  <img mat-card-image src="{{getPhotoUrl(hotel)}}" alt="Villa Image" height="260" width="341">
-  <!-- <img mat-card-image src="assets/images/{{hotel.images[0]}}" alt="Villa Image"> -->
+<mat-card class="hotel-card" style="margin-left: 3.5rem;" (click)="redirectToAccommodationDetails()">
+  <img mat-card-image src="{{getPhotoUrl()}}" alt="Villa Image" height="260" width="341">
   <mat-card-content class="hotel-info-container">
-    <ngx-stars *ngIf="hotel.rating > 0; else noRatingBlock" [readonly]="true" customSize="1.5rem"
+    <ngx-stars *ngIf="hotel?.rating >= 0; else noRatingBlock" [readonly]="true" customSize="1.5rem"
                [initialStars]="hotel.rating" color="var(--stars-gold)"></ngx-stars>
     <ng-template #noRatingBlock>
       <span class="no-rating-block">No ratings yet</span>
@@ -12,6 +10,9 @@
 
         <h2 class="hotel-title">{{ hotel.name }}</h2>
         <h2 class="location">{{ hotel.location }}</h2>
+        <p *ngIf="showTotalPrice" class="price">{{ hotel.total_price | currency:'EUR' }}/<span class="per-night">total price</span>
+        </p>
+        <p class="taxes">includes taxes & fees</p>
         <p class="price">{{ hotel.unit_price | currency:'EUR' }}/<span class="per-night">
           {{ getPriceTypeText(hotel.price_type) }}</span></p>
         <p class="taxes">includes taxes & fees</p>
@@ -20,7 +21,7 @@
 
   <mat-card-actions>
 
-    <button [matTooltip]="getDetailsTooltipText()" [disabled]="!loggedUser" (click)="redirectToAccommodationDetails()" mat-button color="primary" style="display: inline-flex; align-items: center; color: var(--green); font-weight: bold">
+    <button [matTooltip]="getDetailsTooltipText()" *ngIf="loggedUser" [disabled]="!loggedUser" (click)="redirectToAccommodationDetails()" mat-button color="primary" style="display: inline-flex; align-items: center; color: var(--green); font-weight: bold">
       <mat-icon class="material-symbols-outlined">info_outlined</mat-icon>
       <span>DETAILS</span>
     </button>
@@ -30,10 +31,9 @@
       <span>RESERVE</span>
     </button>
 
-    <button *ngIf="isUserHost()" (click)="onDeleteAccommodation()" mat-button color="primary" style="display: inline-flex; align-items: center; color: var(--green); font-weight: bold">
+    <button *ngIf="checkIfAccommodationCanBeDeleted()" (click)="onDeleteAccommodation()" mat-button color="primary" style="display: inline-flex; align-items: center; color: var(--green); font-weight: bold">
       <mat-icon class="material-symbols-outlined">delete</mat-icon>
       <span>DELETE</span>
     </button>
-
   </mat-card-actions>
 </mat-card>

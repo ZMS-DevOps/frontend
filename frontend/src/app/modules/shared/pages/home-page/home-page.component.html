@@ -9,14 +9,14 @@
   </div>
 
   <div style="margin-top: 2rem; margin-right: 1rem; margin-left: 1rem">
-      <p-carousel *ngIf="topHotels?.length > 0; else noHotels" [value]="topHotels" [circular]="true"  [numVisible]="3" [numScroll]="1" >
+      <p-carousel *ngIf="topHotels?.length > 0; else noHotels" [value]="topHotels" [circular]="true" [numVisible]="getNumberOfVisibleHotels()" [numScroll]="1" >
         <ng-template let-hotel pTemplate="item">
-          <app-accommodation-card [hotel]="hotel" [loggedUser]="loggedUser"></app-accommodation-card>
+          <app-accommodation-card [hotel]="hotel" [loggedUser]="loggedUser" [showTotalPrice]="shouldShowTotalPrice" [images]="getImagesForAccommodation(hotel.id)"></app-accommodation-card>
         </ng-template>
       </p-carousel>
 
       <ng-template #noHotels>
-        <div id="no-reports" class="center-content">
+        <div id="no-reports" class="no-hotel-div" >
           <p>There are no available hotels.</p>
         </div>
       </ng-template>

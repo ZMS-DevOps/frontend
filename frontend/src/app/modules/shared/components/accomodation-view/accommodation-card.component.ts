@@ -1,12 +1,12 @@
 import {Component, Input, OnDestroy} from '@angular/core';
 import {Router} from "@angular/router";
-import {HotelCardResponse} from "../../models/hotel-card-response";
 import {User} from "../../models/user/user";
 import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {catchError, Subscription, tap} from "rxjs";
 import {AccommodationService} from "../../../accommodation/services/accommodation.service";
 import {ToastrService} from "ngx-toastr";
+import {ImageResponse} from "../../models/accommodation/image-response";
 
 @Component({
     selector: 'app-accommodation-card',
@@ -14,11 +14,11 @@ import {ToastrService} from "ngx-toastr";
     styleUrls: ['./accommodation-card.component.scss']
 })
 export class AccommodationCardComponent implements OnDestroy{
-
   @Input() hotel: any;
-  // @Input() hotel: HotelCardResponse;
   @Input() loggedUser: User;
   deleteAccommodationSubscription: Subscription;
+  @Input() images: ImageResponse;
+  @Input() showTotalPrice!: boolean;
 
   constructor(
     private router: Router,
@@ -39,11 +39,11 @@ export class AccommodationCardComponent implements OnDestroy{
     this.router.navigate([`/booking/accommodation/${this.hotel.id}`])
   }
 
-  getPhotoUrl(hotel: any): string {
-    if (hotel.photos && hotel.photos.size > 0){
-      return `data:image/jpeg;base64,${hotel.photos[0]}`;
+  getPhotoUrl(): string {
+    if (this.images?.images && this.images?.images.length > 0){
+      return `data:image/jpeg;base64,${this.images.images[0]}`;
     } else {
-      return "assets/images/" + hotel.main_photo;
+      return "assets/images/menuet.jpg";
     }
   }
 
@@ -66,7 +66,7 @@ export class AccommodationCardComponent implements OnDestroy{
   onDeleteAccommodation() {
     const dialogRef = this.dialog.open(DeleteDialogComponent,
       {
-        data: "user",
+        data: "accommodation",
       });
     dialogRef.afterClosed().subscribe(resp => {
       if (resp){
@@ -87,5 +87,9 @@ export class AccommodationCardComponent implements OnDestroy{
     ).subscribe({
       error: error => console.error('Error during deleting accommodation:', error)
     });
+  }
+
+  checkIfAccommodationCanBeDeleted() {
+    return this.isUserHost() && this.loggedUser.sub === this.hotel.host_id;
   }
 }

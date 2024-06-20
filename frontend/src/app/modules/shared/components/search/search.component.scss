@@ -14,7 +14,7 @@ mat-slider {
     width: 300px;
 }
 
-:ng-deep .mat-mdc-slider.mat-primary {
+::ng-deep .mat-mdc-slider.mat-primary {
     color: var(--green) !important;
 }
 

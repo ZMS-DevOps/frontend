@@ -4,7 +4,7 @@
       <div class="form-container">
           <p-carousel *ngIf="accommodations?.length > 0 else noAccommodations" [value]="accommodations" [circular]="true"  [numVisible]="2" [numScroll]="1" >
             <ng-template let-hotel pTemplate="item">
-              <app-accommodation-card [hotel]="hotel"></app-accommodation-card>
+              <app-accommodation-card [hotel]="hotel" [images]="getImagesForAccommodation(hotel.id)" [loggedUser]="loggedUser"></app-accommodation-card>
             </ng-template>
           </p-carousel>
 

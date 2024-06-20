@@ -3,7 +3,4 @@ export interface SearchRequest {
     guest_number: number;
     start: Date;
     end: Date;
-    min_price: number;
-    max_price: number;
   }
-  

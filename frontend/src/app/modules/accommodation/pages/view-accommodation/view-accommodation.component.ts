@@ -8,18 +8,17 @@ import {AccommodationResponse} from "../../../shared/models/accommodation/accomm
 import {AccommodationService} from "../../services/accommodation.service";
 import {ReviewReportResponse} from "../../../shared/models/review-report-response";
 import {GradeService} from "../../../auth/services/grade.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EndDate, StartDate} from "ngx-daterangepicker-material/daterangepicker.component";
 import dayjs from "dayjs";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {DeleteDialogComponent} from "../../../shared/components/delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-
-import {AccommodationRequest} from "../../../shared/models/accommodation/accommodation-request";
 import moment from "moment";
-import {DisableDatesResponse} from "../../../shared/models/disable-dates-response";
 import {BookingService} from "../../../shared/services/booking.service";
 import {AddReservationRequest} from "../../../shared/models/reservation/add-reservation-request";
+import {UpdateAccommodationPriceRequest} from "../../../shared/models/accommodation/update-accommodation-price-request";
+import {UnavailabilityPeriodResponse} from "../../../shared/models/unavailability-response";
 
 @Component({
   selector: 'app-accommodation-view',
@@ -38,14 +37,14 @@ export class ViewAccommodationComponent implements OnDestroy {
   getReviewsSubscription: Subscription;
   updateAccommodationSubscription: Subscription;
   deleteAccommodationSubscription: Subscription;
+  updatePriceSubscription: Subscription;
   bookAccommodationForm: FormGroup;
   totalPrice: number = 0;
   bookingViewOpened= false;
 
   groupedPhotos = [];
   selectedIndex = 0;
-
-  disableDates: DisableDatesResponse[];
+  disableDates: UnavailabilityPeriodResponse[] = [];
 
   constructor(
     private authService: AuthService,
@@ -57,10 +56,6 @@ export class ViewAccommodationComponent implements OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
   ) {
-    this.selected = {
-      start: null,
-      end: null
-    }
     this.subscribeToGetCurrentLoggedUser();
     this.bookAccommodationForm = this.getEmptyForm();
     this.route.params.subscribe(params => {
@@ -84,6 +79,9 @@ export class ViewAccommodationComponent implements OnDestroy {
     if (this.deleteAccommodationSubscription){
       this.deleteAccommodationSubscription.unsubscribe();
     }
+    if (this.updatePriceSubscription){
+      this.updatePriceSubscription.unsubscribe();
+    }
   }
 
   private getAccommodation(id: string) {
@@ -100,6 +98,10 @@ export class ViewAccommodationComponent implements OnDestroy {
     for (let i = 0; i < photos.length; i += 3) {
       this.groupedPhotos.push(photos.slice(i, i + 3));
     }
+  }
+
+  getPhotoUrl(image: string): string {
+      return `data:image/jpeg;base64,${image}`;
   }
 
   private getReviews(accommodationId: string) {
@@ -122,13 +124,13 @@ export class ViewAccommodationComponent implements OnDestroy {
 
   private getEmptyForm() {
     return new FormGroup({
-      numberOfGuests: new FormControl(1),
+      numberOfGuests: new FormControl(this.accommodation?.guest_number.min, [Validators.min(this.accommodation?.guest_number.min), Validators.max(this.accommodation?.guest_number.max)]),
     });
   }
 
   cancelBooking() {
     this.totalPrice = 0;
-    this.bookAccommodationForm.get("numberOfGuests").setValue(1);
+    this.bookAccommodationForm.get("numberOfGuests").setValue(this.accommodation?.guest_number.min);
   }
 
   book() {
@@ -144,6 +146,7 @@ export class ViewAccommodationComponent implements OnDestroy {
     }
     this.getReviewsSubscription = this.bookingService.createReservationRequest(reservationRequest).pipe(
       tap(_ => {
+        this.router.navigate(["/booking/reservation/view"]);
         this.toast.success('Your successfully create new reservation request.', 'Success!');
       }),
       catchError(error => {
@@ -156,8 +159,9 @@ export class ViewAccommodationComponent implements OnDestroy {
   }
 
   canBookAccommodation() {
-
-    return this.bookAccommodationForm.get("numberOfGuests").value > 0 && this.selected.start && this.selected.end;
+    return this.bookAccommodationForm.get("numberOfGuests").value >= this.accommodation.guest_number.min &&
+      this.bookAccommodationForm.get("numberOfGuests").value <= this.accommodation.guest_number.max &&
+      this.selected?.start && this.selected?.end;
   }
 
   getGuestsValue() {
@@ -165,6 +169,9 @@ export class ViewAccommodationComponent implements OnDestroy {
   }
 
   onStartDateChanged(startDate: StartDate) {
+    if (!this.selected){
+      this.selected= {start: null, end: null}
+    }
     this.selected.start = dayjs(startDate.startDate).toDate();
     this.totalPrice = this.calculateTotalPrice();
   }
@@ -210,9 +217,11 @@ export class ViewAccommodationComponent implements OnDestroy {
   }
 
   onUpdateAccommodation(updatedAccommodation: FormData) {
-    // onUpdateAccommodation(updatedAccommodation: AccommodationRequest) {
+    console.log(updatedAccommodation)
     this.updateAccommodationSubscription = this.accommodationService.updateAccommodation(this.accommodation.id, updatedAccommodation).pipe(
       tap(res => {
+        this.selectedIndex = 0;
+        window.location.reload();
         this.toast.success('Your accommodation is updated successfully.', 'Success!');
       }),
       catchError(error => {
@@ -228,6 +237,7 @@ export class ViewAccommodationComponent implements OnDestroy {
     this.deleteAccommodationSubscription = this.accommodationService.delete(this.accommodationId).pipe(
       tap(_ => {
         this.toast.success('Your accommodation is deleted successfully.', 'Success!');
+        this.router.navigate(['/booking/accommodation/view'])
       }),
       catchError(error => {
         this.toast.error(error.error, 'Delete accommodation failed');
@@ -258,10 +268,11 @@ export class ViewAccommodationComponent implements OnDestroy {
 
   private calculateTotalPrice() {
     let totalPrice = 0;
-
+    if (!this.selected){
+      return 0
+    }
     const startDate = new Date(this.selected.start);
     const endDate = new Date(this.selected.end);
-
     const days = Math.ceil(moment(endDate).diff(startDate, 'days', true)) +1
 
     for (let i = 0; i < days; i++) {
@@ -269,15 +280,8 @@ export class ViewAccommodationComponent implements OnDestroy {
       currentDate.setDate(startDate.getDate() + i);
 
       let dailyPrice = this.accommodation.default_price.price;
-
-      for (let special of this.accommodation.special_price) {
-        const specialStartDate = new Date(special.date_range.start);
-        const specialEndDate = new Date(special.date_range.end);
-
-        if (moment(currentDate).isBetween(specialStartDate, specialEndDate, 'day', '[]')){
-          dailyPrice = special.price;
-          break;
-        }
+      if (this.accommodation.special_price){
+        dailyPrice = this.getSpecialPrice(currentDate, dailyPrice);
       }
 
       if (this.accommodation.default_price.type === "PerGuest") {
@@ -289,11 +293,40 @@ export class ViewAccommodationComponent implements OnDestroy {
     return totalPrice;
   }
 
+  private getSpecialPrice(currentDate: Date, dailyPrice: number) {
+    for (let special of this.accommodation?.special_price) {
+      const specialStartDate = new Date(special.date_range.start);
+      const specialEndDate = new Date(special.date_range.end);
+
+      if (moment(currentDate).isBetween(specialStartDate, specialEndDate, 'day', '[]')) {
+        dailyPrice = special.price;
+        break;
+      }
+    }
+    return dailyPrice;
+  }
+
   getTextPriceType() {
     return this.accommodation.default_price.type === "PerGuest" ? "person": "apartment unit";
   }
 
   onGuestNumberChanged() {
     this.totalPrice = this.calculateTotalPrice();
+  }
+
+  onUpdateAccommodationPrice(updatePriceRequest: UpdateAccommodationPriceRequest) {
+    this.updatePriceSubscription = this.accommodationService.updateAccommodationPrice(this.accommodation.id, updatePriceRequest)
+      .pipe(tap(_ => {
+          this.selectedIndex = 0;
+          window.location.reload();
+          this.toast.success('Successfully change accommodation price.', 'Success!');
+        }),
+        catchError(error => {
+          this.toast.error(error.error, 'Changing accommodation price failed');
+          throw error;
+        })
+      ).subscribe({
+        error: error => console.error('Error during changing accommodation price:', error)
+      });
   }
 }

@@ -17,12 +17,12 @@ export class ViewReservationsComponent implements OnInit, OnDestroy {
   loggedUser: User;
   userIsGuest: boolean;
   userIsHost: boolean;
-  reservations: ReservationResponse[];
+  reservations: ReservationResponse[] = [];
 
   authSubscription: Subscription;
   getReservationsSubscription: Subscription;
   searchParam: string;
-  tabViewIndex: number = 0;
+  tabViewIndex: number = 1;
 
   constructor(
     private authService: AuthService,
@@ -42,7 +42,7 @@ export class ViewReservationsComponent implements OnInit, OnDestroy {
           this.loggedUser = loggedUser;
           this.userIsHost = this.authService.isUserHost(loggedUser);
           this.userIsGuest = this.authService.isUserGuest(loggedUser);
-          this.getReservationsByUser(loggedUser.sub, this.authService.isUserHost(loggedUser)? "host": "guest", true);
+          this.getReservationsByUser(loggedUser.sub, this.authService.isUserHost(loggedUser)? "host": "guest", false);
           this.putSelectedReservationOnTop();
         });
     });
@@ -106,11 +106,13 @@ export class ViewReservationsComponent implements OnInit, OnDestroy {
   }
 
   private putSelectedReservationOnTop() {
-    let index = this.reservations.findIndex(reservation => reservation.id === this.reservationId);
+    if (this.reservations){
+      let index = this.reservations.findIndex(reservation => reservation.id === this.reservationId);
 
-    if (index !== -1) {
-      let reservation = this.reservations.splice(index, 1)[0];
-      this.reservations.unshift(reservation);
+      if (index !== -1) {
+        let reservation = this.reservations.splice(index, 1)[0];
+        this.reservations.unshift(reservation);
+      }
     }
   }
 

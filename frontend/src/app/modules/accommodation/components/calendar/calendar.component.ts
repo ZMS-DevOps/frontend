@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {EndDate, StartDate} from "ngx-daterangepicker-material/daterangepicker.component";
 import moment from "moment";
-import {DisableDatesResponse} from "../../../shared/models/disable-dates-response";
 import {SpecialPrice} from "../../../shared/models/accommodation/accommodation-response";
+import {UnavailabilityPeriodResponse} from "../../../shared/models/unavailability-response";
 
 @Component({
   selector: 'app-calendar',
@@ -14,12 +14,15 @@ export class CalendarComponent implements AfterViewInit {
   @Input() defaultPrice: {price: number, type: string };
   @Input() specialPrice: SpecialPrice[];
   @Input() selected: { start: Date; end: Date };
-  @Input() disableDates: DisableDatesResponse[];
+  @Input() disableDates: UnavailabilityPeriodResponse[];
 
   @Output() onStartDateChanged = new EventEmitter<StartDate>();
   @Output() onEndDateChanged = new EventEmitter<EndDate>();
 
   ngAfterViewInit(): void {
+    console.log(this.defaultPrice)
+    console.log(this.specialPrice)
+    console.log(this.disableDates)
     setTimeout(() => {
       this.datePickerInput.nativeElement.click();
     }, 0);
@@ -43,8 +46,15 @@ export class CalendarComponent implements AfterViewInit {
   }
 
   private isDateDisabled(date: Date): boolean {
-    return this.disableDates.some(range =>
-      moment(date).isBetween(range.start, range.end, 'day', '[]')
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+    if (moment(date).isBefore(today)){
+      return true;
+    }
+    return this.disableDates?.some(range => {
+        return moment(date).isBetween(range.start, range.end, 'day', '[]');
+      }
     );
   }
 

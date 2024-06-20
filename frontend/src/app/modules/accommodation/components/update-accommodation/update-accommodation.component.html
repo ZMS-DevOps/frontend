@@ -1,15 +1,15 @@
 <mat-stepper *ngIf="accommodation" [selectedIndex]="currentStep" (selectionChange)="onStepChange($event)" headerPosition="top">
   <mat-step [stepControl]="updateAccommodationForm" state="home">
+
     <form [formGroup]="updateAccommodationForm">
       <ng-template matStepLabel>Update information</ng-template>
       <app-update-primary-accommodation-details *ngIf="updateAccommodationForm"></app-update-primary-accommodation-details>
       <div>
         <button mat-button matStepperNext style="display:flex; float: right; background-color: var(--deep-gray); color: var(--text-gray); width: 8rem; height: 3rem">Continue</button>
-        <button mat-button (click)="updateAccommodation()" class="margin-right" style="display:flex; float: right; background-color: var(--green); color: var(--white); width: 8rem; height: 3rem;">Save changes</button>
+        <button mat-button [disabled]="cannotUpdateAccommodation()" (click)="updateAccommodation()" class="margin-right" style="display:flex; float: right; background-color: var(--green); color: var(--white); width: 8rem; height: 3rem;">Save changes</button>
       </div>
     </form>
   </mat-step>
-
 
   <mat-step [stepControl]="updatePriceFormGroup" optional state="euro">
     <form [formGroup]="updatePriceFormGroup" style="height: 22rem;">
@@ -17,7 +17,7 @@
       <app-update-accommodation-price *ngIf="updatePriceFormGroup && currentStep === 1" [defaultPrice]="accommodation.default_price" [specialPrice]="accommodation.special_price" [disableDates]="disableDates"></app-update-accommodation-price>
       <div>
         <button mat-button matStepperPrevious style="display:flex; float: right; background-color: var(--deep-gray); color: var(--text-gray); width: 8rem; height: 3rem">Back</button>
-        <button mat-button class="margin-right" (click)="updateAccommodationPrice()" style="display:flex; float: right; background-color: var(--green); color: var(--white); width: 8rem; height: 3rem;">Save changes</button>
+        <button mat-button class="margin-right" [disabled]="cannotUpdateAccommodationPrice()" (click)="updateAccommodationPrice()" style="display:flex; float: right; background-color: var(--green); color: var(--white); width: 8rem; height: 3rem;">Save changes</button>
       </div>
     </form>
   </mat-step>
