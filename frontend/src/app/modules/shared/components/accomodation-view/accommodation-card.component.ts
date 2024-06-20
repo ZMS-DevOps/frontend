@@ -25,9 +25,7 @@ export class AccommodationCardComponent implements OnDestroy{
     private dialog: MatDialog,
     private accommodationService: AccommodationService,
     private toast: ToastrService,
-  ) {
-    console.log(this.hotel);
-  }
+  ) {}
 
   ngOnDestroy(): void {
     if (this.deleteAccommodationSubscription){

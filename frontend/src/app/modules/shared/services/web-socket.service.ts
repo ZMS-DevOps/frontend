@@ -30,7 +30,6 @@ export class WebSocketService {
       try {
         const notification: BellNotification = JSON.parse(message);
         this.notificationService.addNotification(notification);
-        console.log('Parsed message:', notification);
       } catch (e) {
         console.error('Failed to parse message as JSON:', e);
       }

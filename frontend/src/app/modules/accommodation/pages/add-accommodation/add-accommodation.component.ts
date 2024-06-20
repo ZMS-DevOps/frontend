@@ -189,7 +189,6 @@ export class AddAccommodationComponent implements OnInit, OnDestroy {
     },
     delete: (uploadItemId: number) => {
       const index = this.filesIndexes.indexOf(uploadItemId);
-      console.log(index)
       this.files.splice(index, 1);
       this.images.splice(index, 1);
       this.filesIndexes.splice(index, 1);

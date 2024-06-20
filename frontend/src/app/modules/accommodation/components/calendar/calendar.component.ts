@@ -20,9 +20,7 @@ export class CalendarComponent implements AfterViewInit {
   @Output() onEndDateChanged = new EventEmitter<EndDate>();
 
   ngAfterViewInit(): void {
-    console.log(this.defaultPrice)
-    console.log(this.specialPrice)
-    console.log(this.disableDates)
+
     setTimeout(() => {
       this.datePickerInput.nativeElement.click();
     }, 0);

@@ -311,8 +311,6 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
 
   private getAccommodationNames(calendarEvents: ScheduleEvent[]) {
     calendarEvents.forEach(event => {
-      console.log(event)
-      console.log(this.accommodationNamesMap)
       if (!this.accommodationNamesMap.has(event.AccommodationName)) {
         this.accommodationNamesMap.set(event.AccommodationName, event.AccommodationId);
       }

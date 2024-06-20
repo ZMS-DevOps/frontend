@@ -132,13 +132,9 @@ export class UpdatePrimaryAccommodationDetailsComponent implements OnInit {
 
   private groupImagesInPairs() {
     this.groupedImages = [];
-    console.log(this.images)
     for (let i = 0; i < this.images.length; i += 3) {
-      console.log(i)
-      console.log(this.images[i])
       this.groupedImages.push([this.images.at(i), this.images.at(i+1), this.images.at(i+2)]);
     }
-    console.log(this.groupedImages)
   }
 
   private _filter(value: string): string[] {

@@ -45,31 +45,25 @@ export class HomePageComponent implements OnInit, OnDestroy {
     };
     this.searchService.search(searchRequest).subscribe({
       next: searchResponse => {
-        console.log(searchResponse);
         this.topHotels = searchResponse;
         this.getAccommodationImages(searchResponse)
       },
       error: err => {
-        console.error(err);
-        this.toast.error('Error occured while trying to search accommodation!', 'Search failed');
+        this.toast.error('Error occurred while trying to search accommodation!', 'Search failed');
       }
     })
   }
 
   searchAccommodation(): void {
     const searchRequest = this.createSearchRequest();
-    console.log(searchRequest);
     this.searchService.search(searchRequest).subscribe({
       next: searchResponse => {
-        console.log(searchResponse);
         this.topHotels = searchResponse;
-        console.log(this.topHotels)
         this.shouldShowTotalPrice = this.searchForm.value.dates.start && this.searchForm.value.dates.end;
         this.getAccommodationImages(searchResponse);
       },
       error: err => {
-        console.error(err);
-        this.toast.error('Error occured while trying to search accommodation!', 'Search failed');
+        this.toast.error('Error occurred while trying to search accommodation!', 'Search failed');
       }
     })
   };
@@ -122,10 +116,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
       const getImagesRequests: GetImagesRequest[] = searchResponse?.map(accommodation => ({
         id: accommodation.id
       }));
-      console.log(getImagesRequests)
       this.accommodationService.getAccommodationImages(getImagesRequests).subscribe(
         images => {
-          console.log(images)
           this.images = images;
         }
       )

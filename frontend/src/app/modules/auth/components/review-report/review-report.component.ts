@@ -87,7 +87,6 @@ export class ReviewReportComponent implements OnInit, OnDestroy {
   }
 
   onDeleteReview(reviewId: string, grade: number) {
-    console.log("DELETING REVIEW WITH ID " + reviewId)
     this.deleteReview(reviewId, grade);
   }
 

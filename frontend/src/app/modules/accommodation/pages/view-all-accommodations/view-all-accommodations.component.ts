@@ -36,10 +36,8 @@ export class ViewAllAccommodationsComponent implements OnInit, OnDestroy {
   }
 
   private getAccommodations(userId: string) {
-    console.log(userId);
     this.searchService.getAccommodationsByUserId(userId).subscribe(
       accommodations => {
-        console.log(accommodations);
         this.accommodations = accommodations;
         const getImagesRequests: GetImagesRequest[] = accommodations?.map(accommodation => ({
           id: accommodation.id
@@ -47,7 +45,6 @@ export class ViewAllAccommodationsComponent implements OnInit, OnDestroy {
         if (getImagesRequests && getImagesRequests.length > 0){
           this.accommodationService.getAccommodationImages(getImagesRequests).subscribe(
             images => {
-              console.log(images)
               this.images = images;
             }
           )
@@ -61,7 +58,6 @@ export class ViewAllAccommodationsComponent implements OnInit, OnDestroy {
       this.userId = params['id']
       this.authSubscription = this.authService.getSubjectCurrentUser().subscribe(loggedUser => {
         this.loggedUser = loggedUser;
-        console.log(loggedUser)
         this.userIsGuest = this.authService.isUserGuest(loggedUser);
         this.getAccommodations(params['id']? params['id']: loggedUser.sub)
       });

@@ -217,7 +217,6 @@ export class ViewAccommodationComponent implements OnDestroy {
   }
 
   onUpdateAccommodation(updatedAccommodation: FormData) {
-    console.log(updatedAccommodation)
     this.updateAccommodationSubscription = this.accommodationService.updateAccommodation(this.accommodation.id, updatedAccommodation).pipe(
       tap(res => {
         this.selectedIndex = 0;

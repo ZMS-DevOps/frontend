@@ -69,7 +69,7 @@ export class UpdateAccommodationComponent implements OnInit, OnDestroy {
   }
 
   private getUpdatePriceForm(): FormGroup {
-    console.log(this.accommodation)
+
     return new FormGroup({
       start: new FormControl(null),
       end: new FormControl(null),
