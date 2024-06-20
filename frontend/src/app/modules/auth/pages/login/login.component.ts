@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-view-reservations',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })

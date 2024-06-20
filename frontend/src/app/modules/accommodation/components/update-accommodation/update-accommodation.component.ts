@@ -4,12 +4,12 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import {maxGuestsValidator} from "./max-guests.validator";
 import {AccommodationResponse} from "../../../shared/models/accommodation/accommodation-response";
-import {AccommodationRequest, toAccommodationRequest} from "../../../shared/models/accommodation/accommodation-request";
-import {catchError, Subscription, tap} from "rxjs";
+import {toAccommodationRequest} from "../../../shared/models/accommodation/accommodation-request";
+import { Subscription } from "rxjs";
 import {AccommodationService} from "../../services/accommodation.service";
 import {UpdateAccommodationPriceRequest} from "../../../shared/models/accommodation/update-accommodation-price-request";
 import {ToastrService} from "ngx-toastr";
-import {DisableDatesResponse} from "../../../shared/models/disable-dates-response";
+import {UnavailabilityPeriodResponse} from "../../../shared/models/unavailability-response";
 
 @Component({
   selector: 'app-update-accommodation',
@@ -25,18 +25,17 @@ import {DisableDatesResponse} from "../../../shared/models/disable-dates-respons
 export class UpdateAccommodationComponent implements OnInit, OnDestroy {
   @Input() accommodation: AccommodationResponse;
   @Input() userId: string;
-
   @Output() onStartDateChanged = new EventEmitter<StartDate>();
   @Output() onEndDateChanged = new EventEmitter<EndDate>();
   @Output() onUpdateAccommodation = new EventEmitter<FormData>();
-  // @Output() onUpdateAccommodation = new EventEmitter<AccommodationRequest>();
+  @Output() onUpdateAccommodationPrice = new EventEmitter<UpdateAccommodationPriceRequest>();
 
   updateAccommodationForm: FormGroup;
   updatePriceFormGroup: FormGroup;
   currentStep: number = 0;
 
   updateSubscription: Subscription;
-  @Input() disableDates: DisableDatesResponse[];
+  @Input() disableDates: UnavailabilityPeriodResponse[];
 
   constructor(private accommodationService: AccommodationService, private toast: ToastrService) {}
 
@@ -52,19 +51,25 @@ export class UpdateAccommodationComponent implements OnInit, OnDestroy {
   }
 
   private getAccommodationForm() {
+    let base64Photos: string[] = [];
+    this.accommodation?.photos.forEach(photo => base64Photos.push(this.getPhotoUrl(photo)))
     return new FormGroup({
       name: new FormControl(this.accommodation?.name, [Validators.required]),
       location: new FormControl(this.accommodation?.location, [Validators.required]),
       minGuests: new FormControl(this.accommodation?.guest_number.min, Validators.min(1)),
       maxGuests: new FormControl(this.accommodation?.guest_number.max),
       benefits: new FormControl(this.accommodation?.benefits),
-      photos: new FormControl([]),
-      reviewReservationRequestAutomatically: new FormControl(true)
+      photos: new FormControl(base64Photos),
+      reviewReservationRequestAutomatically: new FormControl(this.accommodation?.review_reservation_request_automatically)
     }, [maxGuestsValidator('minGuests', 'maxGuests')]);
   }
 
+  private getPhotoUrl(photo: string): string {
+    return `data:image/jpeg;base64,${photo}`;
+  }
+
   private getUpdatePriceForm(): FormGroup {
-    console.log(this.accommodation)
+
     return new FormGroup({
       start: new FormControl(null),
       end: new FormControl(null),
@@ -74,12 +79,11 @@ export class UpdateAccommodationComponent implements OnInit, OnDestroy {
   }
 
   updateAccommodation() {
-
     this.onUpdateAccommodation.emit(toAccommodationRequest(this.updateAccommodationForm, this.userId, false, this.accommodation.default_price.price, this.accommodation.default_price.type));
   }
 
   updateAccommodationPrice() {
-    const updatePriceRequest: UpdateAccommodationPriceRequest = {
+    let updatePriceRequest: UpdateAccommodationPriceRequest = {
       date_range: {
         start: this.updatePriceFormGroup.get("start").value,
         end: this.updatePriceFormGroup.get("end").value
@@ -87,20 +91,29 @@ export class UpdateAccommodationComponent implements OnInit, OnDestroy {
       price: this.updatePriceFormGroup.get("price").value,
       type: this.updatePriceFormGroup.get("type").value
     }
-    this.updateSubscription = this.accommodationService.updateAccommodationPrice(this.accommodation.id, updatePriceRequest)
-      .pipe(tap(_ => this.toast.success('Successfully change accommodation price.', 'Success!')),
-        catchError(error => {
-          this.toast.error(error.error, 'Changing accommodation price failed');
-          throw error;
-        })
-      ).subscribe({
-        error: error => console.error('Error during changing accommodation price:', error)
-      });
+
+    if (!updatePriceRequest.date_range.start || !updatePriceRequest.date_range.end){
+      updatePriceRequest.date_range = null;
+    }
+    this.onUpdateAccommodationPrice.emit(updatePriceRequest)
   }
 
   ngOnDestroy(): void {
     if (this.updateSubscription){
       this.updateSubscription.unsubscribe();
     }
+  }
+
+  cannotUpdateAccommodation() {
+    return this.updateAccommodationForm?.invalid ||
+      (this.updateAccommodationForm?.get("name").value === this.accommodation?.name &&
+      this.updateAccommodationForm?.get("location").value === this.accommodation?.location &&
+      this.updateAccommodationForm?.get("minGuests").value === this.accommodation?.guest_number.min &&
+      this.updateAccommodationForm?.get("maxGuests").value === this.accommodation?.guest_number.max &&
+      this.updateAccommodationForm?.get("reviewReservationRequestAutomatically").value === this.accommodation?.review_reservation_request_automatically);
+  }
+
+  cannotUpdateAccommodationPrice() {
+    return this.updatePriceFormGroup?.invalid;
   }
 }

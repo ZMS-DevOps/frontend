@@ -18,7 +18,7 @@ export interface ScheduleEvent {
 }
 
 export function toScheduleEventFromReservationResponse(res: ReservationResponse[], scheduleData: ScheduleEvent[]): ScheduleEvent[] {
-  res.forEach(period => {
+  res?.forEach(period => {
     if (period.status <= 1) {
       scheduleData.push({
         PeriodId: period.id,
@@ -42,7 +42,8 @@ export function toScheduleEventFromReservationResponse(res: ReservationResponse[
 }
 
 export function toScheduleEventFromUnavailabilityResponse(res: UnavailabilityPeriodResponse[], scheduleData: ScheduleEvent[]): ScheduleEvent[] {
-  res.forEach(period => {
+  res?.forEach(period => {
+    if (period.reason === "OwnerSet") {
       scheduleData.push({
         PeriodId: period.id,
         Subject: period.accommodation_name,
@@ -55,6 +56,7 @@ export function toScheduleEventFromUnavailabilityResponse(res: UnavailabilityPer
         Color: getResourceColor(2),
         cssClass: getCssClassForEventType(2)
       })
+    }
   });
 
   return scheduleData;

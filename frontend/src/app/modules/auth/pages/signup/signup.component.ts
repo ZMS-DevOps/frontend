@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 import {MyErrorStateMatcher} from "./error-state-matcher";
 
 @Component({
-  selector: 'app-view-reservations',
+  selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })

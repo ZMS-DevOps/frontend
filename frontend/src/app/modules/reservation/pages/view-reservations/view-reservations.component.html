@@ -1,98 +1,96 @@
-<div xmlns="http://www.w3.org/1999/html">
-  <div class="row-direction-div upper-div whole-container">
-    <div class="text-container">
-      <h2>Reservations</h2>
-      <div class="form-container">
-        <div class="whole-container">
-
-          <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event.index)">
-            <mat-tab label="PAST">
-              <div class="search-container row-direction-div margin-top">
-                <mat-form-field
-                  class="full-width"
-                  appearance="fill"
-                >
-                  <mat-label>Search reservations</mat-label>
-                  <input
-                    matInput
-                    placeholder="Search reservations"
-                    [(ngModel)]="searchParam"
-                  />
-                </mat-form-field>
-                <div class="search-header" (click)="search()">
-                  <mat-icon class="material-symbols-outlined search-icon">search</mat-icon>
-                  SEARCH
-                </div>
+<div class="row-direction-div upper-div whole-container">
+  <div class="text-container">
+    <h2>Reservations</h2>
+    <div class="form-container">
+      <div class="whole-container">
+        <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event.index)" [selectedIndex]="tabViewIndex">
+          <mat-tab label="PAST">
+            <div class="search-container row-direction-div margin-top">
+              <mat-form-field
+                class="full-width"
+                appearance="fill"
+              >
+                <mat-label>Search reservations</mat-label>
+                <input
+                  matInput
+                  placeholder="Search reservations"
+                  [(ngModel)]="searchParam"
+                />
+              </mat-form-field>
+              <div class="search-header" (click)="search()">
+                <mat-icon class="material-symbols-outlined search-icon">search</mat-icon>
+                SEARCH
               </div>
+            </div>
 
-              <div>
-                <p-carousel *ngIf="reservations.length > 0; else noReservation" [value]="reservations" [circular]="true" orientation="vertical" [numVisible]="3" [numScroll]="1">
-                  <ng-template let-reservation pTemplate="item">
-                    <app-reservation-carousel-item
-                      [reservation]="reservation"
-                      [userIsGuest]="userIsGuest"
-                      [userIsHost]="userIsHost"
-                      [reservationId]="reservationId"
-                      (acceptEvent)="onAcceptReservation($event)"
-                      (declinedEvent)="onDeclineReservation($event, reservation.id)"
-                    ></app-reservation-carousel-item>
-                  </ng-template>
-                </p-carousel>
-
-
-                <ng-template #noReservation>
-                  <div style="text-align: center; justify-content: center;align-items: center; display: flex">
-                    <img src="assets/images/not-found.png"/>
-                    <p style="font-size: 21px; margin: 0.5rem; color: var(--text-gray)">You don't have past reservations.</p>
-                  </div>
+            <div>
+              <p-carousel *ngIf="reservations?.length > 0; else noReservation" [value]="reservations" [circular]="true" orientation="vertical" [numVisible]="3" [numScroll]="1">
+                <ng-template let-reservation pTemplate="item" >
+                  <app-reservation-carousel-item
+                    [reservation]="reservation"
+                    [userIsGuest]="userIsGuest"
+                    [userIsHost]="userIsHost"
+                    [reservationId]="reservationId"
+                    (acceptEvent)="onAcceptReservation($event)"
+                    (declinedEvent)="onDeclineReservation($event, reservation.id)"
+                    class="reservation-carousel-item"
+                  ></app-reservation-carousel-item>
                 </ng-template>
+              </p-carousel>
 
-              </div>
-            </mat-tab>
-            <mat-tab label="INCOMING">
-              <div class="search-container row-direction-div margin-top">
-                <mat-form-field
-                  class="full-width"
-                  appearance="fill"
-                >
-                  <mat-label>Search reservations</mat-label>
-                  <input
-                    matInput
-                    placeholder="Search reservations"
-                    [(ngModel)]="searchParam"
-                  />
-                </mat-form-field>
-                <div class="search-header" (click)="search()">
-                  <mat-icon class="material-symbols-outlined search-icon">search</mat-icon>
-                  SEARCH
+
+              <ng-template #noReservation>
+                <div style="text-align: center; justify-content: center;align-items: center; display: flex">
+                  <img src="assets/images/not-found.png"/>
+                  <p style="font-size: 21px; margin: 0.5rem; color: var(--text-gray)">You don't have past reservations.</p>
                 </div>
+              </ng-template>
+
+            </div>
+          </mat-tab>
+          <mat-tab label="INCOMING">
+            <div class="search-container row-direction-div margin-top">
+              <mat-form-field
+                class="full-width"
+                appearance="fill"
+              >
+                <mat-label>Search reservations</mat-label>
+                <input
+                  matInput
+                  placeholder="Search reservations"
+                  [(ngModel)]="searchParam"
+                />
+              </mat-form-field>
+              <div class="search-header" (click)="search()">
+                <mat-icon class="material-symbols-outlined search-icon">search</mat-icon>
+                SEARCH
               </div>
+            </div>
 
-              <div>
-                <p-carousel *ngIf="reservations.length > 0; else noReservation" [value]="reservations" [circular]="true" orientation="vertical" [numVisible]="3" [numScroll]="1">
-                  <ng-template let-reservation pTemplate="item">
-                    <app-reservation-carousel-item
-                      [reservation]="reservation"
-                      [userIsGuest]="userIsGuest"
-                      [userIsHost]="userIsHost"
-                      [reservationId]="reservationId"
-                      (acceptEvent)="onAcceptReservation($event)"
-                      (declinedEvent)="onDeclineReservation($event, reservation.id)"
-                    ></app-reservation-carousel-item>
-                  </ng-template>
-                </p-carousel>
-
-                <ng-template #noReservation>
-                  <div style="text-align: center; justify-content: center;align-items: center; display: flex">
-                    <img src="assets/images/not-found.png"/>
-                    <p style="font-size: 21px; margin: 0.5rem; color: var(--text-gray)">You don't have incoming reservations.</p>
-                  </div>
+            <div>
+              <p-carousel *ngIf="reservations?.length > 0; else noIncomingReservation" [value]="reservations" [circular]="true" orientation="vertical" [numVisible]="3" [numScroll]="1">
+                <ng-template let-reservation pTemplate="item">
+                  <app-reservation-carousel-item
+                    [reservation]="reservation"
+                    [userIsGuest]="userIsGuest"
+                    [userIsHost]="userIsHost"
+                    [reservationId]="reservationId"
+                    (acceptEvent)="onAcceptReservation($event)"
+                    (declinedEvent)="onDeclineReservation($event, reservation.id)"
+                  ></app-reservation-carousel-item>
                 </ng-template>
-              </div>
-            </mat-tab>
-          </mat-tab-group>
+              </p-carousel>
 
-        </div>
+              <ng-template #noIncomingReservation>
+                <div style="text-align: center; justify-content: center;align-items: center; display: flex">
+                  <img src="assets/images/not-found.png"/>
+                  <p style="font-size: 21px; margin: 0.5rem; color: var(--text-gray)">You don't have incoming reservations.</p>
+                </div>
+              </ng-template>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+
       </div>
     </div>
   </div>

@@ -31,7 +31,7 @@
         <mat-divider style="margin-top:0.5rem; width:19rem"></mat-divider>
       </div>
 
-      <div *ngIf="!userIsGuest" style="margin-top: 1.5rem" class="row-direction-div">
+      <div *ngIf="checkUserIsHost()" style="margin-top: 1.5rem" class="row-direction-div">
               <span>
                 <a matTooltip="Accommodation" [routerLink]="getAccommodationViewUrl()"
                    style="margin-left: 5px; color: var(--green);">

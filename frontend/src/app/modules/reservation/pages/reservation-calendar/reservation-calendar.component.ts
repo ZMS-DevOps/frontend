@@ -122,7 +122,7 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
     this.bookingService.getReservationsByAccommodationId(accommodationId).subscribe(
       res =>  {
         this.scheduleData = toScheduleEventFromReservationResponse(res, this.scheduleData);
-        this.bookingService.getUnavailabilityPeriodsByAccommodationId(accommodationId).subscribe(
+        this.bookingService.getDisableDates(accommodationId).subscribe(
           res => {
             this.scheduleData = toScheduleEventFromUnavailabilityResponse(res, this.scheduleData);
             this.getAccommodationNames(this.scheduleData)
@@ -235,7 +235,7 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
         end: endDate,
       }
       this.bookingService.saveUnavailabilityPeriod(newUnavailabilityPeriod).subscribe({
-        next: res => {
+        next: _ => {
           this.toast.success(`Successfully added new unavailability period for your accommodation!`, 'Success');
           this.onSuccessAddingNewUnavailabilityPeriod(startDate, endDate)
         },
@@ -257,7 +257,7 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
   deletePeriod(periodId: string) {
     const event = this.eventSettings.dataSource.find(period => period.PeriodId === periodId);
     const newUnavailabilityPeriod: UnavailabilityPeriodRequest = {
-      accommodation_id: this.accommodationId,
+      accommodation_id: event.AccommodationId,
       start: event.StartTime,
       end: event.EndTime,
     }
@@ -325,7 +325,7 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
     this.bookingService.approveReservationRequest(periodId).subscribe({
       next: res => {
         this.toast.success(`Successfully approve reservation request!`, 'Success');
-        this.onSuccessConfirmReservation(periodId)
+        this.onSuccessConfirmReservation(periodId);
       },
       error: err => {
         this.toast.error(err.error, 'Reservation request not approve');
@@ -333,16 +333,12 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  isSaveChangesButtonDisabled() {
-
-    return this.eventSettings?.dataSource?.length !== this.scheduleData?.length;
-  }
-
   declineReservationRequest(periodId: any) {
     this.bookingService.declineReservationRequest(periodId).subscribe({
       next: res => {
         this.toast.success(`Successfully declined reservation request!`, 'Success');
-        this.deletePeriod(periodId);
+        const newDataSource = this.eventSettings.dataSource.filter(period => period.PeriodId !== periodId);
+        this.refreshCalendarWithNewDataSource(newDataSource);
       },
       error: err => {
         this.toast.error(err.error, 'Reservation request not declined');
@@ -354,7 +350,8 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
     this.bookingService.declineAcceptedReservationByGuest(periodId).subscribe({
       next: _ => {
         this.toast.success(`Successfully declined reservation!`, 'Success');
-        this.deletePeriod(periodId);
+        const newDataSource = this.eventSettings.dataSource.filter(period => period.PeriodId !== periodId);
+        this.refreshCalendarWithNewDataSource(newDataSource);
       },
       error: err => {
         this.toast.error(err.error, 'Reservation not declined');
@@ -371,7 +368,6 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
         Id: getResourceId(1),
         cssClass: getCssClassForEventType(1)
       };
-      this.eventSettings = { ...this.eventSettings, dataSource: updatedDataSource };
       setTimeout(() => {
         this.eventSettings = { ...this.eventSettings, dataSource: updatedDataSource };
         this.scheduleObj.refreshEvents();
@@ -394,7 +390,11 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
       cssClass: getCssClassForEventType(2)
     };
 
-    this.eventSettings.dataSource.push(newEvent);
+    if (!this.eventSettings.dataSource){
+      this.eventSettings.dataSource = [newEvent]
+    }else {
+      this.eventSettings.dataSource.push(newEvent);
+    }
     this.scheduleObj.refreshEvents();
     this.scheduleObj.refreshLayout();
   }

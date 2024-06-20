@@ -17,13 +17,15 @@ export const AccommodationRoutes: Routes = [
     children: [
       {path: '', component: ViewAllAccommodationsComponent},
       {path: ':id', component: ViewAllAccommodationsComponent}
-    ]
-    // canActivate: [RoleGuard],
-    // data: {expectedRoles: 'host|guest'},
+    ],
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'host'},
   },
   {
     path: ":id",
     pathMatch: "full",
     component: ViewAccommodationComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'host|guest'},
   },
 ];

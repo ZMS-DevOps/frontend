@@ -2,7 +2,6 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ConfigService} from "./config-service/config.service";
 import {AddReservationRequest} from "../models/reservation/add-reservation-request";
-import {DisableDatesResponse} from "../models/disable-dates-response";
 import {UnavailabilityPeriodResponse} from "../models/unavailability-response";
 import {ReservationResponse} from "../models/reservation/reservation-response";
 import {UnavailabilityPeriodRequest} from "../models/unavailability-request";
@@ -44,7 +43,8 @@ export class BookingService {
   approveReservationRequest(reservationId: string) {
     const accessToken = localStorage.getItem('access-token');
     return this.http.put<null>(
-      `${this.configService.BOOKING_URL}/request/${reservationId}/approve`,
+      `${this.configService.BOOKING_URL}/request/approve/${reservationId}`,
+      null,
       {
         headers: {
           'Authorization': `Bearer ${accessToken}`
@@ -56,7 +56,8 @@ export class BookingService {
   declineReservationRequest(reservationId: string) {
     const accessToken = localStorage.getItem('access-token');
     return this.http.put<null>(
-      `${this.configService.BOOKING_URL}/request/${reservationId}/decline`,
+      `${this.configService.BOOKING_URL}/request/decline/${reservationId}`,
+      null,
       {
         headers: {
           'Authorization': `Bearer ${accessToken}`
@@ -68,19 +69,8 @@ export class BookingService {
   declineAcceptedReservationByGuest(reservationId: string) {
     const accessToken = localStorage.getItem('access-token');
     return this.http.put<null>(
-      `${this.configService.BOOKING_URL}/reservation/${reservationId}/decline`,
-      {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      }
-    );
-  }
-
-  getUnavailabilityPeriodsByAccommodationId(accommodationId: string) {
-    const accessToken = localStorage.getItem('access-token');
-    return this.http.get<UnavailabilityPeriodResponse[]>(
-      `${this.configService.UNAVAILABILITY_URL}/${accommodationId}`,
+      `${this.configService.BOOKING_URL}/reservation/decline/${reservationId}`,
+      null,
       {
         headers: {
           'Authorization': `Bearer ${accessToken}`
@@ -92,7 +82,7 @@ export class BookingService {
   getReservationsByUser(userId: string, userType: string, pastReservation: boolean, searchParam: string) {
     const accessToken = localStorage.getItem('access-token');
     return this.http.get<ReservationResponse[]>(
-      `${this.configService.BOOKING_URL}/request/user/${userId}?user-type=${userType}&past=${pastReservation}&searchParam=${searchParam}`,
+      `${this.configService.BOOKING_URL}/request/user/${userId}?user-type=${userType}&past=${pastReservation}&search=${searchParam}`,
       {
         headers: {
           'Authorization': `Bearer ${accessToken}`
@@ -104,7 +94,7 @@ export class BookingService {
   getReservationsByAccommodationId(accommodationId: string) {
     const accessToken = localStorage.getItem('access-token');
     return this.http.get<ReservationResponse[]>(
-      `${this.configService.BOOKING_URL}/request/${accommodationId}`,
+      `${this.configService.BOOKING_URL}/request/all/${accommodationId}`,
       {
         headers: {
           'Authorization': `Bearer ${accessToken}`
@@ -140,8 +130,8 @@ export class BookingService {
 
   getDisableDates(accommodationId: string) {
     const accessToken = localStorage.getItem('access-token');
-    return this.http.get<DisableDatesResponse[]>(
-      `${this.configService.UNAVAILABILITY_URL}/${accommodationId}`,
+    return this.http.get<UnavailabilityPeriodResponse[]>(
+      `${this.configService.UNAVAILABILITY_URL}/accommodation/${accommodationId}`,
       {
         headers: {
           'Authorization': `Bearer ${accessToken}`

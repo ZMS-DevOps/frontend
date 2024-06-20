@@ -19,6 +19,7 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
   userId: string;
   loggedUser: User;
   userIsGuest: boolean;
+  userIsHost: boolean;
   userForView: User;
   reviewReportResponse: ReviewReportResponse;
 
@@ -42,6 +43,7 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
       this.authSubscription = this.authService.getSubjectCurrentUser().subscribe(
         loggedUser => {
           this.loggedUser = loggedUser;
+          this.userIsHost = this.authService.isUserHost(loggedUser);
           this.userIsGuest = this.authService.isUserGuest(loggedUser);
         });
       this.getReviews(this.userId);
@@ -51,8 +53,8 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
   onDeleteUser() {
     this.deleteUserSubscription = this.userService.deleteUser(this.loggedUser?.sub, this.userIsGuest ? "guest": "host").pipe(
       tap(_ => {
-        this.toast.success('User is successfully deleted.', 'Success!');
         this.router.navigate([`/booking/home-page`]);
+        this.toast.success('User is successfully deleted.', 'Success!');
         this.authService.logOut();
       }),
       catchError(error => {

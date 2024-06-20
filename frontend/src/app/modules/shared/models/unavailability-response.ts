@@ -4,7 +4,7 @@ export interface UnavailabilityPeriodResponse {
   accommodation_name: string;
   start: Date;
   end: Date;
-  reason: number;
+  reason: string;
 }
 
 

@@ -41,9 +41,6 @@ export class NavBarComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationService: NotificationService,
     private toast: ToastrService,
   ) {
-    this.userIsHost = false;
-    this.userIsGuest = false;
-
     this.bellNotifications = [];
     this.numOfNotifications = 0;
   }
@@ -150,7 +147,7 @@ export class NavBarComponent implements OnInit, OnDestroy, AfterViewInit {
   updateNotificationSettings() {
     const settings: UpdateUserNotificationSettingsRequest = {
       settings: this.getUpdatedUserNotificationSettings(),
-      role: this.loggedUser.roles.find(role => role === "host" || role === "guest")
+      role: this.loggedUser?.roles.find(role => role === "host" || role === "guest")
     }
 
     this.notificationService.updateUserNotificationSettings(this.loggedUser.sub, settings).subscribe({

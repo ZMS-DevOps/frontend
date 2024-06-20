@@ -11,9 +11,9 @@ import {DeleteDialogComponent} from "../../../shared/components/delete-dialog/de
 })
 export class UserDetailsComponent{
   @Input() user: User;
+  @Input() loggedUserIsHost: boolean;
   @Input() loggedUserId: string;
   @Output() deletingUserEvent = new EventEmitter<null>();
-  @Input() userIsGuest: boolean;
 
   constructor(private router: Router, private dialog: MatDialog) {}
 
@@ -42,5 +42,9 @@ export class UserDetailsComponent{
 
   getAccommodationViewUrl() {
     return `/booking/accommodation/view/${this.user.sub}`;
+  }
+
+  checkUserIsHost() {
+    return !this.loggedUserIsHost;
   }
 }

@@ -1,8 +1,3 @@
-.whole-container {
-  display: flex;
-  justify-content: center;
-}
-
 .text-container {
   width: 70rem;
   max-width: 70rem;

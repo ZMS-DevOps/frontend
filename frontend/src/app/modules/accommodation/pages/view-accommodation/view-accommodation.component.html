@@ -4,15 +4,15 @@
     <ng-template let-photoGroup pTemplate="item">
       <mat-grid-list cols="4" rowHeight="200px">
         <mat-grid-tile [colspan]="3" [rowspan]="2">
-          <img [src]="photoGroup.at(0)" alt="Hotel image" style="width: 100%; height: 100%; object-fit: fill"/>
+          <img [src]="getPhotoUrl(photoGroup.at(0))" alt="Hotel image" style="width: 100%; height: 100%; object-fit: fill"/>
         </mat-grid-tile>
 
         <mat-grid-tile *ngIf="photoGroup.at(1)" [colspan]="1" [rowspan]="1">
-          <img [src]="photoGroup.at(1)" alt="Hotel image" style="width: 100%; height: 100%; object-fit: contain"/>
+          <img [src]="getPhotoUrl(photoGroup.at(1))" alt="Hotel image" style="width: 100%; height: 100%; object-fit: contain"/>
         </mat-grid-tile>
 
         <mat-grid-tile *ngIf="photoGroup.at(2)" [colspan]="1" [rowspan]="1">
-          <img [src]="photoGroup.at(2)" alt="Hotel image" style="width: 100%; height: 100%; object-fit: contain"/>
+          <img [src]="getPhotoUrl(photoGroup.at(2))" alt="Hotel image" style="width: 100%; height: 100%; object-fit: contain"/>
         </mat-grid-tile>
       </mat-grid-list>
     </ng-template>
@@ -61,18 +61,27 @@
                   formControlName="numberOfGuests"
                   (input)="onGuestNumberChanged()"
                   type="number"
-                  min="1"
+                  [min]="accommodation.guest_number.min"
+                  [max]="accommodation.guest_number.max"
                 />
                 <mat-icon matPrefix style="color: var(--text-gray);">group</mat-icon>
+                <mat-error *ngIf="bookAccommodationForm.get('numberOfGuests').errors">
+                  <ng-container *ngIf="bookAccommodationForm.get('numberOfGuests').hasError('min')">
+                    Minimum guests allowed is {{ accommodation.guest_number.min }}.
+                  </ng-container>
+                  <ng-container *ngIf="bookAccommodationForm.get('numberOfGuests').hasError('max')">
+                    Maximum guests allowed is {{ accommodation.guest_number.max }}.
+                  </ng-container>
+                </mat-error>
               </mat-form-field>
             </div>
             <p>* Total price for this accommodation is calculating per {{getTextPriceType()}}</p>
           </form>
         </div>
 
-        <div class="margin booking-view-container">
+        <div class="margin booking-view-container sticky-booking-container">
           <h2 style="display: flex; justify-content: center;">Your booking</h2>
-            <div style="margin-top: 2rem; display: flex;justify-content: space-between;">
+            <div style="margin-top: 1.2rem; display: flex;justify-content: space-between;">
               <div style="font-size: 18px">
                 Check In
               </div>
@@ -89,7 +98,7 @@
                 {{selected.end | dateFormat}}
               </div>
             </div>
-          <div style="margin-top: 1.5rem; display: flex;justify-content: space-between;">
+          <div style="margin-top: 1rem; display: flex;justify-content: space-between;">
             <div style="font-size: 18px">
               Guests
             </div>
@@ -98,9 +107,9 @@
             </div>
           </div>
 
-          <mat-divider style="margin-top: 1.5rem; width:27rem"></mat-divider>
+          <mat-divider style="margin-top: 1rem; width:20rem"></mat-divider>
 
-            <div style="margin-top: 1.5rem; display: flex;justify-content: space-between;">
+            <div style="margin-top: 1rem; display: flex;justify-content: space-between;">
               <div style="font-size: 18px">
                 Total payment
               </div>
@@ -120,14 +129,13 @@
       </div>
 
     </mat-tab>
-    <mat-tab *ngIf="userIsHost" label="UPDATE">
-      <app-update-accommodation [accommodation]="accommodation" [userId]="loggedUser.sub" [disableDates]="disableDates" (onStartDateChanged)="onStartDateChanged($event)" (onEndDateChanged)="onEndDateChanged($event)" (onUpdateAccommodation)="onUpdateAccommodation($event)"></app-update-accommodation>
+    <mat-tab *ngIf="userIsHost && this.loggedUser.sub === this.accommodation.host_id" label="UPDATE">
+      <app-update-accommodation [accommodation]="accommodation" [userId]="loggedUser.sub" [disableDates]="disableDates" (onStartDateChanged)="onStartDateChanged($event)" (onEndDateChanged)="onEndDateChanged($event)" (onUpdateAccommodation)="onUpdateAccommodation($event)" (onUpdateAccommodationPrice)="onUpdateAccommodationPrice($event)"></app-update-accommodation>
     </mat-tab>
-    <mat-tab *ngIf="userIsHost" label="CALENDAR" matTooltip="Show accommodation calendar">
+    <mat-tab *ngIf="userIsHost && this.loggedUser.sub === this.accommodation.host_id" label="CALENDAR" matTooltip="Show accommodation calendar">
 
     </mat-tab>
-    <mat-tab *ngIf="userIsHost" label="DELETE" matTooltip="Delete accommodation">
-
+    <mat-tab *ngIf="userIsHost && this.loggedUser.sub === this.accommodation.host_id" label="DELETE" matTooltip="Delete accommodation">
     </mat-tab>
   </mat-tab-group>
 

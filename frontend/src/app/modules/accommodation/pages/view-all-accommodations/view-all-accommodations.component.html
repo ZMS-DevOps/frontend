@@ -2,10 +2,9 @@
   <div class="row-direction-div upper-div whole-container">
     <div class="text-container">
       <div class="form-container">
-        <div class="whole-container">
-          <p-carousel *ngIf="accommodations.length > 0 else noAccommodations" [value]="accommodations" [circular]="true"  [numVisible]="2" [numScroll]="1" >
+          <p-carousel *ngIf="accommodations?.length > 0 else noAccommodations" [value]="accommodations" [circular]="true"  [numVisible]="2" [numScroll]="1" >
             <ng-template let-hotel pTemplate="item">
-              <app-accommodation-card [hotel]="hotel"></app-accommodation-card>
+              <app-accommodation-card [hotel]="hotel" [images]="getImagesForAccommodation(hotel.id)" [loggedUser]="loggedUser"></app-accommodation-card>
             </ng-template>
           </p-carousel>
 
@@ -16,7 +15,6 @@
               <p style="font-size: 21px; margin: 0.5rem; color: var(--text-gray)" *ngIf="loggedUser.sub === userId">You still don't have any accommodation.</p>
             </div>
           </ng-template>
-        </div>
       </div>
     </div>
   </div>

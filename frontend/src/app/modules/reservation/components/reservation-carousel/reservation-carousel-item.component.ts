@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ReservationResponse} from "../../../shared/models/reservation/reservation-response";
 import {CancelReservationDialogComponent} from "../cancel-reservation-dialog/cancel-reservation-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-reservation-carousel-item',
@@ -17,10 +18,14 @@ export class ReservationCarouselItemComponent {
   @Output() acceptEvent = new EventEmitter<string>();
   @Output() declinedEvent = new EventEmitter<string>();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private router: Router) {}
 
   getRedirectUserProfileUrl(user_id: string) {
     return `/booking/auth/view-profile/${user_id}`;
+  }
+
+  redirectAccommodationViewUrl(accommodation_id: string) {
+    this.router.navigate([`/booking/accommodation/${accommodation_id}`]);
   }
 
   acceptReservation(reservationId: string) {
@@ -52,5 +57,9 @@ export class ReservationCarouselItemComponent {
       return className + "reservation-card red-border";
     }
     return className + "reservation-card";
+  }
+
+  getClickOnAccommodationViewText(accommodation_name: string) {
+    return `View ${accommodation_name} details`;
   }
 }

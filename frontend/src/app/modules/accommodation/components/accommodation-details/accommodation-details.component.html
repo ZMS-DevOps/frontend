@@ -46,7 +46,8 @@
   </div>
 
   <div class="review-container" *ngIf="reviewReportResponse">
+
     <app-review-report [reviewReportResponse]="reviewReportResponse" [loggedUser]="loggedUser"
-                       [userIsGuest]="userIsGuest" [userId]="loggedUser.sub" [reviewType]="1"></app-review-report>
+                       [userIsGuest]="userIsGuest" [accommodationId]="accommodation.id" [reviewType]="1" [hostId]="accommodation.host_id"></app-review-report>
   </div>
 </div>

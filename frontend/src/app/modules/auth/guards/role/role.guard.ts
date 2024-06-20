@@ -20,7 +20,6 @@ export class RoleGuard implements CanActivate {
     }
 
     const roles: string[] = expectedRoles.split("|", 2);
-
     if (!roles.some(role => user.roles.includes(role))){
       this.router.navigate(["/booking/home-page"]);
       return false;

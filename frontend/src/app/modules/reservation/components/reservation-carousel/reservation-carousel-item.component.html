@@ -14,7 +14,7 @@
   </div>
   <div style="display: flex; justify-content: space-between">
     <div style="color: var(--text-gray)">
-      <h3>{{reservation.accommodation_name}}</h3>
+      <h3 (click)="redirectAccommodationViewUrl(reservation.accommodation_id)" [matTooltip]="getClickOnAccommodationViewText(reservation.accommodation_name)">{{reservation.accommodation_name}}</h3>
       <p class="reservation-label"><b>Start:</b> {{reservation.start | dateFormat}} <b>- End:</b> {{reservation.end | dateFormat}}</p>
       <p class="reservation-label"><b>Number of guests:</b> {{reservation.number_of_guests}} people</p>
       <p class="reservation-label"><b>Total payments:</b> {{reservation.price_total | currency:'EUR'}}</p>

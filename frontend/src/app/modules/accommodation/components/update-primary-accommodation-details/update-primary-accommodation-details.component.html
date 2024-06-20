@@ -28,8 +28,10 @@
           type="number"
         />
         <mat-icon matPrefix style="color: var(--text-gray);">person</mat-icon>
-        <mat-error *ngIf="updateAccommodationForm.get('minGuests').hasError('min')">
-          Min number of quests is <strong>1</strong>.
+        <mat-error *ngIf="updateAccommodationForm.get('minGuests').errors">
+          <ng-container *ngIf="updateAccommodationForm.get('minGuests').hasError('min')">
+            Minimum guests allowed is 1.
+          </ng-container>
         </mat-error>
       </mat-form-field>
 
@@ -81,15 +83,12 @@
           <div class="container margin-between-div" [ngClass]="getClass(true)">
             <mat-radio-button [value]=true>Automatically</mat-radio-button>
           </div>
-
           <div class="container" [ngClass]="getClass(false)">
             <mat-radio-button [value]=false>Manually</mat-radio-button>
           </div>
         </div>
-
       </mat-radio-group>
     </section>
-
   </div>
 
   <div style="width: 50rem; margin-left: 1rem">
@@ -107,13 +106,12 @@
 
     <div *ngFor="let file of groupedImages;" class="col-direction-div">
       <div class="row-direction-div">
-        <img [src]="file.at(0)" alt="Image preview" style="margin:0.5rem;" width="240px" height="155px"/>
-        <img *ngIf="file.length > 1 && file.at(1)" [src]="file.at(1)" alt="Image preview" style="margin:0.5rem;"
+        <img *ngIf="file.at(0)" [src]="file.at(0)" alt="Image preview" style="margin:0.5rem;" width="240px" height="155px"/>
+        <img *ngIf="file.at(1)" [src]="file.at(1)" alt="Image preview" style="margin:0.5rem;"
              width="240px" height="155px"/>
-        <img *ngIf="file.length > 2 && file.at(2)" [src]="file.at(2)" alt="Image preview" style="margin:0.5rem;"
+        <img *ngIf="file.at(2)" [src]="file.at(2)" alt="Image preview" style="margin:0.5rem;"
              width="240px" height="155px"/>
       </div>
     </div>
   </div>
-
 </div>

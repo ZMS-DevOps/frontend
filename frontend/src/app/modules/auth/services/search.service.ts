@@ -14,11 +14,9 @@ export class SearchService {
     constructor(
         private http: HttpClient,
         private configService: ConfigService,
-    ) {
-    }
+    ) {}
 
     search(searchRequest: SearchRequest): Observable<HotelCardResponse[]> {
-        const accessToken = localStorage.getItem('access-token');
         return this.http.post<HotelCardResponse[]>(
             this.configService.SEARCH_URL,
             searchRequest
@@ -26,15 +24,14 @@ export class SearchService {
     }
 
     getAccommodationsByUserId(userId: string) {
-        const accessToken = localStorage.getItem('access-token');
-        return this.http.get<HotelCardResponse[]>(
-          `${this.configService.ACCOMMODATION_URL}/host/${userId}`,
-          {
-            headers: {
-              'Authorization': `Bearer ${accessToken}`
-            }
+      const accessToken = localStorage.getItem('access-token');
+      return this.http.get<HotelCardResponse[]>(
+        `/search/${userId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
           }
-        );
-      }
-
+        }
+      );
+    }
 }
